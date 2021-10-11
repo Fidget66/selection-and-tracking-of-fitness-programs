@@ -1,6 +1,6 @@
 package com.makul.fitness.dto;
 
-import com.makul.fitness.model.FitnessProgram;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,9 +13,8 @@ import java.util.Date;
 public class ExerciseScheduleDto {
     private long id;
     @NotEmpty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    //@DateTimeFormat( pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", iso = DateTimeFormat.ISO.DATE_TIME )
     private Date exerciseDate;
     private boolean isComplited;
-    // надо проверить необходимость связи
-    @NotEmpty
-    private FitnessProgram fitnessProgram;
 }

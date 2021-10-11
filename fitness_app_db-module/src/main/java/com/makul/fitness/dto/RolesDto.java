@@ -11,6 +11,5 @@ import javax.validation.constraints.NotEmpty;
 public class RolesDto {
     private long id;
     @NotEmpty
-    //надо использовать енам
     private String roleName;
 }

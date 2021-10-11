@@ -1,21 +1,18 @@
 package com.makul.fitness.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.makul.fitness.model.CategoryOfFitnessProgram;
-import com.makul.fitness.model.ExerciseSchedule;
-import com.makul.fitness.model.Review;
-import com.makul.fitness.model.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UsersDto {
     private long id;
     @NotEmpty
     @Size(min = 3, max = 80)
@@ -24,9 +21,12 @@ public class UserDto {
     @Size(min = 3, max = 80)
     private String lastName;
     @NotEmpty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    //@DateTimeFormat( pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", iso = DateTimeFormat.ISO.DATE_TIME )
     private Date dateOfBirth;
     @NotEmpty
     @Size(min = 1, max = 1)
+    @Pattern(regexp = "[mf]")
     private String sex;
     @NotEmpty
     @Min(20)@Max(200)
@@ -34,9 +34,5 @@ public class UserDto {
     @NotEmpty
     @Email
     private String email;
-    @Size(max = 2)
     private Set<CategoryOfFitnessProgram> category;
-    private List<ExerciseSchedule> exerciseSchedule;
-    private Set <Roles> role;
-    private List <Review> reviews;
 }

@@ -33,7 +33,6 @@ public class FitnessProgramDto {
     @NotEmpty
     @Size(min = 40)
     private String description;
-    private boolean isComplited;
     private List <Review> reviews;
-    private ExerciseSchedule schedule;
+    private List<ExerciseSchedule> scheduleList;
 }

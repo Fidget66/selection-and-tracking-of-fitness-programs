@@ -1,20 +1,17 @@
 package com.makul.fitness.model;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,12 +22,13 @@ public class User {
     private short weight;
     private String email;
     private boolean isActive;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<CategoryOfFitnessProgram> category;
-    @OneToMany
-    private List <ExerciseSchedule> exerciseSchedule;
-    @ManyToOne
-    private Set <Roles> role;
-    @OneToMany
-    private List <Review> reviews;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = { @JoinColumn(name = "users_id") },
+            inverseJoinColumns = { @JoinColumn(name = "roles_id") }
+    )
+    private Set<Roles> role;
 }

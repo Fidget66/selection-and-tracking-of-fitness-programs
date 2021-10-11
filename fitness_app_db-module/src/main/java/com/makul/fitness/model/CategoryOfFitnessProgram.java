@@ -3,7 +3,6 @@ package com.makul.fitness.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,11 +13,13 @@ import java.util.Set;
 public class CategoryOfFitnessProgram {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
     private long id;
     private String shortName;
     private String description;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
     private Set <FitnessProgram> fitnessPrograms;
-    @ManyToMany
-    private Set <User> users;
+    @ManyToMany(mappedBy = "category")
+    private Set <Users> users;
 }

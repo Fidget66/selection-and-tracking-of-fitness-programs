@@ -3,7 +3,6 @@ package com.makul.fitness.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -17,6 +16,4 @@ public class ExerciseSchedule {
     private long id;
     private Date exerciseDate;
     private boolean isComplited;
-    @ManyToOne // надо проверить необходимость связи
-    private FitnessProgram fitnessProgram;
 }

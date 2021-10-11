@@ -22,9 +22,9 @@ public class FitnessProgram{
     private String description;
     private boolean isComplited;
     @OneToMany
+    @JoinColumn(name = "fitness_programm_id")
     private List <Review> reviews;
-    @ManyToOne
-    private CategoryOfFitnessProgram category;
-    @OneToMany // надо проверить необходимость связи
+    @OneToMany
+    @JoinColumn(name = "fitness_programm_id")
     private List<ExerciseSchedule> scheduleList;
 }

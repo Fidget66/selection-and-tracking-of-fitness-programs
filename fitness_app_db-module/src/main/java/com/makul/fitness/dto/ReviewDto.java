@@ -1,7 +1,5 @@
 package com.makul.fitness.dto;
 
-import com.makul.fitness.model.FitnessProgram;
-import com.makul.fitness.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +14,4 @@ public class ReviewDto {
     @NotEmpty
     @Size(min = 3, max = 1000)
     private String text;
-    @NotEmpty
-    private User user;
-    @NotEmpty
-    private FitnessProgram fitnessProgram;
 }

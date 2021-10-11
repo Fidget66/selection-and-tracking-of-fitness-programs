@@ -14,8 +14,7 @@ public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    //надо использовать енам
     private String roleName;
-    @OneToMany
-    Set <User> users;
+    @ManyToMany(mappedBy = "role")
+    private Set<Users> user;
 }
