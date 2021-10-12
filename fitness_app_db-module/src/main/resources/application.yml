@@ -1,0 +1,20 @@
+server:
+  port: 8124
+  servlet:
+    context-path: /fitnessDB-app
+spring:
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate:
+      ddl-auto: create-drop
+    database: postgresql
+  sql:
+    init:
+#      data-locations: classpath*:data.sql
+      mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/MyFitnessApp
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 3784

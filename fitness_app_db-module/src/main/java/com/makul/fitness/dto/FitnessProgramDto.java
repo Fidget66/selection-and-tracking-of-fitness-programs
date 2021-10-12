@@ -1,7 +1,5 @@
 package com.makul.fitness.dto;
 
-import com.makul.fitness.model.ExerciseSchedule;
-import com.makul.fitness.model.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +31,5 @@ public class FitnessProgramDto {
     @NotEmpty
     @Size(min = 40)
     private String description;
-    private List <Review> reviews;
-    private List<ExerciseSchedule> scheduleList;
+    private List <ReviewDto> reviews;
 }

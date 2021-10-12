@@ -1,6 +1,5 @@
 package com.makul.fitness.dto;
 
-import com.makul.fitness.model.FitnessProgram;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +18,5 @@ public class CategoryOfFitnessProgramDto {
     @NotEmpty
     @Size(min = 20)
     private String description;
-    private Set <FitnessProgram> fitnessPrograms;
+    private Set <FitnessProgramDto> fitnessPrograms;
 }

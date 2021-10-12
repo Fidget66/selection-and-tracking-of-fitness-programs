@@ -20,11 +20,7 @@ public class FitnessProgram{
     private String sexRestriction;
     private byte exercisePerWeek;
     private String description;
-    private boolean isComplited;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "fitness_programm_id")
     private List <Review> reviews;
-    @OneToMany
-    @JoinColumn(name = "fitness_programm_id")
-    private List<ExerciseSchedule> scheduleList;
 }

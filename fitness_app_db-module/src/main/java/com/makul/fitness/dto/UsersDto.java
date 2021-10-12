@@ -1,7 +1,6 @@
 package com.makul.fitness.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.makul.fitness.model.CategoryOfFitnessProgram;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,5 +33,6 @@ public class UsersDto {
     @NotEmpty
     @Email
     private String email;
-    private Set<CategoryOfFitnessProgram> category;
+    private Set<CategoryOfFitnessProgramDto> category;
+    private Set<BookmarkDto> bookmarksDto;
 }
