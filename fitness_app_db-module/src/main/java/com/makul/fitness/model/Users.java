@@ -15,8 +15,8 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String password; // может выделить поля
-    private String login;// в отдельный класс
+    private String password;
+    private String login;
     private String name;
     private String lastName;
     private Date dateOfBirth;
@@ -34,7 +34,7 @@ public class Users {
             inverseJoinColumns = { @JoinColumn(name = "roles_id") }
     )
     private Set<Roles> role;
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "users_id")
     private Set<Bookmark> bookmarks;
 }

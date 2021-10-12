@@ -14,10 +14,11 @@ public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long programId;
-    private String programDescription;
     private boolean isComplited;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "bookmarks_id")
     private List<ExerciseSchedule> scheduleList;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bookmark_id")
+    private FitnessProgram fitnessPrograms;
 }
