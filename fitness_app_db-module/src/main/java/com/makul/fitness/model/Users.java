@@ -15,8 +15,6 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String password;
-    private String login;
     private String name;
     private String lastName;
     private Date dateOfBirth;
@@ -24,17 +22,11 @@ public class Users {
     private short weight;
     @Column(unique = true)
     private String email;
-    private boolean isAccountNonLocked;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<CategoryOfFitnessProgram> category;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = { @JoinColumn(name = "users_id") },
-            inverseJoinColumns = { @JoinColumn(name = "roles_id") }
-    )
-    private Set<Roles> role;
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<ActiveProgram> activePrograms;
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
     private Set<Bookmark> bookmarks;
+    @OneToOne (mappedBy = "user")
+    private UsersSecurity usersSecurity;
 }

@@ -3,19 +3,24 @@ package com.makul.fitness.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewDto {
+public class UsersSecurityDto {
     private long id;
     @NotEmpty
-    @Min(1)
-    private long authorId;
+    @Size(min = 6)
+    private String password;
     @NotEmpty
-    @Size(min = 3, max = 1000)
-    private String text;
+    @Size(min = 3)
+    private String login;
+    @NotEmpty
+    @Size(min = 3)
+    private Set<RolesDto> role;
+    @NotEmpty
+    UsersDto usersDto;
 }

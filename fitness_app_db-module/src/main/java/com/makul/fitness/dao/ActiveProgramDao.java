@@ -1,9 +1,9 @@
 package com.makul.fitness.dao;
 
-import com.makul.fitness.model.Users;
+import com.makul.fitness.model.ActiveProgram;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UsersDao extends CrudRepository<Users, Long> {
+public interface ActiveProgramDao extends CrudRepository <ActiveProgram, Long> {
 }

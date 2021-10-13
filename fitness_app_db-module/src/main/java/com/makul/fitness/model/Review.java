@@ -13,6 +13,6 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-//    private String authorLogin;
+    private long authorId;
     private String text;
 }

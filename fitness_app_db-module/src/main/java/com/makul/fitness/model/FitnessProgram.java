@@ -14,6 +14,7 @@ public class FitnessProgram{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String shortName;
     private short duration;
     private byte ageRestriction;
     private short weightRestriction;
@@ -23,4 +24,6 @@ public class FitnessProgram{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "fitness_programm_id")
     private List <Review> reviews;
+    @ManyToOne
+    private CategoryOfFitnessProgram category;
 }

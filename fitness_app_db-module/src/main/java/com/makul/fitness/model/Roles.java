@@ -16,5 +16,5 @@ public class Roles {
     private long id;
     private String roleName;
     @ManyToMany(mappedBy = "role")
-    private Set<Users> user;
+    private Set<UsersSecurity> user;
 }

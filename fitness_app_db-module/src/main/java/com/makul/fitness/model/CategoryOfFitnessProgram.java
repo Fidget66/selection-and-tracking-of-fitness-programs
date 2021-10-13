@@ -17,9 +17,6 @@ public class CategoryOfFitnessProgram {
     private long id;
     private String shortName;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set <FitnessProgram> fitnessPrograms;
-    @ManyToMany(mappedBy = "category")
-    private Set <Users> users;
 }
