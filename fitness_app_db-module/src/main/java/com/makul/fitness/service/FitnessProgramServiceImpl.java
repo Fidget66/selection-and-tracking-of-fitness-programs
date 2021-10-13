@@ -34,10 +34,4 @@ public class FitnessProgramServiceImpl implements FitnessProgramService {
         return StreamSupport.stream(fitnessProgramDao.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public void deleteById(long id) {
-        if (id<1) throw new IncorrectDataException("FitnessProgram id");
-        fitnessProgramDao.deleteById(id);
-    }
 }

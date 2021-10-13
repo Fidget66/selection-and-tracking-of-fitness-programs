@@ -1,35 +1,35 @@
 package com.makul.fitness.service;
 
-import com.makul.fitness.dao.BookmarkDao;
-import com.makul.fitness.dao.UsersDao;
-import com.makul.fitness.exceptions.NoEntityException;
+import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
 import com.makul.fitness.exceptions.ScheduleIsPresentException;
-import com.makul.fitness.model.Bookmark;
-import com.makul.fitness.model.ExerciseSchedule;
-import com.makul.fitness.model.Users;
-import com.makul.fitness.service.api.BookmarkService;
-import com.makul.fitness.service.api.BusinessService;
-import com.makul.fitness.service.api.FitnessProgramService;
-import com.makul.fitness.service.api.UsersService;
+import com.makul.fitness.model.*;
+import com.makul.fitness.service.api.*;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class BusinessServiceImpl implements BusinessService {
 
     private final UsersService usersService;
     private final BookmarkService bookmarkService;
     private final FitnessProgramService fitnessProgramService;
+    private final ActiveProgramService activeProgramService;
+    private final ExerciseScheduleService exerciseScheduleService;
+    public final CategoryOfFitnessProgramService categoryService;
 
     public BusinessServiceImpl(UsersService usersService, BookmarkService bookmarkService,
-                               FitnessProgramService fitnessProgramService) {
+                               FitnessProgramService fitnessProgramService, ActiveProgramService activeProgramService,
+                               ExerciseScheduleService exerciseScheduleService,
+                               CategoryOfFitnessProgramService categoryService) {
         this.usersService = usersService;
         this.bookmarkService = bookmarkService;
         this.fitnessProgramService = fitnessProgramService;
+        this.activeProgramService = activeProgramService;
+        this.exerciseScheduleService = exerciseScheduleService;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -51,31 +51,31 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public Set<Bookmark> viewAllComplitedBookmarks(long userId) {
-        Users user = usersDao.findById(userId).orElseThrow(()->new NoEntityException("Users"));
-        Set <Bookmark> bookmarks = user.getBookmarks()
-                .stream()
-                .filter(bookmark -> bookmark.isComplited()==true)
-                .collect(Collectors.toSet());
-        return bookmarks;
+    @Transactional
+    public void addActiveProgram(long userId,FitnessProgram fitnessProgram){
+        String[] days = {"MONDAY","TUESDAY","SATURDAY"};
+        Users user= usersService.read(userId);
+        ActiveProgram activeProgram=ActiveProgram.builder().fitnessProgram(fitnessProgram).build();
+        byte restriction=0;
+        if (Objects.isNull(user.getActivePrograms()) || user.getActivePrograms().isEmpty()){
+            user.getActivePrograms().add(createNewActiveProgram(activeProgram,days));
+            usersService.update(user);
+        }else if (Objects.nonNull(user.getActivePrograms()) && !user.getActivePrograms().isEmpty()){
+            restriction=(byte) user.getActivePrograms().stream()
+                    .filter(activePrograms ->activePrograms.isComplited()==false)
+                    .count();
+        }
+        if (restriction==0){
+            user.getActivePrograms().add(createNewActiveProgram(activeProgram,days));
+            usersService.update(user);
+        } else if (restriction > 0) throw new ActiveProgramIsPresentException();
     }
 
     @Override
-    public Set<Bookmark> viewAllUncomplitedBookmarks(long userId) {
-        Users user = usersDao.findById(userId).orElseThrow(()->new NoEntityException("Users"));
-        Set <Bookmark> bookmarks = user.getBookmarks()
-                .stream()
-                .filter(bookmark -> bookmark.isComplited()==false)
-                .collect(Collectors.toSet());
-        return bookmarks;
-    }
-
-    @Override
-    public Bookmark createNewSchedule(long bookmarkId, String[] days) {
-        Bookmark bookmark = bookmarkDao.findById(bookmarkId).orElseThrow(()->new NoEntityException("Bookmark"));
-        if (Objects.nonNull(bookmark.getScheduleList())) throw new ScheduleIsPresentException();
-        fillNewSchedule(String[] days);
-        return null;
+    public void addFitnessProgram(long categoryId, FitnessProgram fitnessProgram) {
+        CategoryOfFitnessProgram category = categoryService.read(categoryId);
+        category.getFitnessPrograms().add(fitnessProgram);
+        categoryService.update(category);
     }
 
     @Override
@@ -89,9 +89,34 @@ public class BusinessServiceImpl implements BusinessService {
         return bookmark;
     }
 
-    private Set<ExerciseSchedule> fillNewSchedule(String[] days){
-        Set<ExerciseSchedule> scheduleList;
-        Date currentDate= Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return scheduleList;
+    private ActiveProgram createNewActiveProgram(ActiveProgram activeProgram, String[] days) {
+        if (Objects.nonNull(activeProgram.getScheduleList())) throw new ScheduleIsPresentException();
+        activeProgram.setScheduleList(fillNewSchedule(activeProgram, days));
+        return activeProgramService.create(activeProgram);
+    }
+
+    private List<ExerciseSchedule> fillNewSchedule(ActiveProgram activeProgram, String[] days){
+        List<ExerciseSchedule> scheduleList = new ArrayList<>();
+        LocalDate currentDate= LocalDate.now();
+        int exercisesCounter=0;
+        while (exercisesCounter<activeProgram.getFitnessProgram().getDuration()){
+            for (int i=0; i<days.length; i++){
+                if (currentDate.getDayOfWeek().toString().equals(days[i])) {
+                 scheduleList.add(createNewExerciseSchedule(currentDate,activeProgram));
+                 exercisesCounter++;
+                }
+            }
+            currentDate=currentDate.plusDays(1);
+        }
+        return exerciseScheduleService.createAll(scheduleList);
+    }
+
+    private ExerciseSchedule createNewExerciseSchedule(LocalDate dateOfExercise, ActiveProgram activeProgram){
+        ExerciseSchedule exerciseSchedule = ExerciseSchedule
+                .builder()
+                .exerciseDate(dateOfExercise)
+                .activeProgram(activeProgram)
+                .build();
+        return exerciseSchedule;
     }
 }

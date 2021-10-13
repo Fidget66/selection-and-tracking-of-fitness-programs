@@ -4,9 +4,11 @@ import com.makul.fitness.dao.CategoryOfFitnessProgramDao;
 import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.CategoryOfFitnessProgram;
+import com.makul.fitness.model.FitnessProgram;
 import com.makul.fitness.service.api.CategoryOfFitnessProgramService;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -36,8 +38,12 @@ public class CategoryOfFitnessProgramServiceImpl implements CategoryOfFitnessPro
     }
 
     @Override
-    public void deleteById(long id) {
-        if (id<1) throw new IncorrectDataException("category of fitness program id");
-        categoryDao.deleteById(id);
+    public CategoryOfFitnessProgram update(CategoryOfFitnessProgram category) {
+        CategoryOfFitnessProgram outputCategory = read(category.getId());
+        if (Objects.nonNull(category.getFitnessPrograms()) && !category.getFitnessPrograms().isEmpty())
+            for (FitnessProgram program: category.getFitnessPrograms()){
+                outputCategory.getFitnessPrograms().add(program);
+            }
+        return categoryDao.save(outputCategory);
     }
 }

@@ -3,15 +3,13 @@ package com.makul.fitness.service;
 import com.makul.fitness.dao.UsersDao;
 import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
+import com.makul.fitness.model.ActiveProgram;
 import com.makul.fitness.model.Bookmark;
 import com.makul.fitness.model.Users;
 import com.makul.fitness.service.api.UsersService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -34,25 +32,16 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public List<Users> readAll() {
-        return StreamSupport.stream(usersDao.findAll().spliterator(), false)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public Users update(Users user) {
         Users outputUser = read(user.getId());
         if (Objects.nonNull(user.getBookmarks()) && !user.getBookmarks().isEmpty())
             for (Bookmark bookmark: user.getBookmarks()){
                 outputUser.getBookmarks().add(bookmark);
             }
+        if (Objects.nonNull(user.getActivePrograms()) && !user.getActivePrograms().isEmpty())
+            for (ActiveProgram program: user.getActivePrograms()){
+                outputUser.getActivePrograms().add(program);
+            }
         return usersDao.save(outputUser);
-    }
-
-    @Override
-    @Transactional
-    public void delete(long id) {
-        if (id<1) throw new IncorrectDataException("user id");
-        usersDao.deleteById(id);
     }
 }

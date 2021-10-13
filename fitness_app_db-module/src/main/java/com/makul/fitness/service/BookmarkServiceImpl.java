@@ -26,12 +26,6 @@ public class BookmarkServiceImpl implements BookmarkService {
     }
 
     @Override
-    public Bookmark read(long id) {
-        if (id<1) throw new IncorrectDataException("bookmark id");
-        return bookmarkDao.findById(id).orElseThrow(()->new NoEntityException("Bookmark"));
-    }
-
-    @Override
     public List<Bookmark> readAll() {
         return StreamSupport.stream(bookmarkDao.findAll().spliterator(), false)
                 .collect(Collectors.toList());

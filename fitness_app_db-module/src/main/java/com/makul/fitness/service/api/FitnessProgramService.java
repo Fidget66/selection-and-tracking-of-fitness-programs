@@ -7,5 +7,4 @@ public interface FitnessProgramService {
     FitnessProgram create(FitnessProgram program);
     FitnessProgram read(long id);
     List<FitnessProgram> readAll();
-    void deleteById(long id);
 }

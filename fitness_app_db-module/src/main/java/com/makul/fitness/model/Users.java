@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -17,7 +17,7 @@ public class Users {
     private long id;
     private String name;
     private String lastName;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String sex;
     private short weight;
     @Column(unique = true)
