@@ -25,21 +25,10 @@ public class CategoryOfFitnessProgramController {
         return objectMapper.convertValue(categoryService.create(category),CategoryOfFitnessProgramDto.class);
     }
 
-    @GetMapping("/fitness/category/{id}")
-    public CategoryOfFitnessProgramDto showCategoryById(@PathVariable("id") long id){
-        return objectMapper.convertValue(categoryService.read(id),CategoryOfFitnessProgramDto.class);
-    }
-
     @GetMapping("/fitness/categories")
     public List<CategoryOfFitnessProgramDto> showAllCategory(){
         return categoryService.readAll().stream()
                 .map(category -> objectMapper.convertValue(category,CategoryOfFitnessProgramDto.class))
                 .collect(Collectors.toList());
-    }
-
-    @PutMapping("/fitness/category")
-    public CategoryOfFitnessProgramDto updateCategory(@RequestBody CategoryOfFitnessProgramDto categoryDto){
-        CategoryOfFitnessProgram category = objectMapper.convertValue(categoryDto,CategoryOfFitnessProgram.class);
-        return objectMapper.convertValue(categoryService.update(category),CategoryOfFitnessProgramDto.class);
     }
 }

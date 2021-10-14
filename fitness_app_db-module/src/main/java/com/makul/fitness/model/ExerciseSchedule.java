@@ -1,5 +1,6 @@
 package com.makul.fitness.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class ExerciseSchedule {
     private LocalDate exerciseDate;
     private boolean isComplited;
     @ManyToOne
-    @JoinColumn (name = "schedule_list_id")
+    @JoinColumn (name = "active_program_id")
+    @JsonIgnore
     private ActiveProgram activeProgram;
 }

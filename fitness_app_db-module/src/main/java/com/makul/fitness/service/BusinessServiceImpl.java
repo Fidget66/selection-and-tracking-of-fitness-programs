@@ -1,9 +1,11 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
+import com.makul.fitness.exceptions.BookmarkIsPresentException;
 import com.makul.fitness.exceptions.ScheduleIsPresentException;
 import com.makul.fitness.model.*;
 import com.makul.fitness.service.api.*;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+@Service
 public class BusinessServiceImpl implements BusinessService {
 
     private final UsersService usersService;
@@ -34,48 +37,50 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     @Transactional
-    public Users addBookmark(long userId, long fitnessProgramId) {
+    public Users addBookmark(long userId, FitnessProgram fitnessProgram) {
         Users user=usersService.read(userId);
-        Set<Bookmark> bookmarks = user.getBookmarks();
-        bookmarks.add(bookmarkService.create(createNemBookmark(fitnessProgramId)));
-        user.setBookmarks(bookmarks);
-        return usersService.update(user);
-    }
-
-    @Override
-    @Transactional
-    public void deleteBookmark(long userId,long bookmarkId) {
-        Users user = usersService.read(userId);
-        user.getBookmarks().remove(bookmarkService.read(bookmarkId));
-        usersService.create(user);
+        for (Bookmark bookmark:user.getBookmarks()) {
+            if (bookmark.getFitnessProgram().getId()==fitnessProgram.getId())
+                throw new BookmarkIsPresentException();
+        }
+        Bookmark bookmark = new Bookmark();
+        bookmark.setUser(user);
+        bookmark.setFitnessProgram(fitnessProgramService.read(fitnessProgram.getId()));
+        bookmarkService.create(bookmark);
+        return user;
     }
 
     @Override
     @Transactional
     public void addActiveProgram(long userId,FitnessProgram fitnessProgram){
+
         String[] days = {"MONDAY","TUESDAY","SATURDAY"};
         Users user= usersService.read(userId);
         ActiveProgram activeProgram=ActiveProgram.builder().fitnessProgram(fitnessProgram).build();
         byte restriction=0;
-        if (Objects.isNull(user.getActivePrograms()) || user.getActivePrograms().isEmpty()){
-            user.getActivePrograms().add(createNewActiveProgram(activeProgram,days));
-            usersService.update(user);
-        }else if (Objects.nonNull(user.getActivePrograms()) && !user.getActivePrograms().isEmpty()){
+        byte k=1;
+        if (user.getActivePrograms().size()>0){
             restriction=(byte) user.getActivePrograms().stream()
                     .filter(activePrograms ->activePrograms.isComplited()==false)
                     .count();
+            System.out.println(restriction + "attempt" + k++);
+            if (restriction==0){
+                createNewActiveProgram(activeProgram,days);
+                activeProgram.setUser(user);
+                activeProgramService.create(activeProgram);
+            } else if (restriction > 0) throw new ActiveProgramIsPresentException();
+        }else{
+            createNewActiveProgram(activeProgram,days);
+            activeProgram.setUser(user);
+            activeProgramService.create(activeProgram);
         }
-        if (restriction==0){
-            user.getActivePrograms().add(createNewActiveProgram(activeProgram,days));
-            usersService.update(user);
-        } else if (restriction > 0) throw new ActiveProgramIsPresentException();
     }
 
     @Override
     public void addFitnessProgram(long categoryId, FitnessProgram fitnessProgram) {
         CategoryOfFitnessProgram category = categoryService.read(categoryId);
-        category.getFitnessPrograms().add(fitnessProgram);
-        categoryService.update(category);
+        fitnessProgram.setCategory(category);
+        fitnessProgramService.create(fitnessProgram);
     }
 
     @Override
@@ -83,9 +88,9 @@ public class BusinessServiceImpl implements BusinessService {
         return null;
     }
 
-    private Bookmark createNemBookmark(long fitnessProgramId){
+    private Bookmark createNemBookmark(FitnessProgram fitnessProgram){
         Bookmark bookmark = new Bookmark();
-        bookmark.setFitnessProgram(fitnessProgramService.read(fitnessProgramId));
+        bookmark.setFitnessProgram(fitnessProgram);
         return bookmark;
     }
 

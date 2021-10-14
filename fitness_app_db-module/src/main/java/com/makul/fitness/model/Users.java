@@ -2,10 +2,11 @@ package com.makul.fitness.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,7 +16,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
+    private String firstName;
     private String lastName;
     private LocalDate dateOfBirth;
     private String sex;
@@ -23,10 +24,10 @@ public class Users {
     @Column(unique = true)
     private String email;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private Set<ActiveProgram> activePrograms;
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "users_id")
-    private Set<Bookmark> bookmarks;
+    @EqualsAndHashCode.Exclude
+    private List<ActiveProgram> activePrograms;
+    @OneToMany (mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval = true)
+    private List<Bookmark> bookmarks;
     @OneToOne (mappedBy = "user")
     private UsersSecurity usersSecurity;
 }

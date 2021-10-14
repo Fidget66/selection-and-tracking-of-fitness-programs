@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +15,7 @@ public class UsersDto {
     private long id;
     @NotEmpty
     @Size(min = 3, max = 80)
-    private String name;
+    private String firstName;
     @NotEmpty
     @Size(min = 3, max = 80)
     private String lastName;
@@ -33,6 +33,6 @@ public class UsersDto {
     @NotEmpty
     @Email
     private String email;
-    private Set<CategoryOfFitnessProgramDto> category;
-    private Set<BookmarkDto> bookmarksDto;
+    private List<ActiveProgramDto> activePrograms;
+    private List<BookmarkDto> bookmarksDto;
 }

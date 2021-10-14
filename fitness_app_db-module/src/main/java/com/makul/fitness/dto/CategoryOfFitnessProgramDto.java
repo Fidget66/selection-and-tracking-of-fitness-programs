@@ -13,7 +13,7 @@ import java.util.Set;
 public class CategoryOfFitnessProgramDto {
     private long id;
     @NotEmpty
-    @Size(min = 3, max = 80)
+    @Size(min = 3, max = 255)
     private String shortName;
     @NotEmpty
     @Size(min = 20)

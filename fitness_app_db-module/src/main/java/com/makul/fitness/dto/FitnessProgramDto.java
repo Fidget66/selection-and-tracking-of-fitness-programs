@@ -36,7 +36,7 @@ public class FitnessProgramDto {
     @Size(min = 40)
     private String description;
     private List <ReviewDto> reviews;
-    @NotEmpty
-    @Size(max = 1)
-    private Set<CategoryOfFitnessProgramDto> category;
+//    @NotEmpty
+//    @Size(max = 1)
+//    private Set<CategoryOfFitnessProgramDto> category;
 }

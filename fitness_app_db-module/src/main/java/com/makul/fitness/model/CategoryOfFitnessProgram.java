@@ -13,7 +13,6 @@ import java.util.Set;
 public class CategoryOfFitnessProgram {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
     private long id;
     private String shortName;
     private String description;

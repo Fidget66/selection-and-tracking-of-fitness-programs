@@ -1,5 +1,6 @@
 package com.makul.fitness.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,11 +18,13 @@ public class ActiveProgram {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private boolean isComplited;
+    private String days;
     @OneToMany(mappedBy = "activeProgram",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<ExerciseSchedule> scheduleList;
     @OneToOne
-    @JoinColumn(name = "active_program_id")
+    @JoinColumn(name = "fitness_program_id")
     private FitnessProgram fitnessProgram;
     @ManyToOne
+    @JsonIgnore
     private Users user;
 }

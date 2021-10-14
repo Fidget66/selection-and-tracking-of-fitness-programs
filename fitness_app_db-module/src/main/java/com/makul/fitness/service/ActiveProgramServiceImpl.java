@@ -27,4 +27,8 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
         activeProgram.setComplited(inputActiveProgram.isComplited());
         return activeProgramDao.save(activeProgram);
     }
+    @Override
+    public ActiveProgram read(long id){
+        return activeProgramDao.findById(id).orElseThrow();
+    }
 }

@@ -27,21 +27,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Users read(long id) {
-        if (id<1) throw new IncorrectDataException("user id");
+        if (id<1) throw new IncorrectDataException("User id");
         return usersDao.findById(id).orElseThrow(()->new NoEntityException("Users"));
-    }
-
-    @Override
-    public Users update(Users user) {
-        Users outputUser = read(user.getId());
-        if (Objects.nonNull(user.getBookmarks()) && !user.getBookmarks().isEmpty())
-            for (Bookmark bookmark: user.getBookmarks()){
-                outputUser.getBookmarks().add(bookmark);
-            }
-        if (Objects.nonNull(user.getActivePrograms()) && !user.getActivePrograms().isEmpty())
-            for (ActiveProgram program: user.getActivePrograms()){
-                outputUser.getActivePrograms().add(program);
-            }
-        return usersDao.save(outputUser);
     }
 }
