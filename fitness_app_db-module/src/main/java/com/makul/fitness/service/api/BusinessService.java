@@ -1,14 +1,11 @@
 package com.makul.fitness.service.api;
 
-import com.makul.fitness.model.Bookmark;
-import com.makul.fitness.model.ExerciseSchedule;
-import com.makul.fitness.model.FitnessProgram;
-import com.makul.fitness.model.Users;
-import java.util.Set;
+import com.makul.fitness.model.*;
 
 public interface BusinessService {
-    Users addBookmark(long userId, FitnessProgram fitnessProgram);
-    Bookmark completionMark (long bookmarkId, Set<ExerciseSchedule> scheduleList);
-    void addActiveProgram(long userId, FitnessProgram fitnessProgram);
-    void addFitnessProgram(long categoryId, FitnessProgram fitnessProgram);
+    Bookmark addBookmark(long userId, long fitnessProgramId);
+    ActiveProgram addActiveProgram(long userId, long fitnessProgramId);
+    FitnessProgram addFitnessProgram(long categoryId, FitnessProgram fitnessProgram);
+    ActiveProgram createSchedule(ActiveProgram activeProgram);
+    Review addReview(long userId, long fitnessProgramId, Review review);
 }

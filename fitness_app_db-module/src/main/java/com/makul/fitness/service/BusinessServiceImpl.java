@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Service
 public class BusinessServiceImpl implements BusinessService {
@@ -21,71 +19,80 @@ public class BusinessServiceImpl implements BusinessService {
     private final FitnessProgramService fitnessProgramService;
     private final ActiveProgramService activeProgramService;
     private final ExerciseScheduleService exerciseScheduleService;
-    public final CategoryOfFitnessProgramService categoryService;
+    private final CategoryOfFitnessProgramService categoryService;
+    private final ReviewService reviewService;
 
     public BusinessServiceImpl(UsersService usersService, BookmarkService bookmarkService,
                                FitnessProgramService fitnessProgramService, ActiveProgramService activeProgramService,
                                ExerciseScheduleService exerciseScheduleService,
-                               CategoryOfFitnessProgramService categoryService) {
+                               CategoryOfFitnessProgramService categoryService, ReviewService reviewService) {
         this.usersService = usersService;
         this.bookmarkService = bookmarkService;
         this.fitnessProgramService = fitnessProgramService;
         this.activeProgramService = activeProgramService;
         this.exerciseScheduleService = exerciseScheduleService;
         this.categoryService = categoryService;
+        this.reviewService = reviewService;
     }
 
     @Override
     @Transactional
-    public Users addBookmark(long userId, FitnessProgram fitnessProgram) {
+    public Bookmark addBookmark(long userId, long fitnessProgramId) {
         Users user=usersService.read(userId);
         for (Bookmark bookmark:user.getBookmarks()) {
-            if (bookmark.getFitnessProgram().getId()==fitnessProgram.getId())
+            if (bookmark.getFitnessProgram().getId()==fitnessProgramId)
                 throw new BookmarkIsPresentException();
         }
         Bookmark bookmark = new Bookmark();
         bookmark.setUser(user);
-        bookmark.setFitnessProgram(fitnessProgramService.read(fitnessProgram.getId()));
-        bookmarkService.create(bookmark);
-        return user;
+        bookmark.setFitnessProgram(fitnessProgramService.read(fitnessProgramId));
+        return bookmarkService.create(bookmark);
     }
 
     @Override
     @Transactional
-    public void addActiveProgram(long userId,FitnessProgram fitnessProgram){
-
-        String[] days = {"MONDAY","TUESDAY","SATURDAY"};
+    public ActiveProgram addActiveProgram(long userId,long fitnessProgramId){
         Users user= usersService.read(userId);
+        FitnessProgram fitnessProgram= fitnessProgramService.read(fitnessProgramId);
         ActiveProgram activeProgram=ActiveProgram.builder().fitnessProgram(fitnessProgram).build();
         byte restriction=0;
-        byte k=1;
         if (user.getActivePrograms().size()>0){
             restriction=(byte) user.getActivePrograms().stream()
                     .filter(activePrograms ->activePrograms.isComplited()==false)
                     .count();
-            System.out.println(restriction + "attempt" + k++);
             if (restriction==0){
-                createNewActiveProgram(activeProgram,days);
                 activeProgram.setUser(user);
-                activeProgramService.create(activeProgram);
+                return activeProgramService.create(activeProgram);
             } else if (restriction > 0) throw new ActiveProgramIsPresentException();
         }else{
-            createNewActiveProgram(activeProgram,days);
             activeProgram.setUser(user);
-            activeProgramService.create(activeProgram);
+            return activeProgramService.create(activeProgram);
         }
+        return null;
     }
 
     @Override
-    public void addFitnessProgram(long categoryId, FitnessProgram fitnessProgram) {
+    @Transactional
+    public ActiveProgram createSchedule(ActiveProgram inputActiveProgram){
+        ActiveProgram activeProgram=activeProgramService.read(inputActiveProgram.getId());
+        String[] days =inputActiveProgram.getDays().split(";");// {"MONDAY","TUESDAY","SATURDAY"};
+        createNewScheduleLIst(activeProgram,days);
+        exerciseScheduleService.createAll(activeProgram.getScheduleList());
+        return activeProgramService.update(activeProgram);
+    }
+
+    @Override
+    public Review addReview(long userId, long fitnessProgramId, Review review) {
+        review.setAuthorId(userId);
+        review.setFitnessProgram(fitnessProgramService.read(fitnessProgramId));
+        return reviewService.create(review);
+    }
+
+    @Override
+    public FitnessProgram addFitnessProgram(long categoryId, FitnessProgram fitnessProgram) {
         CategoryOfFitnessProgram category = categoryService.read(categoryId);
         fitnessProgram.setCategory(category);
-        fitnessProgramService.create(fitnessProgram);
-    }
-
-    @Override
-    public Bookmark completionMark(long bookmarkId, Set<ExerciseSchedule> scheduleList) {
-        return null;
+        return fitnessProgramService.create(fitnessProgram);
     }
 
     private Bookmark createNemBookmark(FitnessProgram fitnessProgram){
@@ -94,10 +101,10 @@ public class BusinessServiceImpl implements BusinessService {
         return bookmark;
     }
 
-    private ActiveProgram createNewActiveProgram(ActiveProgram activeProgram, String[] days) {
-        if (Objects.nonNull(activeProgram.getScheduleList())) throw new ScheduleIsPresentException();
+    private ActiveProgram createNewScheduleLIst(ActiveProgram activeProgram, String[] days) {
+        if (activeProgram.getScheduleList().size()>0) throw new ScheduleIsPresentException();
         activeProgram.setScheduleList(fillNewSchedule(activeProgram, days));
-        return activeProgramService.create(activeProgram);
+        return activeProgram;
     }
 
     private List<ExerciseSchedule> fillNewSchedule(ActiveProgram activeProgram, String[] days){
@@ -106,14 +113,14 @@ public class BusinessServiceImpl implements BusinessService {
         int exercisesCounter=0;
         while (exercisesCounter<activeProgram.getFitnessProgram().getDuration()){
             for (int i=0; i<days.length; i++){
-                if (currentDate.getDayOfWeek().toString().equals(days[i])) {
+                if (currentDate.getDayOfWeek().toString().equalsIgnoreCase(days[i])) {
                  scheduleList.add(createNewExerciseSchedule(currentDate,activeProgram));
                  exercisesCounter++;
                 }
             }
             currentDate=currentDate.plusDays(1);
         }
-        return exerciseScheduleService.createAll(scheduleList);
+        return scheduleList;
     }
 
     private ExerciseSchedule createNewExerciseSchedule(LocalDate dateOfExercise, ActiveProgram activeProgram){

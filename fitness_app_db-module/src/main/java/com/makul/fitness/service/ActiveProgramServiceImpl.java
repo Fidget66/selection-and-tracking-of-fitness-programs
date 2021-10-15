@@ -25,8 +25,11 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
                 .findById(inputActiveProgram.getId())
                 .orElseThrow(()->new NoEntityException("ActiveProgram"));
         activeProgram.setComplited(inputActiveProgram.isComplited());
+        if (inputActiveProgram.getScheduleList().size()>0)
+            activeProgram.setScheduleList(inputActiveProgram.getScheduleList());
         return activeProgramDao.save(activeProgram);
     }
+
     @Override
     public ActiveProgram read(long id){
         return activeProgramDao.findById(id).orElseThrow();

@@ -1,5 +1,6 @@
 package com.makul.fitness.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,7 @@ public class Review {
     private long id;
     private long authorId;
     private String text;
+    @ManyToOne
+    @JsonIgnore
+    private FitnessProgram fitnessProgram;
 }

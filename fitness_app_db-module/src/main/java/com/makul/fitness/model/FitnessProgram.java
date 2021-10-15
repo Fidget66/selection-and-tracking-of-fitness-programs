@@ -23,8 +23,7 @@ public class FitnessProgram{
     private String sexRestriction;
     private byte exercisePerWeek;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "fitness_program_id")
+    @OneToMany(mappedBy = "fitnessProgram",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List <Review> reviews;
     @ManyToOne
     @JsonIgnore

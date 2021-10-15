@@ -27,7 +27,9 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review update(Review review) {
+    public Review update(Review inputReview) {
+        Review review = read(inputReview.getId());
+        review.setText(inputReview.getText());
         return reviewDao.save(review);
     }
 }
