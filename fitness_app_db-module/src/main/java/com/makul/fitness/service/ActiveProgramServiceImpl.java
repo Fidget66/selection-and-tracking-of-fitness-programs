@@ -5,6 +5,7 @@ import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.ActiveProgram;
 import com.makul.fitness.service.api.ActiveProgramService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ActiveProgramServiceImpl implements ActiveProgramService {
@@ -15,11 +16,13 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
     }
 
     @Override
+    @Transactional
     public ActiveProgram create(ActiveProgram activeProgram) {
         return activeProgramDao.save(activeProgram);
     }
 
     @Override
+    @Transactional
     public ActiveProgram update(ActiveProgram inputActiveProgram) {
         ActiveProgram activeProgram = activeProgramDao
                 .findById(inputActiveProgram.getId())

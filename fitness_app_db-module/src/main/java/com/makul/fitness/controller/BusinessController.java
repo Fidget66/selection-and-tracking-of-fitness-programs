@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makul.fitness.dto.ActiveProgramDto;
 import com.makul.fitness.dto.BookmarkDto;
 import com.makul.fitness.dto.FitnessProgramDto;
+import com.makul.fitness.dto.ReviewDto;
 import com.makul.fitness.model.ActiveProgram;
 import com.makul.fitness.model.FitnessProgram;
+import com.makul.fitness.model.Review;
 import com.makul.fitness.service.api.BusinessService;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +45,12 @@ public class BusinessController {
     public ActiveProgramDto createScheduleList(@RequestBody ActiveProgramDto activeProgramDto){
         ActiveProgram activeProgram = objectMapper.convertValue(activeProgramDto, ActiveProgram.class);
         return objectMapper.convertValue(businessService.createSchedule(activeProgram), ActiveProgramDto.class);
+    }
+
+    @PostMapping("user/{userId}/program/fitness/{fitnessProgramId}/review")
+    public ReviewDto addReview(@PathVariable long userId, @PathVariable long fitnessProgramId,
+                               @RequestBody ReviewDto reviewDto){
+        Review review = objectMapper.convertValue(reviewDto, Review.class);
+        return objectMapper.convertValue(businessService.addReview(userId,fitnessProgramId,review), ReviewDto.class);
     }
 }

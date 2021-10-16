@@ -6,9 +6,7 @@ import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.FitnessProgram;
 import com.makul.fitness.service.api.FitnessProgramService;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FitnessProgramServiceImpl implements FitnessProgramService {
@@ -19,6 +17,7 @@ public class FitnessProgramServiceImpl implements FitnessProgramService {
     }
 
     @Override
+    @Transactional
     public FitnessProgram create(FitnessProgram program) {
         return fitnessProgramDao.save(program);
     }
@@ -27,11 +26,5 @@ public class FitnessProgramServiceImpl implements FitnessProgramService {
     public FitnessProgram read(long id) {
         if (id<1) throw new IncorrectDataException("FitnessProgram id");
         return fitnessProgramDao.findById(id).orElseThrow(()->new NoEntityException("FitnessProgram"));
-    }
-
-    @Override
-    public List<FitnessProgram> readAll() {
-        return StreamSupport.stream(fitnessProgramDao.findAll().spliterator(), false)
-                .collect(Collectors.toList());
     }
 }

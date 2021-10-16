@@ -28,6 +28,4 @@ public class Users {
     private List<ActiveProgram> activePrograms;
     @OneToMany (mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval = true)
     private List<Bookmark> bookmarks;
-    @OneToOne (mappedBy = "user")
-    private UsersSecurity usersSecurity;
 }

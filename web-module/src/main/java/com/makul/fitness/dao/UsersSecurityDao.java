@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UsersSecurityDao extends CrudRepository <UsersSecurity,Long> {
+    UsersSecurity findByLogin(String login);
 }

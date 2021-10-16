@@ -21,6 +21,4 @@ public class UsersSecurityDto {
     @NotEmpty
     @Size(min = 3)
     private Set<RolesDto> role;
-    @NotEmpty
-    UsersDto usersDto;
 }

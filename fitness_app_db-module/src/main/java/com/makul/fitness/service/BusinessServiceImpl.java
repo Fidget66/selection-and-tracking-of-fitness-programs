@@ -82,6 +82,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
+    @Transactional
     public Review addReview(long userId, long fitnessProgramId, Review review) {
         review.setAuthorId(userId);
         review.setFitnessProgram(fitnessProgramService.read(fitnessProgramId));
@@ -89,6 +90,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
+    @Transactional
     public FitnessProgram addFitnessProgram(long categoryId, FitnessProgram fitnessProgram) {
         CategoryOfFitnessProgram category = categoryService.read(categoryId);
         fitnessProgram.setCategory(category);

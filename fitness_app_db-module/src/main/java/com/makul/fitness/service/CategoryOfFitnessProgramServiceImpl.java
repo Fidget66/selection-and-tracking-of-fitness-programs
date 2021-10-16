@@ -7,6 +7,8 @@ import com.makul.fitness.model.CategoryOfFitnessProgram;
 import com.makul.fitness.model.FitnessProgram;
 import com.makul.fitness.service.api.CategoryOfFitnessProgramService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ public class CategoryOfFitnessProgramServiceImpl implements CategoryOfFitnessPro
     }
 
     @Override
+    @Transactional
     public CategoryOfFitnessProgram create(CategoryOfFitnessProgram category) {
         return categoryDao.save(category);
     }
@@ -32,6 +35,7 @@ public class CategoryOfFitnessProgramServiceImpl implements CategoryOfFitnessPro
     }
 
     @Override
+    @Transactional
     public CategoryOfFitnessProgram update(CategoryOfFitnessProgram category) {
         CategoryOfFitnessProgram outputCategory = categoryDao.findById(category.getId())
                 .orElseThrow(()->new NoEntityException("Category"));

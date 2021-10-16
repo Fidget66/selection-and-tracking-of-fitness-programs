@@ -18,6 +18,7 @@ public class UsersSecurity {
     private String password;
     private String login;
     private boolean isAccountNonLocked;
+    private long userId;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_security_roles",
@@ -25,6 +26,4 @@ public class UsersSecurity {
             inverseJoinColumns = { @JoinColumn(name = "roles_id") }
     )
     private Set<Roles> role;
-    @OneToOne
-    private Users user;
 }

@@ -6,6 +6,8 @@ import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.ExerciseSchedule;
 import com.makul.fitness.service.api.ExerciseScheduleService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -19,12 +21,14 @@ public class ExerciseScheduleServiceImpl implements ExerciseScheduleService {
     }
 
     @Override
+    @Transactional
     public List<ExerciseSchedule> createAll(List<ExerciseSchedule> scheduleList) {
         return StreamSupport.stream(exerciseScheduleDao.saveAll(scheduleList).spliterator(),false)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional
     public ExerciseSchedule update(ExerciseSchedule exerciseSchedule) {
         ExerciseSchedule outputSchedule = read(exerciseSchedule.getId());
         outputSchedule.setComplited(exerciseSchedule.isComplited());
