@@ -12,6 +12,18 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries({
+        @NamedQuery(
+                name = "findFitnessProgramWithRestrictions",
+                query = "SELECT fitProg FROM FitnessProgram fitProg JOIN Users user WHERE (user.id = :userId) " +
+                        "and (fitProg.category.id = :categoryId) and (user.weight <= fitProg.weightRestriction) " +
+                        "and (user.sex = fitProg.sexRestriction) and (:userAge <= fitProg.ageRestriction)" +
+                        "and (fitProg.duration <= :durationLimit)"),
+        @NamedQuery(
+                name = "findFitnessProgramFromCategory",
+                query = "SELECT fitProg FROM FitnessProgram fitProg WHERE fitProg.category.id = :categoryId"
+        )
+})
 public class FitnessProgram{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
