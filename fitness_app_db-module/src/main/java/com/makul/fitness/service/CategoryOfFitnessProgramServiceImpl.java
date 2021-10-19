@@ -35,20 +35,8 @@ public class CategoryOfFitnessProgramServiceImpl implements CategoryOfFitnessPro
     }
 
     @Override
-    @Transactional
-    public CategoryOfFitnessProgram update(CategoryOfFitnessProgram category) {
-        CategoryOfFitnessProgram outputCategory = categoryDao.findById(category.getId())
-                .orElseThrow(()->new NoEntityException("Category"));
-        if (Objects.nonNull(category.getFitnessPrograms()) && !category.getFitnessPrograms().isEmpty())
-            for (FitnessProgram program: category.getFitnessPrograms()){
-                outputCategory.getFitnessPrograms().add(program);
-            }
-        return categoryDao.save(outputCategory);
-    }
-
-    @Override
     public CategoryOfFitnessProgram read(long id) {
-        if (id<1) throw new IncorrectDataException("Category Of FitnessProgram id");
+        if (id<1) throw new IncorrectDataException("Category Of Fitness Program id");
         return categoryDao.findById(id).orElseThrow(()->new NoEntityException("Category Of Fitness Program"));
     }
 }

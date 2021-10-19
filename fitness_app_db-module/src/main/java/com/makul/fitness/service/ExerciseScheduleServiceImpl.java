@@ -7,7 +7,7 @@ import com.makul.fitness.model.ExerciseSchedule;
 import com.makul.fitness.service.api.ExerciseScheduleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -39,5 +39,10 @@ public class ExerciseScheduleServiceImpl implements ExerciseScheduleService {
     public ExerciseSchedule read(long id) {
         if (id<1) throw new IncorrectDataException("Exercise Schedule id");
         return exerciseScheduleDao.findById(id).orElseThrow(()->new NoEntityException("Exercise Schedule"));
+    }
+
+    @Override
+    public List<ExerciseSchedule> readExerciseByDate(LocalDate currentDate) {
+        return exerciseScheduleDao.findExerciseByDate(currentDate);
     }
 }

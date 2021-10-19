@@ -1,12 +1,10 @@
 DROP TABLE IF EXISTS review cascade;
-DROP TABLE IF EXISTS roles cascade;
 DROP TABLE IF EXISTS category_of_fitness_program cascade;
 DROP TABLE IF EXISTS fitness_program cascade;
 DROP TABLE IF EXISTS exercise_schedule cascade;
 DROP TABLE IF EXISTS bookmark cascade;
 DROP TABLE IF EXISTS active_program cascade;
 DROP TABLE IF EXISTS users cascade;
-DROP TABLE IF EXISTS users_security cascade;
 
 CREATE TABLE IF NOT EXISTS users(
     id bigserial NOT NULL,
@@ -23,12 +21,6 @@ CREATE TABLE IF NOT EXISTS category_of_fitness_program(
     id bigserial NOT NULL,
     short_name varchar(255),
     description varchar,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS roles(
-    id bigserial NOT NULL,
-    role_name varchar(255),
     PRIMARY KEY (id)
 );
 
@@ -58,115 +50,158 @@ CREATE TABLE IF NOT EXISTS review(
 CREATE TABLE IF NOT EXISTS bookmark(
     id bigserial NOT NULL,
     fitness_program_id bigint,
-    users_id bigint,
+    user_id bigint,
     PRIMARY KEY (id),
     FOREIGN KEY (fitness_program_id) REFERENCES fitness_program(id),
-    FOREIGN KEY (users_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS active_program(
     id bigserial NOT NULL,
+    days varchar,
     is_complited boolean,
     fitness_program_id bigint,
-    users_id bigint,
+    user_id bigint,
     PRIMARY KEY (id),
     FOREIGN KEY (fitness_program_id) REFERENCES fitness_program(id),
-    FOREIGN KEY (users_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE IF NOT EXISTS active_program(
+CREATE TABLE IF NOT EXISTS exercise_schedule(
     id bigserial NOT NULL,
     exercise_date date,
     is_complited boolean,
     active_program_id bigint,
-    PRIMARY KEY (id),
     FOREIGN KEY (active_program_id) REFERENCES active_program(id)
 );
 
-CREATE TABLE IF NOT EXISTS users_security(
-    id bigserial NOT NULL,
-    is_account_non_locked boolean,
-    login varchar,
-    password varchar,
-    user_id bigint,
-    PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
+INSERT INTO category_of_fitness_program(short_name, description) values('Сушка','Сушка тела – комплекс мероприятий, ' ||
+            'включающий специальную систему питания и физических упражнений, направленный на достижение подтянутого ' ||
+            'рельефного тела. Специфическая система питания помогает быстрее сжечь жировую прослойку и нарастить мышцы. ' ||
+            'Понятие «сушка» пришло к нам из направления бодибилдинга. Как правило, бодибилдеры начинают сушку за 2 ' ||
+            'месяца до начала соревнований, чтобы просушить тело, придать ему форму и рельеф.');
+INSERT INTO category_of_fitness_program(short_name, description) values('Укрепление здоровья',
+            'Оптимальное решение для укрепления здоровья и обретения бодрости духа — аэробные нагрузки. Это такие ' ||
+            'упражнения, при выполнении которых работает все тело. Они включают в работу все мышцы, связки, суставы и ' ||
+            'кости, а также сердечно-сосудистую и дыхательную системы. В процессе нагрузки через них активно течет кровь, ' ||
+            '«запуская» обменные процессы и вымывая продукты обмена. При этом активизируется работа внутренних органов, ' ||
+            'и сжигаются лишние калории. Таким образом, происходит общее оздоравливающее воздействие на весь организм.');
+INSERT INTO category_of_fitness_program(short_name, description) values('Улучшение жизненного тонуса, выносливости',
+             'Выделяют два вида выносливости: общую (сердечно-сосудистую) и силовую (мышечную). В обоих случаях ' ||
+             'подразумевается умеренная интенсивность, а не работа на износ. Но и она со временем повышается при ' ||
+             'регулярных тренировках. Мышечная выносливость — способность мышцы прикладывать силу последовательно и ' ||
+             'многократно в течение определенного периода времени. Она играет большую роль почти во всех спортивных ' ||
+             'занятиях и влияет на общее самочувствие.');
+INSERT INTO category_of_fitness_program(short_name, description) values('Силовые тренировки',
+            'Силовые тренировки - это комплекс упражнений с постоянным увеличением весовой нагрузки, направленный на ' ||
+            'укрепление скелетно-мышечной системы. Силовые упражнения - неотъемлемая часть любой тренировочной программы: ' ||
+            'они способствуют развитию как мышечной силы, так и мышечной выносливости.');
 
-CREATE TABLE IF NOT EXISTS customer_shop(
-    users_security_id bigint NOT NULL,
-    roles_id bigint NOT NULL,
-    PRIMARY KEY (users_security_id, roles_id),
-    FOREIGN KEY (users_security_id) REFERENCES users_security(id),
-    FOREIGN KEY (roles_id) REFERENCES roles(id)
-);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+            values('ноги и грудь', 30, 45, 96, 'm',3,'Приседания со штангой – 5 подходов по 12 повторений. Румынская тяга' ||
+                   ' – 4 подхода по 15 повторений. Подъемы на носки – 4 подхода по 20 повторений. Жим лежа – 4 подхода ' ||
+                   'по 12 повторений. Жим гантелей под углом – 4 подхода по 12 повторений. Разведение гантелей – ' ||
+                                                     '4 подхода по 15 повторений',1);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+            values('руки и пресс', 41, 37, 110, 'f',2,'Жим узким хватом – 4 подхода по 15 повторений. Подъемы на бицепс' ||
+                   ' – 4 подхода по 15 повторений. Молотки – 5 подходов по 15 повторений. Французский жим стоя – 5 ' ||
+                   'подходов по 15 повторений. Подъемы ногсв висе – 5 подходов по максимуму. Упражнение велосипед – 5 ' ||
+                   'подходов по максимуму',1);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+            values('Йога', 150, 60, 150, 'f',3,'1. Отдых. Сделайте 2–3 спокойных вдоха-выдоха, примите удобную позу, ' ||
+                     'расслабьтесь. 2. Мысленная настройка. Внимательно посмотрите на изображение позы в книге, ' ||
+                     'представьте себя в этой позе. 3. Вхождение в позу. Последовательно, плавно, спокойно войдите в ' ||
+                     'позу согласно инструкции. Не торопитесь, не напрягайтесь. 4. Фиксация позы. На начальных этапах ' ||
+                     'нельзя удерживать позу больше 5 секунд. Постепенно время фиксации можно увеличить до 20–30 секунд.' ||
+                     ' Во время удержания позы надо думать о чем-нибудь хорошем. 5. Выход из позы. Старайтесь делать ' ||
+                     'очень плавные движения при возвращении в исходное положение. 6. Отдых после выхода из позы. ' ||
+                     'Запомните, что время отдыха составляет примерно одну четверть от общей продолжительности упражнения.' ||
+                     ' То есть если вы позанимались сорок минут, обязательно полежите десять минут на спине,' ||
+                     ' расслабьтесь.',2);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('Увеличиваем бицепсы', 180, 50, 100, 'm',4,'Качаем бицепсы. Необходимо выполнить поочерёдно подъёмы гантелей, ' ||
+                     'при этом меняются руки (три повтора по десять раз). Упражнение для плечевых мышц. Выполняем ' ||
+                     'армейский жим гантелей (три подхода по десять раз каждый). Мышцы груди. Сделать отжимания от ' ||
+                     'скамьи (наклонной). Количество подходов – такое же, как и в предыдущих упражнениях. Тренировка ' ||
+                     'трицепса. Можно выполнять лёжа какие-либо знакомые вам упражнения для растяжки трицепсов. Например,' ||
+                     ' отжимайтесь на брусьях, опускайте гантели за голову. Качаем пресс. Выполняем наклоны вперёд трижды' ||
+                     ' по десять раз за подход. Тренируем ноги. Следует выполнять выпады вперёд с использованием гантелей.',4);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('Дыхательная гимнастика', 40, 100, 110, 'm',2,'Упражнение 1. Исходное положение — стоя, ноги на ширине плеч. ' ||
+                      'Медленно приподнимать пятки на 5 см от пола и резко их опускать (12-15 раз). Упражнение 2. ' ||
+                      'Исходное положение — стоя, ноги на ширине плеч. Приподнять пятки от пола, переместив вес на носки ' ||
+                      'и стоять в таком положении 3-4 секунды, затем плавно вес тела перенесите на пятки, приподняв носки,' ||
+                      ' в таком положении стоять 2-3 секунды. Упражнение делать минуту. Упражнение 3. Ходьба на месте ' ||
+                      '4-5 минут, при этом носки от пола не отрывать, а пятки немного приподнять. Упражнение 4. Исходное ' ||
+                      'положение — стоя, правую ногу поднять, согнув в колене, образовав прямой угол. Вращать стопой ' ||
+                      'вначале вовнутрь, потом наружу по 30 секунд в каждом направлении. Тоже самое повторить левой ' ||
+                      'ногой. Делать упражнение в 3 подхода. Упражнение 5. Исходное положение — стоя, приподнять сначала ' ||
+                      'правую ногу и слегка потрясти ею (4 секунды), затем левую. Сделать 4 раза каждой ногой. После ' ||
+                      'данной группы упражнений рекомендуется контрастный душ для ног в течение пяти минут на каждую.',3);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('Дыхательная гимнастика: велосипед', 30, 70, 90, 'f',2,'Велосипед. Количество: 25 раз. Техника выполнения: ' ||
+                       'Лягте на спину, разместите руки вдоль туловища или уберите их за голову. Поднесите левое колено ' ||
+                       'к правому локтю. Затем правое колено к левому локтю. Вначале стоит ' ||
+                       'делать упражнение медленно, затем можно увеличить скорость. Удары на месте. Количество: 40 раз. ' ||
+                       'Техника выполнения: Примите боксёрскую позицию, чуть согните колени. Разместите руки напротив ' ||
+                       'лица. Перенесите вес на правую ногу и поочерёдно попробуйте нанести удары (правой и левой рукой). ' ||
+                       'Смотреть на официальном канале в YouTube. Боковые прыжки. Количество: 30 раз/.Техника выполнения:' ||
+                       'Поставьте ноги вместе. Начните прыгать из стороны в сторону. С каждым днём увеличивайте скорость ' ||
+                       'и высоту прыжков. Смотреть на официальном канале в YouTube. Отжимания. Количество: 20 раз. ',3);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('Фитнесс для начинающих', 30, 50, 120, 'm',4,'День 1-ый. Неспешная 30-минутная пробежка или быстрая ходьба. День 2-й отдыхаем. ' ||
+                    'День 3-ий. Быстрая ходьба около 10 минут, далее – простые упражнения с минутными перерывами ' ||
+                    'между подходами: 10 отжиманий от пола или 2 минуты в позе планки, 10 выпадов для каждой ноги с ' ||
+                    'тремя подходами, 20 упражнений на пресс; 20 приседаний, 20 глубоких наклонов в сторону для каждой ' ||
+                    'руки. День 4-ый отдыхаем. День 5-ый посвящаем кардиотренировкам. Программа та же, что в 1-ый день.' ||
+                    ' День 6-ой – день отдыха. День 7-ой – бег в течение 30 минут или часовая прогулка. И повторяем ' ||
+                    'все по кругу',2);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('Фитнесс для начинающих', 55, 40, 120, 'f',3,'1. Скручивания на пресс. Прорабатывает мышцы пресса. Лягте на ' ||
+                    'спину, поставьте стопы на пол, руки уберите за голову. Поднимайте корпус, чтобы лопатки отрывались' ||
+                    ' от пола, а поясница оставалась прижатой. Не давите руками на голову, пальцы только касаются ' ||
+                    'затылка, движение совершается за счёт напряжения мышц пресса, а не шеи. Выполните 3 подхода по 15–20 ' ||
+                    'раз. 2. Гиперэкстензия. Прокачивает разгибатели спины, ягодицы и заднюю поверхность бедра. Вставьте ' ||
+                    'ноги в тренажёр для гиперэкстензии, уберите руки за голову. Сохраняя прямую спину, опустите корпус,' ||
+                    ' а затем поднимите его. В верхней точке смотрите в стену перед собой. Избегайте рывков и резких ' ||
+                    'движений, выполняйте упражнение плавно и под контролем. Сделайте 3 подхода по 15 раз. В дальнейшем' ||
+                    ' можете увеличить количество повторений до 20–25. 3. Приседания со штангой на спине. Нагружает ' ||
+                    'бёдра, ягодицы и мышцы кора. Поставьте ноги чуть шире расправленных плеч, сведите лопатки, носки' ||
+                    ' стоп немного разверните в стороны. Отведите таз назад, слегка прогнитесь в пояснице и со вдохом' ||
+                    ' уйдите в присед. Держите спину прямой, смотрите вперёд. Присядьте до параллели бёдер с полом. ' ||
+                    'Если пятки не отрываются от него, колени не заворачиваются внутрь, а спина остаётся прямой, ' ||
+                    'попробуйте присесть ниже. Если при этом спина округлилась, возвращайтесь к предыдущему положению, ' ||
+                    'то есть снова делайте бёдра параллельными полу. Выходите из приседания на выдохе. Начинайте с ' ||
+                    'грифом на 15 или 20 кг и постепенно повышайте нагрузку. Всё время следите за техникой. 4. Жим лёжа.' ||
+                    ' Прокачивает грудные мышцы и трицепсы. Лягте на лавку для жима, прижмите стопы к полу. Прямым ' ||
+                    'хватом шире плеч возьмитесь за штангу. Снимите её со стоек, опустите до касания груди и выжмите ' ||
+                    'обратно. 5. Разведение гантелей стоя. Укрепляет плечи. Встаньте прямо, поднимите руки с гантелями ' ||
+                    'в стороны до уровня плеч и опустите обратно. Оставляйте локти чуть согнутыми, чтобы не перегрузить' ||
+                    '0 сустав.',4);
 
+INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
+values ('Petr', 'Ivanov', '1980-03-12','m',86,'petrIvanov@mail.ru');
+INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
+values ('Olya', 'Mak', '1985-04-22','f',55,'olyaMak@mail.ru');
+INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
+values ('Andrey', 'Andreev', '1993-12-24','m',80,'admin@mail.ru');
 
+INSERT INTO bookmark (fitness_program_id, user_id) values (1,1);
+INSERT INTO bookmark (fitness_program_id, user_id) values (3,1);
+INSERT INTO bookmark (fitness_program_id, user_id) values (2,2);
+INSERT INTO bookmark (fitness_program_id, user_id) values (5,2);
 
+INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;FRIDAY;SUNDAY',true,6,1);
+INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SATURDAY',false,1,1);
 
+INSERT INTO review (author_id, text, fitness_program_id) VALUES (1,'Отличная программа упражнений. Рекомендую!',6);
 
-
-
-ALTER TABLE cities ADD COLUMN IF NOT EXISTS shop_id bigint REFERENCES shop(id);
-
-
-
-INSERT INTO cities(city) values('BREST');
-INSERT INTO cities(city) values('GRODNO');
-INSERT INTO cities(city) values('VITEBSK');
-INSERT INTO cities(city) values('MINSK');
-
-INSERT INTO shop(name_shop, foundation_date, is_always_open, is_only_online, phone_number, email, postcode, city_city_id)
-values ('Mile', '2010-01-20', false, false, 11223344, 'Mile@mail.ru', 224000, 1);
-INSERT INTO shop(name_shop, foundation_date, is_always_open, is_only_online, phone_number, email, postcode, city_city_id)
-values ('Materik', '2005-05-18', true, false, 99887766, 'Materik@gmail.com', 230145, 2);
-INSERT INTO shop(name_shop, foundation_date, is_always_open, is_only_online, phone_number, email, postcode, city_city_id)
-values ('21vek', '2018-09-09', true, true, 98765432, '21vek@gmail.com', 123987, 3);
-INSERT INTO shop(name_shop, foundation_date, is_always_open, is_only_online, phone_number, email, postcode, city_city_id)
-values ('OMA', '2016-05-12', true, false, 852963, 'OMA@gmail.com', 654456, 4);
-
-INSERT INTO customer(first_name, last_name, birthday, sex, is_vip, phone_number, account_number)
-values ('Oleg', 'Olegov', '1970-12-10', 'm', true, 456123, 1230045609);
-INSERT INTO customer(first_name, last_name, birthday, sex, is_vip, phone_number, account_number)
-values ('Vova', 'Vovchik', '1984-02-02', 'm', false, 999333, 256007890);
-INSERT INTO customer(first_name, last_name, birthday, sex, is_vip, phone_number, account_number)
-values ('Fedor', 'Oprichnik', '1930-06-29', 'm', true, 00000, 100001);
-INSERT INTO customer(first_name, last_name, birthday, sex, is_vip, phone_number, account_number)
-values ('Olga', 'Petrova', '1981-12-12', 'w', false, 4569784, 1235874);
-
-INSERT INTO purchase_order(buy_time, sum, is_confirmed, is_delivery, name_customer, phone_number_customer, name_shop, customer_id)
-values (clock_timestamp(), 111.58, true, false, 'Oleg', 456123, 'Mile',1);
-INSERT INTO purchase_order(buy_time, sum, is_confirmed, is_delivery, name_customer, phone_number_customer, name_shop, customer_id)
-values (clock_timestamp(), 547.33, true, true, 'Oleg', 456123, 'Materik',1);
-INSERT INTO purchase_order(buy_time, sum, is_confirmed, is_delivery, name_customer, phone_number_customer, name_shop, customer_id)
-values (clock_timestamp(), 1000.01, true, true, 'Vova', 456123, '21vek',2);
-INSERT INTO purchase_order(buy_time, sum, is_confirmed, is_delivery, name_customer, phone_number_customer, name_shop, customer_id)
-values (clock_timestamp(), 233256.09, true, true, 'Fedor', 00000, '21vek',3);
-INSERT INTO purchase_order(buy_time, sum, is_confirmed, is_delivery, name_customer, phone_number_customer, name_shop, customer_id)
-values (clock_timestamp(), 999.99, true, false, 'Olga', 4569784, 'Materik',4);
-
-INSERT INTO good(price, production_date, name, article_product, is_available, color, quantity, order_id)
-values (12.58, '2020-12-12', 'concrete', 784512, true, 'black', 124, 1);
-INSERT INTO good(price, production_date, name, article_product, is_available, color, quantity, order_id)
-values (150.55, '2021-03-29', 'paint', 456123, true, 'white', 15, 1);
-INSERT INTO good(price, production_date, name, article_product, is_available, color, quantity, order_id)
-values (45.89, '2021-07-01', 'phone', 7563125, true, 'gray', 5, 2);
-INSERT INTO good(price, production_date, name, article_product, is_available, color, quantity, order_id)
-values (1.12, '2020-10-01', 'salt', 75210, true, 'white', 598, 2);
-INSERT INTO good(price, production_date, name, article_product, is_available, color, quantity, order_id)
-values (1.12, '2021-02-01', 'sugar', 213169, true, 'white', 952, 3);
-INSERT INTO good(price, production_date, name, article_product, is_available, color, quantity, order_id)
-values (5.02, '2021-06-06', 'vinegar', 7845120, true, 'transparent', 23, 4);
-INSERT INTO good(price, production_date, name, article_product, is_available, color, quantity, order_id)
-values (1.12, '1950-01-01', 'home wine', 3654, true, 'red', 2, 4);
-INSERT INTO good(price, production_date, name, article_product, is_available, color, quantity, order_id)
-values (568.12, '2021-01-09', 'lipstick', 215487, true, 'red', 1, 5);
-
-INSERT INTO customer_shop(customer_id, shop_id) values(1,1);
-INSERT INTO customer_shop(customer_id, shop_id) values(1,2);
-INSERT INTO customer_shop(customer_id, shop_id) values(2,3);
-INSERT INTO customer_shop(customer_id, shop_id) values(2,4);
-INSERT INTO customer_shop(customer_id, shop_id) values(3,1);
-INSERT INTO customer_shop(customer_id, shop_id) values(3,3);
-INSERT INTO customer_shop(customer_id, shop_id) values(4,2);
-INSERT INTO customer_shop(customer_id, shop_id) values(4,4);
+INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-10-19',false,2)

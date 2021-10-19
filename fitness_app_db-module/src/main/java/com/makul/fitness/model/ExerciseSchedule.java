@@ -1,10 +1,8 @@
 package com.makul.fitness.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -22,5 +20,6 @@ public class ExerciseSchedule {
     @ManyToOne
     @JoinColumn (name = "active_program_id")
     @JsonIgnore
+    @ToString.Exclude
     private ActiveProgram activeProgram;
 }

@@ -29,11 +29,11 @@ public class FitnessProgram{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String shortName;
-    private short duration;
-    private byte ageRestriction;
-    private short weightRestriction;
+    private int duration;
+    private int ageRestriction;
+    private int weightRestriction;
     private String sexRestriction;
-    private byte exercisePerWeek;
+    private int exercisePerWeek;
     private String description;
     @OneToMany(mappedBy = "fitnessProgram",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List <Review> reviews;

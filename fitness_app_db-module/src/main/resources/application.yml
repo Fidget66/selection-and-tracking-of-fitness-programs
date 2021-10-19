@@ -7,11 +7,11 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     database: postgresql
   sql:
     init:
-#      data-locations: classpath*:data.sql
+      data-locations: classpath*:data111.sql
       mode: always
   datasource:
     url: jdbc:postgresql://localhost:5432/MyFitnessApp

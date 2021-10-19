@@ -20,7 +20,7 @@ public class Users {
     private String lastName;
     private LocalDate dateOfBirth;
     private String sex;
-    private short weight;
+    private int weight;
     @Column(unique = true)
     private String email;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

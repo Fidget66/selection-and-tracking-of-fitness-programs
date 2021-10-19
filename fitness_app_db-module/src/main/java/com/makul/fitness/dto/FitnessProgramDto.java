@@ -20,18 +20,18 @@ public class FitnessProgramDto {
     private String shortName;
     @NotEmpty
     @Min(10)
-    private short duration;
+    private int duration;
     @NotEmpty
     @Min(30)@Max(60)
-    private byte ageRestriction;
+    private int ageRestriction;
     @NotEmpty
     @Min(50)@Max(120)
-    private short weightRestriction;
+    private int weightRestriction;
     @Size(max = 1)
     private String sexRestriction;
     @NotEmpty
     @Min(1)@Max(3)
-    private byte exercisePerWeek;
+    private int exercisePerWeek;
     @NotEmpty
     @Size(min = 40)
     private String description;

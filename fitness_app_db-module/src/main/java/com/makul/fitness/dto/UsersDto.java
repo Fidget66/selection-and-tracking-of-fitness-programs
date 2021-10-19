@@ -29,7 +29,7 @@ public class UsersDto {
     private String sex;
     @NotEmpty
     @Min(20)@Max(200)
-    private short weight;
+    private int weight;
     @NotEmpty
     @Email
     private String email;

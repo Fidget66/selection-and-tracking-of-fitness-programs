@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BusinessServiceImpl implements BusinessService {
@@ -39,9 +40,11 @@ public class BusinessServiceImpl implements BusinessService {
     @Transactional
     public Bookmark addBookmark(long userId, long fitnessProgramId) {
         Users user=usersService.read(userId);
-        for (Bookmark bookmark:user.getBookmarks()) {
-            if (bookmark.getFitnessProgram().getId()==fitnessProgramId)
-                throw new BookmarkIsPresentException();
+        if (Objects.nonNull(user.getBookmarks()) && user.getBookmarks().size()>0) {
+            for (Bookmark bookmark : user.getBookmarks()) {
+                if (bookmark.getFitnessProgram().getId() == fitnessProgramId)
+                    throw new BookmarkIsPresentException();
+            }
         }
         Bookmark bookmark = new Bookmark();
         bookmark.setUser(user);
@@ -55,9 +58,9 @@ public class BusinessServiceImpl implements BusinessService {
         Users user= usersService.read(userId);
         FitnessProgram fitnessProgram= fitnessProgramService.read(fitnessProgramId);
         ActiveProgram activeProgram=ActiveProgram.builder().fitnessProgram(fitnessProgram).build();
-        byte restriction=0;
-        if (user.getActivePrograms().size()>0){
-            restriction=(byte) user.getActivePrograms().stream()
+        long restriction=0;
+        if (Objects.nonNull(user.getActivePrograms()) && user.getActivePrograms().size()>0){
+            restriction = user.getActivePrograms().stream()
                     .filter(activePrograms ->activePrograms.isComplited()==false)
                     .count();
             if (restriction==0){
@@ -97,6 +100,17 @@ public class BusinessServiceImpl implements BusinessService {
         return fitnessProgramService.create(fitnessProgram);
     }
 
+//    @Override
+//    @Transactional
+//    public CategoryOfFitnessProgram updateCategory(CategoryOfFitnessProgram category) {
+//        CategoryOfFitnessProgram outputCategory = categoryService.read(category.getId());
+//        if (Objects.nonNull(category.getFitnessPrograms()) && !category.getFitnessPrograms().isEmpty())
+//            for (FitnessProgram program: category.getFitnessPrograms()){
+//                outputCategory.getFitnessPrograms().add(program);
+//            }
+//        return categoryService.create(outputCategory);
+//    }
+
     private Bookmark createNemBookmark(FitnessProgram fitnessProgram){
         Bookmark bookmark = new Bookmark();
         bookmark.setFitnessProgram(fitnessProgram);
@@ -104,7 +118,8 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     private ActiveProgram createNewScheduleLIst(ActiveProgram activeProgram, String[] days) {
-        if (activeProgram.getScheduleList().size()>0) throw new ScheduleIsPresentException();
+        if (Objects.nonNull(activeProgram.getScheduleList()) && activeProgram.getScheduleList().size()>0)
+            throw new ScheduleIsPresentException();
         activeProgram.setScheduleList(fillNewSchedule(activeProgram, days));
         return activeProgram;
     }
@@ -113,7 +128,7 @@ public class BusinessServiceImpl implements BusinessService {
         List<ExerciseSchedule> scheduleList = new ArrayList<>();
         LocalDate currentDate= LocalDate.now();
         int exercisesCounter=0;
-        while (exercisesCounter<activeProgram.getFitnessProgram().getDuration()){
+        while (exercisesCounter < activeProgram.getFitnessProgram().getDuration()){
             for (int i=0; i<days.length; i++){
                 if (currentDate.getDayOfWeek().toString().equalsIgnoreCase(days[i])) {
                  scheduleList.add(createNewExerciseSchedule(currentDate,activeProgram));
