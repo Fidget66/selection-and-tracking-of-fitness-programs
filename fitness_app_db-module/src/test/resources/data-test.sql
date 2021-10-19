@@ -74,3 +74,42 @@ CREATE TABLE IF NOT EXISTS exercise_schedule(
     active_program_id bigint,
     FOREIGN KEY (active_program_id) REFERENCES active_program(id)
 );
+
+INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
+values ('TestName', 'TestSurname', '1980-03-12','m',86,'petrIvanov@mail.ru');
+INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
+values ('TestName', 'TestSurname', '1985-04-22','f',55,'olyaMak@mail.ru');
+INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
+values ('Andrey', 'Andreev', '1993-12-24','m',80,'admin@mail.ru');
+
+INSERT INTO category_of_fitness_program(short_name, description) values('TestCategory1', 'Description of TestCategory1');
+INSERT INTO category_of_fitness_program(short_name, description) values('TestCategory2', 'Description of TestCategory2');
+
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('TestProgram1', 10, 60, 90, 'm',2,'Description of TestProgram1',1);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('TestProgram2', 10, 30, 90, 'm',2,'Description of TestProgram2',1);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('TestProgram3', 10, 60, 70, 'm',2,'Description of TestProgram3',1);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('TestProgram1', 10, 40, 90, 'f',3,'Description of TestProgram1',2);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('TestProgram2', 10, 30, 90, 'f',3,'Description of TestProgram2',2);
+INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
+                            description, category_id)
+values('TestProgram3', 10, 40, 50, 'f',3,'Description of TestProgram3',2);
+
+INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays1',true,1,1 );
+INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays2',true,2,1 );
+INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays3',true,3,1 );
+INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays4',false,1,1 );
+
+INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2021-01-01',false);
+INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2011-04-01',false);
+INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2021-05-25',false);
+INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2021-01-01',false);

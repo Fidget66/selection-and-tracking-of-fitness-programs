@@ -28,7 +28,7 @@ public class FitnessProgramsSearcherDaoImpl implements FitnessProgramsSearcherDa
         Query query = entityManager.createNamedQuery("findFitnessProgramWithRestrictions",
                 FitnessProgram.class);
         LocalDate birthday = usersService.read(userId).getDateOfBirth();
-        LocalDate currentDate = LocalDate.now();;
+        LocalDate currentDate = LocalDate.now();
         int currentAge = Period.between(birthday, currentDate).getYears();
         query.setParameter("userId", userId)
                 .setParameter("categoryId", categoryId)

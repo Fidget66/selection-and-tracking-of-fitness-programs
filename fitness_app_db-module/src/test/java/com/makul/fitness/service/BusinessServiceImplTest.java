@@ -2,7 +2,6 @@ package com.makul.fitness.service;
 
 import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
 import com.makul.fitness.exceptions.BookmarkIsPresentException;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.ScheduleIsPresentException;
 import com.makul.fitness.model.*;
 import com.makul.fitness.service.api.*;
@@ -13,14 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class BusinessServiceImplTest {
