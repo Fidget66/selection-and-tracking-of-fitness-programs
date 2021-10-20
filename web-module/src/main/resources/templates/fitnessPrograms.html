@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>fitness programs</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<p><a href=/fitnessWeb-app>Return to main page</a></p>
+<h1>FITNESS PROGRAMS OF THE SELECTED CATEGORY</h1>
+<font size="2.5">
+    <table border="3" style="width:500px" width="100%">
+        <tr>
+            <th >ID</th>
+            <th >Название</th>
+            <th >Количество занятий</th>
+            <th >Ограничение по весу</th>
+            <th >Ограничение по возрасту</th>
+            <th >Ограничение по полу</th>
+            <th >Количество занятий в неделю</th>
+            <th >Описание</th>
+        </tr>
+        <tbody>
+        <tr th:each="programFit:${allPrograms}">
+            <td>
+                <span th:text="${programFit.id}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${programFit.shortName}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${programFit.duration}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${programFit.weightRestriction}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${programFit.ageRestriction}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${programFit.sexRestriction}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${programFit.exercisePerWeek}" ></span>
+            </td>
+
+            <td>
+                <a th:href="@{/category/fitness/program/{id}/description(id=${programFit.id})}" >
+                    View description
+                </a>
+            </td>
+
+            <td >
+                <a th:href="@{/category/fitness/program/{id}/reviews(id=${programFit.id})}" >
+                    View reviews
+                </a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</font>
+</body>
+</html>

@@ -21,7 +21,7 @@ public class FitnessProgramsSearcherServiceImpl implements FitnessProgramsSearch
     }
 
     @Override
-    public List<FitnessProgram> readFitnessProgramWithRestrictions(long userId, long categoryId, int duration) {
-        return fitnessSearcherDao.findFitnessProgramWithRestrictions(userId,categoryId,duration);
+    public List<FitnessProgram> readFitnessProgramWithRestrictions(long userId, int duration) {
+        return fitnessSearcherDao.findFitnessProgramWithRestrictions(userId,duration);
     }
 }

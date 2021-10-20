@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,5 +16,5 @@ public class Roles {
     private long id;
     private String roleName;
     @ManyToMany(mappedBy = "role")
-    private Set<UsersSecurity> user;
+    private List<UsersSecurity> user;
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>FitnessWeb-app application</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<h1>Hello, <span sec:authentication="name">Username</span></h1>
+<table width="100%">
+    <div sec:authorize="hasAuthority('Client')">
+        <p>
+          <h3><a href=client/account>Перейти в кабинет пользователя</a></h3>
+        </p>
+    </div>
+    <div sec:authorize="hasAuthority('Client')">
+        <p>
+        <h3><a href=category/fitness>Перейти к категориям</a></h3>
+        </p>
+    </div>
+    <div sec:authorize="hasAuthority('Client')">
+        <p>
+        <h3><a href=fitness/program/restrictions>Подобрать подходящие программы </a></h3>
+        </p>
+    </div>
+    <div sec:authorize="hasAuthority('Admin')">
+        <p>
+          <h3><a href=admin>Перейти в кабинет администратора</a></h3>
+        </p>
+    </div>
+</table>
+</body>
+</html>

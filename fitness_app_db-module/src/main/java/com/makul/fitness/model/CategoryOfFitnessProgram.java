@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,5 +17,5 @@ public class CategoryOfFitnessProgram {
     private String shortName;
     private String description;
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set <FitnessProgram> fitnessPrograms;
+    private List <FitnessProgram> fitnessPrograms;
 }

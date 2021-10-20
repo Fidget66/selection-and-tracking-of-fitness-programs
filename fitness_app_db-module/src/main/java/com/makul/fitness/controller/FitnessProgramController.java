@@ -19,7 +19,7 @@ public class FitnessProgramController {
     }
 
     @GetMapping("/program/fitness/{id}")
-    public FitnessProgramDto readFitnessProgram(@PathVariable long id){
+    public FitnessProgramDto readFitnessProgram(@PathVariable("id")long id){
         return objectMapper.convertValue(fitnessProgramService.read(id), FitnessProgramDto.class);
     }
 }

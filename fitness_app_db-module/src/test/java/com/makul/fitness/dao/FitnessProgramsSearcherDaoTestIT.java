@@ -18,7 +18,7 @@ class FitnessProgramsSearcherDaoTestIT {
 
     @Test
     void findFitnessProgramWithRestrictions() {
-        List <FitnessProgram> programList = searcherDao.findFitnessProgramWithRestrictions(1,1,10);
+        List <FitnessProgram> programList = searcherDao.findFitnessProgramWithRestrictions(1,10);
         Assertions.assertNotNull(programList);
         Assertions.assertEquals(1, programList.size());
     }

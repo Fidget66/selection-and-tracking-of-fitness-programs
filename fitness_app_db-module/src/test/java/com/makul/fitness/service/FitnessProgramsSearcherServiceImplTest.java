@@ -40,13 +40,13 @@ class FitnessProgramsSearcherServiceImplTest {
                 .generate(() -> getProgram())
                 .limit(3)
                 .collect(Collectors.toList());
-        Mockito.when(fitnessProgramsSearcherDao.findFitnessProgramWithRestrictions(1L,2L, 30))
+        Mockito.when(fitnessProgramsSearcherDao.findFitnessProgramWithRestrictions(1L, 30))
                 .thenReturn(fitnessProgramList);
-        List <FitnessProgram> actual = fitnessProgramsSearcherService.readFitnessProgramWithRestrictions(1,2,30);
+        List <FitnessProgram> actual = fitnessProgramsSearcherService.readFitnessProgramWithRestrictions(1,30);
         List <FitnessProgram> expected = fitnessProgramList;
         Assertions.assertEquals(expected, actual);
         Mockito.verify(fitnessProgramsSearcherDao,Mockito.times(1))
-                .findFitnessProgramWithRestrictions(1L, 2L, 30);
+                .findFitnessProgramWithRestrictions(1L,  30);
     }
 
     private FitnessProgram getProgram(){

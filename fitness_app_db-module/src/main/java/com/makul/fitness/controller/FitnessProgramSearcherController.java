@@ -22,18 +22,17 @@ public class FitnessProgramSearcherController {
     }
 
     @GetMapping("/category/{id}/program/fitness")
-    public List<FitnessProgramDto> readFitnessProgramList(@PathVariable long categoryId){
+    public List<FitnessProgramDto> readFitnessProgramList(@PathVariable("id") long categoryId){
         return fitnessSearcherService.readFitnessProgram(categoryId)
                 .stream()
                 .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram,FitnessProgramDto.class))
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("user/(userId)/category/{id}/program/fitness/{duration}")
-    public List<FitnessProgramDto> readFitnessProgramListWithRestrictions (@PathVariable long userId,
-                                                                           @PathVariable long categoryId,
-                                                                           @PathVariable int durationLimit){
-        return fitnessSearcherService.readFitnessProgramWithRestrictions(userId, categoryId, durationLimit)
+    @GetMapping("user/{userId}/program/fitness/{duration}")
+    public List<FitnessProgramDto> readFitnessProgramListWithRestrictions (@PathVariable("userId") long userId,
+                                                                           @PathVariable("duration") int durationLimit){
+        return fitnessSearcherService.readFitnessProgramWithRestrictions(userId, durationLimit)
                 .stream()
                 .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram,FitnessProgramDto.class))
                 .collect(Collectors.toList());

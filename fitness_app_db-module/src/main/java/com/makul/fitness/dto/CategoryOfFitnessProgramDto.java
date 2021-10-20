@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,5 +18,5 @@ public class CategoryOfFitnessProgramDto {
     @NotEmpty
     @Size(min = 20)
     private String description;
-    private Set <FitnessProgramDto> fitnessPrograms;
+    private List <FitnessProgramDto> fitnessPrograms;
 }
