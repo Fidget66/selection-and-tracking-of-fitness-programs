@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
-import com.makul.fitness.exceptions.BookmarkIsPresentException;
 import com.makul.fitness.exceptions.ScheduleIsPresentException;
 import com.makul.fitness.model.*;
 import com.makul.fitness.service.api.*;
@@ -46,30 +45,26 @@ class BusinessServiceImplTest {
         bookmark.setFitnessProgram(fitnessProgram);
         Mockito.when(usersService.read(1L)).thenReturn(user);
         Mockito.when(fitnessProgramService.read(2L)).thenReturn(fitnessProgram);
-        Mockito.when(bookmarkService.create(bookmark)).thenReturn(bookmark);
-        Bookmark actual = businessService.addBookmark(1, 2);
-        Bookmark expected = bookmark;
-        Assertions.assertEquals(expected, actual);
+        businessService.addBookmark(1, 2);
         Mockito.verify(usersService, Mockito.times(1)).read(1L);
         Mockito.verify(fitnessProgramService, Mockito.times(1)).read(2L);
         Mockito.verify(bookmarkService, Mockito.times(1)).create(bookmark);
     }
 
     @Test
-    void whenAddBookmark_throwException() {
+    void whenAddPresentBookmark_thenDidNotAdd() {
         Users user = getFilledUser();
         FitnessProgram fitnessProgram = getFitnessProgram();
         Bookmark bookmark = getBookmark();
         fitnessProgram.setId(3);
         bookmark.setFitnessProgram(fitnessProgram);
+        bookmark.setId(1);
         user.setBookmarks(List.of(bookmark));
         Mockito.when(usersService.read(1L)).thenReturn(user);
-        BookmarkIsPresentException bookmarkIsPresent = Assertions.assertThrows(BookmarkIsPresentException.class,
-                ()->businessService.addBookmark(1L,3L));
-        Assertions.assertEquals(bookmarkIsPresent.getMessage(),
-                "Такая закладка уже есть!");
+        Mockito.when(fitnessProgramService.read(2L)).thenReturn(fitnessProgram);
+        businessService.addBookmark(1, 2);
         Mockito.verify(usersService, Mockito.times(1)).read(1L);
-        Mockito.verify(fitnessProgramService, Mockito.times(0)).read(3L);
+        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(2L);
         Mockito.verify(bookmarkService, Mockito.times(0)).create(bookmark);
     }
 
@@ -157,7 +152,7 @@ class BusinessServiceImplTest {
         Review review = getReview();
         Mockito.when(fitnessProgramService.read(1L)).thenReturn(fitnessProgram);
         Mockito.when(reviewService.create(review)).thenReturn(review);
-        Review actual = businessService.addReview(1,1,review);
+        Review actual = businessService.addReview(1,review);
         Review expected = review;
         Assertions.assertEquals(expected, actual);
         Mockito.verify(fitnessProgramService, Mockito.times(1)).read(1L);
@@ -225,7 +220,9 @@ class BusinessServiceImplTest {
     }
 
     private Review getReview(){
-        return new Review();
+        Review review = new Review();
+        review.setAuthorId(1);
+        return review;
     }
 
     private CategoryOfFitnessProgram getCategory(){

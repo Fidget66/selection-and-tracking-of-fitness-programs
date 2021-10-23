@@ -113,3 +113,7 @@ INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2021-01-01',
 INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2011-04-01',false);
 INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2021-05-25',false);
 INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2021-01-01',false);
+
+INSERT INTO review(author_id, text, fitness_program_id) VALUES (1,'Test review 1',1);
+INSERT INTO review(author_id, text, fitness_program_id) VALUES (1,'Test review 2',2);
+INSERT INTO review(author_id, text, fitness_program_id) VALUES (1,'Test review 3',3);

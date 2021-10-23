@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>findByName</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<p><a href=/fitnessWeb-app>Return to main page</a></p>
+<h2>FIND USER BY NAME</h2>
+
+<form th:action ="@{blocking/users}" method="get">
+    <table border="1">
+        <tr>
+            <td>Имя пользователя</td>
+            <td><input type="text" minlength="1" placeholder="Сергей"  name="name" required/></td>
+        </tr>
+        <tr>
+            <td>Фамилия пользователя</td>
+            <td><input type="text" minlength="1" placeholder="Сергеев"  name="lastName" required/></td>
+        </tr>
+        <tr>
+           <td>
+               <button type="submit">Find users</button>
+           </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

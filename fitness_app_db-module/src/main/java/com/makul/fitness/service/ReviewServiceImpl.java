@@ -29,6 +29,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Review readReviewByUserIdFitnessId(long userId, long fitnessProgramId) {
+        return reviewDao.findReviewByUserIdFitnessId(userId,fitnessProgramId);
+    }
+
+    @Override
     @Transactional
     public Review update(Review inputReview) {
         Review review = read(inputReview.getId());

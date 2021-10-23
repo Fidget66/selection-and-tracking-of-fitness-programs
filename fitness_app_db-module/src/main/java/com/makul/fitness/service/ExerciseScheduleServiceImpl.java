@@ -29,10 +29,10 @@ public class ExerciseScheduleServiceImpl implements ExerciseScheduleService {
 
     @Override
     @Transactional
-    public ExerciseSchedule update(ExerciseSchedule exerciseSchedule) {
-        ExerciseSchedule outputSchedule = read(exerciseSchedule.getId());
-        outputSchedule.setComplited(exerciseSchedule.isComplited());
-        return exerciseScheduleDao.save(outputSchedule);
+    public ExerciseSchedule update(long exerciseId) {
+        ExerciseSchedule exercise = read(exerciseId);
+        exercise.setComplited(true);
+        return exerciseScheduleDao.save(exercise);
     }
 
     @Override

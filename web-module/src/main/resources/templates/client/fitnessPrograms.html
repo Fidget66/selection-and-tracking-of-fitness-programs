@@ -31,6 +31,9 @@
             <th >Ограничение по полу</th>
             <th >Количество занятий в неделю</th>
             <th >Описание</th>
+            <th >Отзывы</th>
+            <th >Добавить в закладки</th>
+            <th >Выбрать программу</th>
         </tr>
         <tbody>
         <tr th:each="programFit:${allPrograms}">
@@ -63,17 +66,24 @@
             </td>
 
             <td>
-                <a th:href="@{/category/fitness/program/{id}/description(id=${programFit.id})}" >
+                <a th:href="@{/client/category/fitness/program/{id}/description(id=${programFit.id})}" >
                     View description
                 </a>
             </td>
 
             <td >
-                <a th:href="@{/category/fitness/program/{id}/reviews(id=${programFit.id})}" >
+                <a th:href="@{/client/category/fitness/program/{id}/reviews(id=${programFit.id})}" >
                     View reviews
                 </a>
             </td>
-
+            <td >
+                <a th:href="@{/client/fitness/program/{id}/bookmark(id=${programFit.id})}"
+                   th:if="${bookmarkMarker}">add to bookmark</a>
+            </td>
+            <td >
+                <a th:href="@{/client/fitness/program/{id}/active/program (id=${programFit.id})}"
+                   th:if="${bookmarkMarker}">add to active</a>
+            </td>
         </tr>
         </tbody>
     </table>

@@ -28,6 +28,7 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
     public ActiveProgram update(ActiveProgram inputActiveProgram) {
         ActiveProgram activeProgram = read(inputActiveProgram.getId());
         activeProgram.setComplited(inputActiveProgram.isComplited());
+        if (inputActiveProgram.getDays().length()>6) activeProgram.setDays(inputActiveProgram.getDays());
         if (inputActiveProgram.getScheduleList().size()>0)
             activeProgram.setScheduleList(inputActiveProgram.getScheduleList());
         return activeProgramDao.save(activeProgram);

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>all bookmarks</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<p><a href=/fitnessWeb-app>Return to main page</a></p>
+<p><a th:href="@{${req}}">Return to previous page</a></p>
+<h1>BOOKMARKS</h1>
+<font size="2.5">
+    <table border="3" style="width:500px" width="100%">
+        <tr>
+            <th >N п/п</th>
+            <th >Название программы</th>
+            <th >Перейти к описанию</th>
+            <th >Удалить закладку</th>
+            <th >Выбрать программу</th>
+        </tr>
+        <tbody>
+        <tr th:each="bkm:${allBookmark}">
+            <td>
+                <span th:text="${bkm.id}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${bkm.fitnessProgram.shortName}" ></span>
+            </td>
+            <td >
+                <a th:href="@{/client/category/fitness/program/{id}/description (id=${bkm.fitnessProgram.id})}" >
+                    View description
+                </a>
+            </td>
+
+            <td >
+                <a th:href="@{/client/bookmark/{id} (id=${bkm.id})}">
+                    Delete bookmark
+                </a>
+            </td>
+            <td >
+                <a th:href="@{/client/fitness/program/{id}/active/program (id=${bkm.fitnessProgram.id})}">add to active</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</font>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>category</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<p><a href=/fitnessWeb-app>Return to main page</a></p>
+<h1>CREATE CATEGORY</h1>
+<form th:action="@{/admin/category}" th:object="${categoryDto}" method="post">
+
+    <div>
+        <h3>Короткое название:</h3>
+        <input type="text" th:field="${categoryDto.shortName}" />
+    </div>
+    <div>
+        <h3>Описание:</h3>
+        <textarea rows="15" cols="122" th:field="${categoryDto.description}" />
+    </div>
+
+    <div class="submit">
+        <button type="submit" name="Save category" />Save category</button>
+    </div>
+
+</form>
+
+</body>
+</html>

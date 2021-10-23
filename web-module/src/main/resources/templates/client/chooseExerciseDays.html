@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>fitness program description</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<p><a href=/fitnessWeb-app>Return to main page</a></p>
+<p><a th:href="@{${req}}">Return to previous page</a></p>
+<h2>Выберите желаемые дни занятий:</h2>
+ <form th:action="@{/client/program/active/__${activeId}__/schedule (activeId=${activeId})}"
+       th:object="${dayList}" method="post">
+        <tr th:each="n: ${#numbers.sequence(1, count)}" >
+            <select th:field="*{daysOfweek}">
+                <option th:each="day : ${daysOfWeek}"
+                        th:value="${day}"
+                        th:text="${day}">
+                </option>
+          </select>
+        </tr>
+     <div class="submit">
+         <button type="submit" name="Create schedule" />Create schedule</button>
+     </div>
+ </form>
+</body>
+</html>

@@ -15,6 +15,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long authorId;
+    private String authorName;
     private String text;
     @ManyToOne
     @JsonIgnore

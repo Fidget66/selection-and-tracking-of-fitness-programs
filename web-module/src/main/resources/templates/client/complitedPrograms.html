@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>complited programs</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<p><a href=/fitnessWeb-app>Return to main page</a></p>
+<h1>Complited Active Programs</h1>
+<font size="2.5">
+    <table border="3" style="width:500px" width="100%">
+        <tr>
+            <th >N п/п</th>
+            <th >Название программы</th>
+            <th >Отзыв  </th>
+            <th >Оставить отзыв</th>
+        </tr>
+        <tbody>
+        <tr th:each="ComplActProgr:${allComplActProgr}">
+            <td>
+                <span th:text="${ComplActProgr.id}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${ComplActProgr.fitnessProgram.shortName}" ></span>
+            </td>
+
+            <td th:each="usrRev:${ComplActProgr.fitnessProgram.reviews}">
+                <span th:text="${usrRev.text}" ></span>
+            </td>
+
+            <td >
+                <a th:href="@{/client/program/{id}/review (id=${ComplActProgr.fitnessProgram.id})}"
+                   th:if="${ComplActProgr.fitnessProgram.reviews.size()}==0">
+                    Add review
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</font>
+</body>
+</html>

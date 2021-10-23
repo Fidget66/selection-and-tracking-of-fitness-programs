@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makul.fitness.dto.ReviewDto;
 import com.makul.fitness.model.Review;
 import com.makul.fitness.service.api.ReviewService;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ReviewController {
@@ -23,5 +21,10 @@ public class ReviewController {
     public ReviewDto updateReview(@RequestBody ReviewDto reviewDto){
         Review review = objectMapper.convertValue(reviewDto, Review.class);
         return objectMapper.convertValue(reviewService.update(review), ReviewDto.class);
+    }
+
+    @GetMapping("/review/{id}")
+    public ReviewDto readReview(@PathVariable("id") long id){
+        return objectMapper.convertValue(reviewService.read(id), ReviewDto.class);
     }
 }

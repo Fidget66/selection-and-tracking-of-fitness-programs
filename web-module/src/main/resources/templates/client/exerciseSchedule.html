@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>schedule exercises</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<p><a href=/fitnessWeb-app>Return to main page</a></p>
+<h1>Your schedule list</h1>
+<font size="2.5">
+    <table border="3" style="width:500px" width="100%">
+        <tr>
+            <th >ID</th>
+            <th >Название программы</th>
+            <th >Дата занятия</th>
+            <th >Отметка о выполнении</th>
+            <th ></th>
+        </tr>
+        <tbody>
+        <tr th:each="schedLst:${exerciseList}">
+            <td>
+                <span th:text="${schedLst.id}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${schedLst.programShortName}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${schedLst.exerciseDate}" ></span>
+            </td>
+
+            <td>
+                <span th:text="${schedLst.isComplited()} ? 'Выполнено' : 'Не выполнено'" />
+            </td>
+            <td>
+                <a th:href="@{/client/program/active/{activeId}/schedule/{id} (activeId=${activeId},id=${schedLst.id})}"
+                   th:unless="${schedLst.isComplited()}" >
+                    Mark as complited
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</font>
+</body>
+</html>

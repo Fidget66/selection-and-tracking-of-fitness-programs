@@ -15,7 +15,7 @@ public class BookmarkController {
     }
 
     @DeleteMapping("/bookmark/{id}")
-    public void deleteBookmark(@PathVariable long id){
+    public void deleteBookmark(@PathVariable("id") long id){
         bookmarkService.delete(id);
     }
 }

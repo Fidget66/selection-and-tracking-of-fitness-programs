@@ -1,15 +1,15 @@
 package com.makul.fitness.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.makul.fitness.dto.ActiveProgramDto;
-import com.makul.fitness.dto.BookmarkDto;
-import com.makul.fitness.dto.FitnessProgramDto;
-import com.makul.fitness.dto.ReviewDto;
+import com.makul.fitness.dto.*;
 import com.makul.fitness.model.ActiveProgram;
 import com.makul.fitness.model.FitnessProgram;
 import com.makul.fitness.model.Review;
 import com.makul.fitness.service.api.BusinessService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BusinessController {
@@ -23,12 +23,22 @@ public class BusinessController {
     }
 
     @PostMapping("user/{userId}/bookmark/{fitnessId}")
-    public BookmarkDto addBookmark(@PathVariable long userId, @PathVariable long fitnessProgramId){
-        return objectMapper.convertValue(businessService.addBookmark(userId,fitnessProgramId), BookmarkDto.class);
+    public void addBookmark(@PathVariable("userId") long userId,
+                                   @PathVariable("fitnessId") long fitnessProgramId){
+       businessService.addBookmark(userId,fitnessProgramId);
     }
 
-    @PostMapping("user/{userId}/program/active/")
-    public ActiveProgramDto addActiveProgram(@PathVariable long userId, @PathVariable long fitnessProgramId){
+    @GetMapping("user/{userId}/bookmarks")
+    public List <BookmarkDto> showBookmarks(@PathVariable("userId") long userId){
+        return businessService.viewBookmarks(userId)
+                .stream()
+                .map(bookmark -> objectMapper.convertValue(bookmark, BookmarkDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("user/{userId}/program/active/{programId}")
+    public ActiveProgramDto addActiveProgram(@PathVariable("userId") long userId,
+                                             @PathVariable("programId") long fitnessProgramId){
         return objectMapper.convertValue(businessService.addActiveProgram(userId,fitnessProgramId),
                 ActiveProgramDto.class);
     }
@@ -47,10 +57,15 @@ public class BusinessController {
         return objectMapper.convertValue(businessService.createSchedule(activeProgram), ActiveProgramDto.class);
     }
 
-    @PostMapping("user/{userId}/program/fitness/{fitnessProgramId}/review")
-    public ReviewDto addReview(@PathVariable long userId, @PathVariable long fitnessProgramId,
+    @PostMapping("user/program/fitness/{fitnessProgramId}/review")
+    public ReviewDto addReview (@PathVariable long fitnessProgramId,
                                @RequestBody ReviewDto reviewDto){
         Review review = objectMapper.convertValue(reviewDto, Review.class);
-        return objectMapper.convertValue(businessService.addReview(userId,fitnessProgramId,review), ReviewDto.class);
+        return objectMapper.convertValue(businessService.addReview(fitnessProgramId,review), ReviewDto.class);
+    }
+
+    @PutMapping("/schedule/exercise/{id}")
+    public ExerciseScheduleDto updateSchedule(@PathVariable("id") long exerciseId){
+       return objectMapper.convertValue(businessService.updateExercise(exerciseId),ExerciseScheduleDto.class);
     }
 }

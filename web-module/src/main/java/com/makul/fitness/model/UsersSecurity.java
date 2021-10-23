@@ -20,7 +20,6 @@ public class UsersSecurity {
     private String login;
     @NotNull
     private String password;
-    private boolean isAccountNonLocked;
     private long userId;
     @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinTable(

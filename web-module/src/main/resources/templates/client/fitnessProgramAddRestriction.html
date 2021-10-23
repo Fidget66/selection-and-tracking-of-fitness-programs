@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>Fitness program restriction</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<p><a href=/fitnessWeb-app>Return to main page</a></p>
+<h1>Программы будут подобраны с учетом Ваших параметров и желаемого количества занятий</h1>
+<form action="restrictions/duration" method="get">
+    <td>
+        <input type="number" min="1" step="1" name="durationLim" placeholder="Введите количество занятий" required/>
+    </td>
+    <td>
+        <input type="submit" value="Find program"/>
+    </td>
+</form>
+
+</body>

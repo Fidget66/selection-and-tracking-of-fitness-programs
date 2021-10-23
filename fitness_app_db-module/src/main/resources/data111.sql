@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS fitness_program(
 
 CREATE TABLE IF NOT EXISTS review(
     id bigserial NOT NULL,
+    author_name varchar,
     author_id bigint,
     text varchar,
     fitness_program_id bigint,
@@ -69,6 +70,7 @@ CREATE TABLE IF NOT EXISTS active_program(
 
 CREATE TABLE IF NOT EXISTS exercise_schedule(
     id bigserial NOT NULL,
+    program_short_name varchar(255),
     exercise_date date,
     is_complited boolean,
     active_program_id bigint,
@@ -201,7 +203,11 @@ INSERT INTO bookmark (fitness_program_id, user_id) values (5,2);
 
 INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;FRIDAY;SUNDAY',true,6,1);
 INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SATURDAY',false,1,1);
+INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;FRIDAY;SUNDAY',true,4,2);
+INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SATURDAY',false,5,2);
 
-INSERT INTO review (author_id, text, fitness_program_id) VALUES (1,'Отличная программа упражнений. Рекомендую!',6);
+INSERT INTO review (author_id, author_name, text, fitness_program_id) VALUES (1,'Petr' ,'Отличная программа упражнений. Рекомендую!',6);
+INSERT INTO review (author_id, author_name, text, fitness_program_id) VALUES (1,'Petr' ,'Мне понравилось', 4);
+INSERT INTO review (author_id, author_name, text, fitness_program_id) VALUES (2,'Olya','Программа подойдет для всех',4);
 
-INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-10-19',false,2)
+INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-10-19',false,2);

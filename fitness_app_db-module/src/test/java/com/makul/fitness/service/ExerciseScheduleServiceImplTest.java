@@ -43,7 +43,7 @@ class ExerciseScheduleServiceImplTest {
         ExerciseSchedule exerciseSchedule = getSchedule();
         Mockito.when(scheduleDao.findById(1L)).thenReturn(Optional.ofNullable(exerciseSchedule));
         Mockito.when(scheduleDao.save(exerciseSchedule)).thenReturn(exerciseSchedule);
-        ExerciseSchedule actual = scheduleService.update(exerciseSchedule);
+        ExerciseSchedule actual = scheduleService.update(1L);
         ExerciseSchedule expected = exerciseSchedule;
         Assertions.assertEquals(expected,actual);
         Mockito.verify(scheduleDao, Mockito.times(1)).findById(1L);

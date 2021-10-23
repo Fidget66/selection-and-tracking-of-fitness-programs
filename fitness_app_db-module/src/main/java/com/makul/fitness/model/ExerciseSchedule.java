@@ -15,6 +15,7 @@ public class ExerciseSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String programShortName;
     private LocalDate exerciseDate;
     private boolean isComplited;
     @ManyToOne

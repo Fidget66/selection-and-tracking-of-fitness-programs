@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class ReviewDto {
     private long id;
+    private String authorName;
     @NotEmpty
     @Min(1)
     private long authorId;

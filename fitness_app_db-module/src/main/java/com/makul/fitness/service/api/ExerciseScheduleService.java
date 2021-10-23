@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ExerciseScheduleService {
     List<ExerciseSchedule> createAll(List<ExerciseSchedule> scheduleList);
-    ExerciseSchedule update(ExerciseSchedule exerciseSchedule);
+    ExerciseSchedule update(long exerciseId);
     ExerciseSchedule read(long id);
     List<ExerciseSchedule> readExerciseByDate(LocalDate currentDate);
 }

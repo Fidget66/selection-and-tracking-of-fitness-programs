@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <title>fitness program description</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td width="5%" align="right">Username:</td>
+        <th width="45%" align="left"><span sec:authentication="name">Username</span></th>
+        <th width="50%" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+        </th>
+    </tr>
+</table>
+<p><a href=/fitnessWeb-app>Return to main page</a></p>
+<p><a th:href="@{${req}}">Return to previous page</a></p>
+<h2>Моя программа занятий:</h2>
+<h3>Название:</h3>
+<p th:text="${actProgr.fitnessProgram.getShortName()}" />
+<h3>Описание:</h3>
+<p th:text="${actProgr.fitnessProgram.getDescription()}"/>
+<h3>Перейти к расписанию:</h3>
+<p><a th:href="@{/client/program/active/{activeId}/schedule (activeId=${actProgr.getId()})}"
+      th:if="${actProgr.getScheduleList().size()} > 0">Open Schedule</a>
+</p>
+<p><a th:href="@{/client/program/active/{id}/schedule/new/{quantity} (id=${actProgr.getId()},
+                    quantity=${actProgr.getFitnessProgram().getExercisePerWeek()})}"
+      th:if="${actProgr.getScheduleList().size()} < 1">Create Schedule</a>
+</p>
+</body>
+</html>

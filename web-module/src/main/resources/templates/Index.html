@@ -18,7 +18,12 @@
         </th>
     </tr>
 </table>
-<h1>Hello, <span sec:authentication="name">Username</span></h1>
+<div sec:authorize="hasAnyAuthority('Admin','Client')">
+    <h1>Hello, <span sec:authentication="name">Username</span></h1>
+</div>
+<div sec:authorize="hasAuthority('Blocked')">
+    <h1> <span sec:authentication="name">Username</span>, you are blocked by Administrator</h1>
+</div>
 <table width="100%">
     <div sec:authorize="hasAuthority('Client')">
         <p>
@@ -27,17 +32,32 @@
     </div>
     <div sec:authorize="hasAuthority('Client')">
         <p>
-        <h3><a href=category/fitness>Перейти к категориям</a></h3>
+        <h3><a href=client/category/fitness>Перейти к категориям</a></h3>
         </p>
     </div>
     <div sec:authorize="hasAuthority('Client')">
         <p>
-        <h3><a href=fitness/program/restrictions>Подобрать подходящие программы </a></h3>
+        <h3><a href=client/fitness/program/restrictions>Подобрать подходящие программы </a></h3>
         </p>
     </div>
     <div sec:authorize="hasAuthority('Admin')">
         <p>
-          <h3><a href=admin>Перейти в кабинет администратора</a></h3>
+          <h3><a href=admin/category>Добавить категорию</a></h3>
+        </p>
+    </div>
+    <div sec:authorize="hasAuthority('Admin')">
+        <p>
+        <h3><a href=admin/category/program>Добавить фитнесс программу</a></h3>
+        </p>
+    </div>
+    <div sec:authorize="hasAuthority('Admin')">
+        <p>
+        <h3><a href=admin/blocking>Блокировка пользователей</a></h3>
+        </p>
+    </div>
+    <div sec:authorize="hasAuthority('Admin')">
+        <p>
+        <h3><a href=admin/category/program/reviews>Модерирование отзывов о программе</a></h3>
         </p>
     </div>
 </table>
