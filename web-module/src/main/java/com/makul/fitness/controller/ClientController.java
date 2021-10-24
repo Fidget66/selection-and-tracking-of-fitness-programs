@@ -91,7 +91,7 @@ public class ClientController {
     @GetMapping("/client/program/{id}/review")
     public String createReview (@PathVariable ("id") long fitnessProgrammId, Model model){
         model.addAttribute("fitnessId", fitnessProgrammId);
-        return "review";
+        return "/client/review";
     }
 
     @PostMapping("/client/review/save/{fitnessId}")

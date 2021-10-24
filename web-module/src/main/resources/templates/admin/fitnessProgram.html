@@ -1,8 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <title>fitness program</title>
+    <meta charset="UTF-8" />
+    <title>Fitness Program</title>
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
 <table width="100%">
@@ -18,9 +20,8 @@
 </table>
 <p><a href=/fitnessWeb-app>Return to main page</a></p>
 <p><a th:href="@{${req}}">Return to previous page</a></p>
-<h1>CREATE CATEGORY</h1>
+<h1>CREATE FITNESS PROGRAM</h1>
 <form th:object="${fitnessProgramDto}" method="post">
-
     <div>
         <h3>Короткое название:</h3>
         <textarea rows="1" cols="50"  th:field="${fitnessProgramDto.shortName}"/>
@@ -55,6 +56,5 @@
         <button type="submit" name="Save program" />Save program</button>
     </div>
 </form>
-
 </body>
 </html>
