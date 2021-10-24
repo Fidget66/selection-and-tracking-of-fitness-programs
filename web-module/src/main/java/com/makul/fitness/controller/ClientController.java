@@ -94,7 +94,7 @@ public class ClientController {
         return "/client/review";
     }
 
-    @PostMapping("/client/review/save/{fitnessId}")
+    @PostMapping("/client/review/{fitnessId}")
     public String saveReview (@PathVariable ("fitnessId") long fitnessProgrammId, @ModelAttribute ReviewDto review){
         clientService.addReview(fitnessProgrammId,review);
         return "redirect:/client/account";

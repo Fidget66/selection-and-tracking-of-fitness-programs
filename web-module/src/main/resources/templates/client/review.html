@@ -20,7 +20,7 @@
 </table>
 <p><a href=/fitnessWeb-app>Return to main page</a></p>
 <h1>CREATE REVIEW</h1>
-<form th:action="@{/client/review/save/__${fitnessId}__}" th:object="${reviewDto}" method="post">
+<form th:action="@{/client/review/__${fitnessId}__}" th:object="${reviewDto}" method="post">
 
         <div>
             <input type="text" th:field="*{id}" th:hidden="true"/>
