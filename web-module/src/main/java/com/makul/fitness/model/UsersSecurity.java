@@ -1,6 +1,7 @@
 package com.makul.fitness.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsersSecurity {
@@ -16,9 +18,7 @@ public class UsersSecurity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(unique = true)
-    @NotNull
     private String login;
-    @NotNull
     private String password;
     private long userId;
     @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)

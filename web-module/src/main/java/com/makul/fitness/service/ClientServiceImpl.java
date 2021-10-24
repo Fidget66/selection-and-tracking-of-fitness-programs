@@ -1,10 +1,10 @@
 package com.makul.fitness.service;
 
-import com.makul.fitness.dao.UsersSecurityDao;
 import com.makul.fitness.dto.*;
 import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
 import com.makul.fitness.exceptions.IncorrectNumberOfDaysException;
 import com.makul.fitness.service.api.ClientService;
+import com.makul.fitness.service.api.UsersSecurityService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,12 +17,12 @@ import java.util.Set;
 public class ClientServiceImpl implements ClientService {
 
     private final RestTemplate restTemplate;
-    private final UsersSecurityDao securityDao;
+    private final UsersSecurityService securityService;
     private final String baseURL = "http://localhost:8124/fitnessDB-app/";
 
-    public ClientServiceImpl(RestTemplate restTemplate, UsersSecurityDao securityDao) {
+    public ClientServiceImpl(RestTemplate restTemplate, UsersSecurityService securityService) {
         this.restTemplate = restTemplate;
-        this.securityDao = securityDao;
+        this.securityService = securityService;
     }
 
     @Override
@@ -147,6 +147,6 @@ public class ClientServiceImpl implements ClientService {
 
     private long getUserId(){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        return securityDao.findByLogin(login).getUserId();
+        return securityService.readByLogin(login).getUserId();
     }
 }

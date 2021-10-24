@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8" />
+    <title>Registration</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        h5 {
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+<body>
+<p><a href=/fitnessWeb-app>Return to login</a></p>
+<h1>Registration Form</h1>
+<form th:action="@{/registration/user}" th:object="${userDto}" method="post">
+    <fieldset>
+        <div>
+            <h5>Логин:</h5>
+            <input type="text" th:field="${userDto.login}" />
+        </div>
+        <div>
+            <h5>Пароль:</h5>
+            <input type="text" th:field="${userDto.password}" />
+        </div>
+        <div>
+            <h5>Имя:</h5>
+            <input type="text" th:field="${userDto.firstName}" />
+        </div>
+        <div>
+            <h5>Фамилия:</h5>
+            <input type="text" th:field="${userDto.lastName}" />
+        </div>
+        <div>
+            <h5>Дата рождения:</h5>
+            <input type="date" th:field="${userDto.dateOfBirth}" />
+        </div>
+        <div>
+            <h5>Пол:</h5>
+            <input type="text" maxlength="1" th:field="${userDto.sex}"
+                   required pattern="[mf]"/>
+        </div>
+        <div>
+            <h5>Вес:</h5>
+            <input type="number" th:field="${userDto.weight}" />
+        </div>
+        <div>
+            <h5>Электронная почта:</h5>
+            <input type="text" th:field="${userDto.email}" />
+        </div>
+
+        <div class="submit">
+            <button type="submit" name="Save changes" />Register me</button>
+        </div>
+    </fieldset>
+</form>
+
+</body>
+</html>

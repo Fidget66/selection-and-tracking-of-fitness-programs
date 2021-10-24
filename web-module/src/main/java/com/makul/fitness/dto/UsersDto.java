@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -15,6 +16,12 @@ import java.util.List;
 public class UsersDto {
     private long id;
     @NotEmpty
+    @Size(min = 6)
+    private String login;
+    @NotEmpty
+    @Size(min = 6)
+    private String password;
+    @NotEmpty
     @Size(min = 3, max = 80)
     private String firstName;
     @NotEmpty
@@ -22,7 +29,7 @@ public class UsersDto {
     private String lastName;
     @NotEmpty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    //@DateTimeFormat( pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", iso = DateTimeFormat.ISO.DATE_TIME )
+    @DateTimeFormat( pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE_TIME )
     private LocalDate dateOfBirth;
     @NotEmpty
     @Size(min = 1, max = 1)
