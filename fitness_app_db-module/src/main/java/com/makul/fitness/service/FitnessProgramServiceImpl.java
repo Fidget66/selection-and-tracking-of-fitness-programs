@@ -24,7 +24,7 @@ public class FitnessProgramServiceImpl implements FitnessProgramService {
 
     @Override
     public FitnessProgram read(long id) {
-        if (id<1) throw new IncorrectDataException("FitnessProgram id");
-        return fitnessProgramDao.findById(id).orElseThrow(()->new NoEntityException("FitnessProgram"));
+        if (id<1) throw new IncorrectDataException("Fitness Program id");
+        return fitnessProgramDao.findById(id).orElseThrow(()->new NoEntityException("Fitness Program"));
     }
 }

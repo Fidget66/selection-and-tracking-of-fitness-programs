@@ -1,7 +1,7 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dto.*;
-import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
+import com.makul.fitness.exceptions.ActiveProgramNotPresentException;
 import com.makul.fitness.exceptions.IncorrectNumberOfDaysException;
 import com.makul.fitness.service.api.ClientService;
 import com.makul.fitness.service.api.UsersSecurityService;
@@ -55,7 +55,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void addToBookMarks(long fitnessProgramId) {
-        restTemplate.postForLocation(baseURL+"user/"+ getUserId() + "/bookmark/" + fitnessProgramId,
+        restTemplate.getForObject(baseURL+"user/"+ getUserId() + "/bookmark/" + fitnessProgramId,
                 BookmarkDto.class);
     }
 
@@ -100,7 +100,7 @@ public class ClientServiceImpl implements ClientService {
     public ActiveProgramDto readUserActiveProgram() {
         ActiveProgramDto activeProgramDto = restTemplate
                 .getForObject(baseURL+"/user/"+ getUserId() + "/program/active", ActiveProgramDto.class);
-        if (Objects.isNull(activeProgramDto)) throw new ActiveProgramIsPresentException();
+        if (Objects.isNull(activeProgramDto)) throw new ActiveProgramNotPresentException();
         return activeProgramDto;
     }
 
@@ -114,8 +114,7 @@ public class ClientServiceImpl implements ClientService {
         for (String day: days) {
             activeProgramDto.setDays(activeProgramDto.getDays()+day+";");
         }
-        System.out.println(activeProgramDto.getDays());
-        restTemplate.put(baseURL + "admin/program/fitness/schedule",activeProgramDto);
+        restTemplate.put(baseURL + "program/fitness/schedule",activeProgramDto);
     }
 
     @Override
@@ -128,13 +127,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void updateSchedule(long exerciseId) {
-        restTemplate.put(baseURL + "schedule/exercise/" + exerciseId,null);
+        restTemplate.getForObject(baseURL + "schedule/exercise/" + exerciseId,
+                ExerciseScheduleDto.class);
     }
 
     @Override
     public void addActiveProgram(long fitnessProgramId) {
-        restTemplate.postForLocation(baseURL + "user/" + getUserId() + "/program/active/" + fitnessProgramId,
-                null);
+        restTemplate.getForObject(baseURL + "user/" + getUserId() + "/program/active/" + fitnessProgramId,
+                ActiveProgramDto.class);
     }
 
     @Override

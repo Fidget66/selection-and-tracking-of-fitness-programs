@@ -79,12 +79,11 @@ public class BusinessServiceImpl implements BusinessService {
             if (restriction==0){
                 activeProgram.setUser(user);
                 return activeProgramService.create(activeProgram);
-            } else if (restriction > 0) throw new ActiveProgramIsPresentException();
+            } else throw new ActiveProgramIsPresentException();
         }else{
             activeProgram.setUser(user);
             return activeProgramService.create(activeProgram);
         }
-        return null;
     }
 
     @Override

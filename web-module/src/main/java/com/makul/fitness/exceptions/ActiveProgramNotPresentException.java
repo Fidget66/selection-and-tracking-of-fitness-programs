@@ -1,7 +1,7 @@
 package com.makul.fitness.exceptions;
 
-public class ActiveProgramIsPresentException extends RuntimeException{
-    public ActiveProgramIsPresentException(){
+public class ActiveProgramNotPresentException extends RuntimeException{
+    public ActiveProgramNotPresentException(){
         super("У вас нет незавершенных программ");
     }
 }

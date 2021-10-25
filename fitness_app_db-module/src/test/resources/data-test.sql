@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS review(
     author_id bigint,
     text varchar,
     fitness_program_id bigint,
+    author_name varchar,
     PRIMARY KEY (id),
     FOREIGN KEY (fitness_program_id) REFERENCES fitness_program(id)
 );
@@ -72,6 +73,7 @@ CREATE TABLE IF NOT EXISTS exercise_schedule(
     exercise_date date,
     is_complited boolean,
     active_program_id bigint,
+    program_short_name varchar,
     FOREIGN KEY (active_program_id) REFERENCES active_program(id)
 );
 
@@ -96,24 +98,26 @@ INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restri
 values('TestProgram3', 10, 60, 70, 'm',2,'Description of TestProgram3',1);
 INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
                             description, category_id)
-values('TestProgram1', 10, 40, 90, 'f',3,'Description of TestProgram1',2);
+values('TestProgram4', 10, 40, 90, 'f',3,'Description of TestProgram1',2);
 INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
                             description, category_id)
-values('TestProgram2', 10, 30, 90, 'f',3,'Description of TestProgram2',2);
+values('TestProgram5', 10, 30, 90, 'f',3,'Description of TestProgram2',2);
 INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
                             description, category_id)
-values('TestProgram3', 10, 40, 50, 'f',3,'Description of TestProgram3',2);
+values('TestProgram6', 10, 40, 50, 'f',3,'Description of TestProgram3',2);
 
 INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays1',true,1,1 );
 INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays2',true,2,1 );
 INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays3',true,3,1 );
 INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays4',false,1,1 );
 
-INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2021-01-01',false);
-INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2011-04-01',false);
-INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2021-05-25',false);
-INSERT INTO exercise_schedule(exercise_date, is_complited) values ('2021-01-01',false);
+INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-01-01',false, 1);
+INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2011-04-01',false, 1);
+INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-05-25',false, 1);
+INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-01-01',false, 1);
 
 INSERT INTO review(author_id, text, fitness_program_id) VALUES (1,'Test review 1',1);
 INSERT INTO review(author_id, text, fitness_program_id) VALUES (1,'Test review 2',2);
 INSERT INTO review(author_id, text, fitness_program_id) VALUES (1,'Test review 3',3);
+
+INSERT INTO bookmark(fitness_program_id, user_id) VALUES (1,1);

@@ -39,47 +39,6 @@ class BookmarkServiceImplTest {
     }
 
     @Test
-    void whenRead_returnBookmark() {
-        Bookmark bookmark = getBookmark();
-        Mockito.when(bookmarkDao.findById(1L)).thenReturn(Optional.ofNullable(bookmark));
-        Bookmark actual = bookmarkService.read(1L);
-        Bookmark expected = bookmark;
-        Assertions.assertEquals(expected, actual);
-        Mockito.verify(bookmarkDao, Mockito.times(1)).findById(1L);
-    }
-
-    @Test
-    void whenRead_throwException() {
-        Bookmark bookmark = getBookmark();
-        Mockito.when(bookmarkDao.findById(4L)).thenReturn(Optional.empty());
-        NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
-                ()->bookmarkService.read(4L));
-        Assertions.assertEquals(noEntityException.getMessage(),
-                "Такой записи для Bookmark в базе данных не существует");
-        Mockito.verify(bookmarkDao, Mockito.times(1)).findById(4L);
-
-        IncorrectDataException incorrectDataException = Assertions.assertThrows(IncorrectDataException.class,
-                ()->bookmarkService.read(-1L));
-        Assertions.assertEquals(incorrectDataException.getMessage(),
-                "Введены некорректные данные для Bookmark id");
-        Mockito.verify(bookmarkDao, Mockito.times(0)).findById(-1L);
-    }
-
-
-    @Test
-    void whenReadAll_returnListBookmark() {
-        List <Bookmark> bookmarks = Stream
-                .generate(() -> getBookmark())
-                .limit(3)
-                .collect(Collectors.toList());
-        Mockito.when(bookmarkDao.findAll()).thenReturn(bookmarks);
-        List <Bookmark> actual = bookmarkService.readAll();
-        List <Bookmark> expected = bookmarks;
-        Assertions.assertEquals(expected, actual);
-        Mockito.verify(bookmarkDao, Mockito.times(1)).findAll();
-    }
-
-    @Test
     void whenDelete_thenOk() {
         bookmarkService.delete(2L);
         Mockito.verify(bookmarkDao, Mockito.times(1)).deleteById(2L);
@@ -88,7 +47,7 @@ class BookmarkServiceImplTest {
     @Test
     void whenDelete_throwException() {
         IncorrectDataException incorrectDataException = Assertions.assertThrows(IncorrectDataException.class,
-                ()->bookmarkService.read(-2L));
+                ()->bookmarkService.delete(-2L));
         Assertions.assertEquals(incorrectDataException.getMessage(),
                 "Введены некорректные данные для Bookmark id");
         Mockito.verify(bookmarkDao, Mockito.times(0)).deleteById(-2L);

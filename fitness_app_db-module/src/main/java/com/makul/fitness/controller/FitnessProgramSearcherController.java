@@ -29,7 +29,7 @@ public class FitnessProgramSearcherController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("user/{userId}/program/fitness/{duration}")
+    @GetMapping("/user/{userId}/program/fitness/{duration}")
     public List<FitnessProgramDto> readFitnessProgramListWithRestrictions (@PathVariable("userId") long userId,
                                                                            @PathVariable("duration") int durationLimit){
         return fitnessSearcherService.readFitnessProgramWithRestrictions(userId, durationLimit)

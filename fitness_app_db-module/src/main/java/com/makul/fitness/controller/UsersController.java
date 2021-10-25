@@ -30,7 +30,7 @@ public class UsersController {
     }
 
     @GetMapping(value = "/user/{firstName}/{lastName}")
-    public List<UsersDto> readUserById(@PathVariable String firstName, @PathVariable String lastName){
+    public List<UsersDto> readUserByNameLastName(@PathVariable String firstName, @PathVariable String lastName){
         return usersService.readUserByFirstLastName(firstName,lastName)
                 .stream()
                 .map(users -> objectMapper.convertValue(users,UsersDto.class))

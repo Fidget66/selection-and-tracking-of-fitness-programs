@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class ActiveProgramSearecherController {
+public class ActiveProgramSearcherController {
 
     private final ObjectMapper objectMapper;
     private final ActiveProgramSearcherService activeSearcher;
 
-    public ActiveProgramSearecherController(ObjectMapper objectMapper, ActiveProgramSearcherService activeSearcher) {
+    public ActiveProgramSearcherController(ObjectMapper objectMapper, ActiveProgramSearcherService activeSearcher) {
         this.objectMapper = objectMapper;
         this.activeSearcher = activeSearcher;
     }

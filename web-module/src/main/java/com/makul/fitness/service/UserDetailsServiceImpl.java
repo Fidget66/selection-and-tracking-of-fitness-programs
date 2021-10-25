@@ -2,7 +2,6 @@ package com.makul.fitness.service;
 
 import com.makul.fitness.config.UserDetail;
 import com.makul.fitness.dao.UsersSecurityDao;
-import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
 import com.makul.fitness.model.UsersSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

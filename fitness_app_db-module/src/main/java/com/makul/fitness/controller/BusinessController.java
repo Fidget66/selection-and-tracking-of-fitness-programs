@@ -22,7 +22,7 @@ public class BusinessController {
         this.objectMapper = objectMapper;
     }
 
-    @PostMapping("user/{userId}/bookmark/{fitnessId}")
+    @GetMapping("user/{userId}/bookmark/{fitnessId}")
     public void addBookmark(@PathVariable("userId") long userId,
                                    @PathVariable("fitnessId") long fitnessProgramId){
        businessService.addBookmark(userId,fitnessProgramId);
@@ -36,7 +36,7 @@ public class BusinessController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("user/{userId}/program/active/{programId}")
+    @GetMapping ("user/{userId}/program/active/{programId}")
     public ActiveProgramDto addActiveProgram(@PathVariable("userId") long userId,
                                              @PathVariable("programId") long fitnessProgramId){
         return objectMapper.convertValue(businessService.addActiveProgram(userId,fitnessProgramId),
@@ -51,7 +51,7 @@ public class BusinessController {
                 FitnessProgramDto.class);
     }
 
-    @PutMapping("admin/program/fitness/schedule")
+    @PutMapping("program/fitness/schedule")
     public ActiveProgramDto createScheduleList(@RequestBody ActiveProgramDto activeProgramDto){
         ActiveProgram activeProgram = objectMapper.convertValue(activeProgramDto, ActiveProgram.class);
         return objectMapper.convertValue(businessService.createSchedule(activeProgram), ActiveProgramDto.class);
@@ -64,7 +64,7 @@ public class BusinessController {
         return objectMapper.convertValue(businessService.addReview(fitnessProgramId,review), ReviewDto.class);
     }
 
-    @PutMapping("/schedule/exercise/{id}")
+    @GetMapping("schedule/exercise/{id}")
     public ExerciseScheduleDto updateSchedule(@PathVariable("id") long exerciseId){
        return objectMapper.convertValue(businessService.updateExercise(exerciseId),ExerciseScheduleDto.class);
     }

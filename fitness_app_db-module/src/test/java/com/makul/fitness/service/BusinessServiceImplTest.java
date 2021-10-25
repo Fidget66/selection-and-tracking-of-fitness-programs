@@ -151,6 +151,7 @@ class BusinessServiceImplTest {
         FitnessProgram fitnessProgram = getFitnessProgram();
         Review review = getReview();
         Mockito.when(fitnessProgramService.read(1L)).thenReturn(fitnessProgram);
+        Mockito.when(usersService.read(1L)).thenReturn(getFilledUser());
         Mockito.when(reviewService.create(review)).thenReturn(review);
         Review actual = businessService.addReview(1,review);
         Review expected = review;

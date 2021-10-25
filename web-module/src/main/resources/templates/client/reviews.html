@@ -30,8 +30,9 @@
         <tbody>
         <tr th:each="rev:${reviewList}">
             <td>
-                <a th:href="@{/user/{id}/account (id=${rev.authorId})}"
-                th:text= "${rev.authorName}" />
+<!--                <a th:href="@{/user/{id}/account (id=${rev.authorId})}"-->
+<!--                th:text= "${rev.authorName}" />-->
+                <span th:text= "${rev.authorName}" />
             </td>
 
             <td>
