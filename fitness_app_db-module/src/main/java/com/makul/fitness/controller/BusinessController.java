@@ -7,7 +7,6 @@ import com.makul.fitness.model.FitnessProgram;
 import com.makul.fitness.model.Review;
 import com.makul.fitness.service.api.BusinessService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,13 +21,13 @@ public class BusinessController {
         this.objectMapper = objectMapper;
     }
 
-    @GetMapping("user/{userId}/bookmark/{fitnessId}")
-    public void addBookmark(@PathVariable("userId") long userId,
+    @GetMapping("/user/{userId}/bookmark/{fitnessId}")
+    public BookmarkDto addBookmark(@PathVariable("userId") long userId,
                                    @PathVariable("fitnessId") long fitnessProgramId){
-       businessService.addBookmark(userId,fitnessProgramId);
+     return objectMapper.convertValue(businessService.addBookmark(userId,fitnessProgramId), BookmarkDto.class);
     }
 
-    @GetMapping("user/{userId}/bookmarks")
+    @GetMapping("/user/{userId}/bookmarks")
     public List <BookmarkDto> showBookmarks(@PathVariable("userId") long userId){
         return businessService.viewBookmarks(userId)
                 .stream()
@@ -36,14 +35,14 @@ public class BusinessController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping ("user/{userId}/program/active/{programId}")
+    @GetMapping ("/user/{userId}/program/active/{programId}")
     public ActiveProgramDto addActiveProgram(@PathVariable("userId") long userId,
                                              @PathVariable("programId") long fitnessProgramId){
         return objectMapper.convertValue(businessService.addActiveProgram(userId,fitnessProgramId),
                 ActiveProgramDto.class);
     }
 
-    @PostMapping("category/{categoryId}/program/fitness")
+    @PostMapping("/category/{categoryId}/program/fitness")
     public FitnessProgramDto addFitnessProgram(@PathVariable long categoryId,
                                                @RequestBody FitnessProgramDto fitnessProgramDto){
         FitnessProgram fitnessProgram = objectMapper.convertValue(fitnessProgramDto, FitnessProgram.class);
@@ -51,20 +50,20 @@ public class BusinessController {
                 FitnessProgramDto.class);
     }
 
-    @PutMapping("program/fitness/schedule")
+    @PutMapping("/program/fitness/schedule")
     public ActiveProgramDto createScheduleList(@RequestBody ActiveProgramDto activeProgramDto){
         ActiveProgram activeProgram = objectMapper.convertValue(activeProgramDto, ActiveProgram.class);
         return objectMapper.convertValue(businessService.createSchedule(activeProgram), ActiveProgramDto.class);
     }
 
-    @PostMapping("user/program/fitness/{fitnessProgramId}/review")
+    @PostMapping("/user/program/fitness/{fitnessProgramId}/review")
     public ReviewDto addReview (@PathVariable long fitnessProgramId,
                                @RequestBody ReviewDto reviewDto){
         Review review = objectMapper.convertValue(reviewDto, Review.class);
         return objectMapper.convertValue(businessService.addReview(fitnessProgramId,review), ReviewDto.class);
     }
 
-    @GetMapping("schedule/exercise/{id}")
+    @GetMapping("/schedule/exercise/{id}")
     public ExerciseScheduleDto updateSchedule(@PathVariable("id") long exerciseId){
        return objectMapper.convertValue(businessService.updateExercise(exerciseId),ExerciseScheduleDto.class);
     }

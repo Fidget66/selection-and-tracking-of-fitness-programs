@@ -43,6 +43,12 @@ public class AppExceptionHandling extends ResponseEntityExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(BookmarkIsPresentException.class)
+    private ResponseEntity<ApiError> handleBookmarkIsPresentException(BookmarkIsPresentException exception) {
+        return new ResponseEntity<>(getApiError(exception,HttpStatus.BAD_REQUEST),
+                HttpStatus.BAD_REQUEST);
+    }
+
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
                                                                    HttpStatus status, WebRequest request) {

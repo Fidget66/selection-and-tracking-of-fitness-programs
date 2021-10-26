@@ -1,11 +1,3 @@
-DROP TABLE IF EXISTS review;
-DROP TABLE IF EXISTS category_of_fitness_program;
-DROP TABLE IF EXISTS fitness_program;
-DROP TABLE IF EXISTS exercise_schedule;
-DROP TABLE IF EXISTS bookmark;
-DROP TABLE IF EXISTS active_program;
-DROP TABLE IF EXISTS users;
-
 CREATE TABLE IF NOT EXISTS users(
    id long NOT NULL AUTO_INCREMENT,
    first_name varchar(255),
@@ -83,6 +75,8 @@ INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
 values ('TestName', 'TestSurname', '1985-04-22','f',55,'olyaMak@mail.ru');
 INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
 values ('Andrey', 'Andreev', '1993-12-24','m',80,'admin@mail.ru');
+INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
+values ('Pete', 'Smirnov', '1995-10-25','m',60,'pete@mail.ru');
 
 INSERT INTO category_of_fitness_program(short_name, description) values('TestCategory1', 'Description of TestCategory1');
 INSERT INTO category_of_fitness_program(short_name, description) values('TestCategory2', 'Description of TestCategory2');
@@ -104,20 +98,25 @@ INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restri
 values('TestProgram5', 10, 30, 90, 'f',3,'Description of TestProgram2',2);
 INSERT INTO fitness_program(short_name, duration, age_restriction, weight_restriction, sex_restriction, exercise_per_week,
                             description, category_id)
-values('TestProgram6', 10, 40, 50, 'f',3,'Description of TestProgram3',2);
+values('TestProgram6', 10, 40, 50, 'f',2,'Description of TestProgram3',2);
 
 INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays1',true,1,1 );
 INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays2',true,2,1 );
 INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays3',true,3,1 );
 INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( 'testDays4',false,1,1 );
+INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ( '',false,1,4 );
+INSERT INTO active_program(days, is_complited, fitness_program_id, user_id) VALUES ('', false,6,3 );
 
 INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-01-01',false, 1);
 INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2011-04-01',false, 1);
 INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-05-25',false, 1);
-INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-01-01',false, 1);
+INSERT INTO exercise_schedule(exercise_date, is_complited, program_short_name, active_program_id)
+ values ('2021-01-01',false,'Test4Name', 1);
+INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-01-05',false, 5);
 
 INSERT INTO review(author_id, text, fitness_program_id) VALUES (1,'Test review 1',1);
 INSERT INTO review(author_id, text, fitness_program_id) VALUES (1,'Test review 2',2);
 INSERT INTO review(author_id, text, fitness_program_id) VALUES (1,'Test review 3',3);
 
 INSERT INTO bookmark(fitness_program_id, user_id) VALUES (1,1);
+INSERT INTO bookmark(fitness_program_id, user_id) VALUES (2,1);

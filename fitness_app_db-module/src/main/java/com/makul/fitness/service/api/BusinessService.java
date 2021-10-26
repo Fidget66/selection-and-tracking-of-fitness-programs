@@ -5,7 +5,7 @@ import com.makul.fitness.model.*;
 import java.util.List;
 
 public interface BusinessService {
-    void addBookmark(long userId, long fitnessProgramId);
+    Bookmark addBookmark(long userId, long fitnessProgramId);
     List <Bookmark> viewBookmarks(long userId);
     ActiveProgram addActiveProgram(long userId, long fitnessProgramId);
     FitnessProgram addFitnessProgram(long categoryId, FitnessProgram fitnessProgram);

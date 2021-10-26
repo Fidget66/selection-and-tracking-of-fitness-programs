@@ -1,6 +1,7 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
+import com.makul.fitness.exceptions.BookmarkIsPresentException;
 import com.makul.fitness.exceptions.ReviewIsPresentException;
 import com.makul.fitness.exceptions.ScheduleIsPresentException;
 import com.makul.fitness.model.*;
@@ -38,13 +39,13 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     @Transactional
-    public void addBookmark(long userId, long fitnessProgramId) {
+    public Bookmark addBookmark(long userId, long fitnessProgramId) {
         Users user=usersService.read(userId);
         if (Objects.isNull(user.getBookmarks())) {
             Bookmark bookmark = new Bookmark();
             bookmark.setUser(user);
             bookmark.setFitnessProgram(fitnessProgramService.read(fitnessProgramId));
-            bookmarkService.create(bookmark);
+            return bookmarkService.create(bookmark);
         } else{
             int counter = 0;
                 for (Bookmark bookmark : user.getBookmarks()) {
@@ -54,8 +55,8 @@ public class BusinessServiceImpl implements BusinessService {
                 Bookmark bookmark = new Bookmark();
                 bookmark.setUser(user);
                 bookmark.setFitnessProgram(fitnessProgramService.read(fitnessProgramId));
-                bookmarkService.create(bookmark);
-            }
+                return bookmarkService.create(bookmark);
+            } else throw new BookmarkIsPresentException();
         }
     }
 
@@ -88,6 +89,14 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     @Transactional
+    public FitnessProgram addFitnessProgram(long categoryId, FitnessProgram fitnessProgram) {
+        CategoryOfFitnessProgram category = categoryService.read(categoryId);
+        fitnessProgram.setCategory(category);
+        return fitnessProgramService.create(fitnessProgram);
+    }
+
+    @Override
+    @Transactional
     public ActiveProgram createSchedule(ActiveProgram inputActiveProgram){
         ActiveProgram activeProgram=activeProgramService.read(inputActiveProgram.getId());
         activeProgram.setDays(inputActiveProgram.getDays());
@@ -111,22 +120,8 @@ public class BusinessServiceImpl implements BusinessService {
     @Transactional
     public ExerciseSchedule updateExercise(long exerciseId) {
         ExerciseSchedule exercise = exerciseScheduleService.update(exerciseId);
-        isAllExerciseComplited(exerciseScheduleService.read(exerciseId).getActiveProgram().getScheduleList());
+        isAllExerciseComplited(exerciseScheduleService.read(exerciseId).getActiveProgram().getId());
         return exercise;
-    }
-
-    @Override
-    @Transactional
-    public FitnessProgram addFitnessProgram(long categoryId, FitnessProgram fitnessProgram) {
-        CategoryOfFitnessProgram category = categoryService.read(categoryId);
-        fitnessProgram.setCategory(category);
-        return fitnessProgramService.create(fitnessProgram);
-    }
-
-    private Bookmark createNemBookmark(FitnessProgram fitnessProgram){
-        Bookmark bookmark = new Bookmark();
-        bookmark.setFitnessProgram(fitnessProgram);
-        return bookmark;
     }
 
     private ActiveProgram createNewScheduleLIst(ActiveProgram activeProgram, String[] days) {
@@ -162,16 +157,13 @@ public class BusinessServiceImpl implements BusinessService {
         return exerciseSchedule;
     }
 
-    private void isAllExerciseComplited(List <ExerciseSchedule> exerciseList){
+    private void isAllExerciseComplited(long activeProgramId){
         int counter =0;
-        long activeProgramId=0;
-        for (ExerciseSchedule exercise:exerciseList) {
-            if (exercise.isComplited()) counter++;
-            activeProgramId = exercise.getActiveProgram().getId();
-        }
         ActiveProgram activeProgram = activeProgramService.read(activeProgramId);
-        if (counter==exerciseList.size()) activeProgram.setComplited(true);
-        System.out.println(activeProgram.isComplited());
+        for (ExerciseSchedule exercise:activeProgram.getScheduleList()) {
+            if (exercise.isComplited()) counter++;
+        }
+        if (counter==activeProgram.getScheduleList().size()) activeProgram.setComplited(true);
         activeProgramService.update(activeProgram);
     }
 }

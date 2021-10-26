@@ -12,5 +12,4 @@ spring:
     password: test
   sql:
     init:
-      data-locations: classpath*:data-test.sql
       mode: always

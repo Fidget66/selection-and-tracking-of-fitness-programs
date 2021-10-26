@@ -48,13 +48,13 @@ class FitnessProgramServiceImplTest {
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
                 ()->programService.read(4L));
         Assertions.assertEquals(noEntityException.getMessage(),
-                "Такой записи для FitnessProgram в базе данных не существует");
+                "Такой записи для Fitness Program в базе данных не существует");
         Mockito.verify(fitnessProgramDao, Mockito.times(1)).findById(4L);
 
         IncorrectDataException incorrectDataException = Assertions.assertThrows(IncorrectDataException.class,
                 ()->programService.read(-1L));
         Assertions.assertEquals(incorrectDataException.getMessage(),
-                "Введены некорректные данные для FitnessProgram id");
+                "Введены некорректные данные для Fitness Program id");
         Mockito.verify(fitnessProgramDao, Mockito.times(0)).findById(-1L);
     }
 
