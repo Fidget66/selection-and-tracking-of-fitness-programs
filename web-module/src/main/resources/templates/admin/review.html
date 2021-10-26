@@ -34,6 +34,8 @@
     <div>
         <h3>Отзыв:</h3>
         <textarea rows="15" cols="122" th:field="*{text}" />
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('text')}" class="label label-danger"
+           th:errors="*{text}"></p>
     </div>
 
     <div class="submit">

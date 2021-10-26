@@ -20,4 +20,5 @@ public interface ClientService {
     void updateSchedule(long exerciseId);
     void addActiveProgram(long fitnessProgramId);
     List <ReviewDto> readReviews(long fitnessProgramId);
+    List <String> getDaysOfWeek();
 }

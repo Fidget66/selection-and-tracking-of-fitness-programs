@@ -3,10 +3,8 @@ package com.makul.fitness.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
+import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Set;
 
@@ -15,28 +13,23 @@ import java.util.Set;
 @AllArgsConstructor
 public class FitnessProgramDto {
     private long id;
-    @NotEmpty
-    @Size(min = 5)
+    @Size(min = 5, message = "Минимальная длина 5 символов")
     private String shortName;
-    @NotEmpty
-    @Min(10)
+    @Min(value = 10, message = "Минимальная продолжительность 10 занятий")
     private int duration;
-    @NotEmpty
-    @Min(30)@Max(60)
+    @Min(value = 20, message = "Минимальный возраст 20 лет")
+    @Max(value = 65, message = "Максимальный возраст 65 лет")
     private int ageRestriction;
-    @NotEmpty
-    @Min(50)@Max(120)
+    @Min(value = 50, message = "Минимальный вес 50 кг")
+    @Max(value = 120, message = "Максимальный вес 120 кг")
     private int weightRestriction;
-    @Size(max = 1)
+    @Size(max = 1, message = "Длина не более 1го символа")
+    @Pattern(regexp = "m|f",message = "Значение данного поля m или f")
     private String sexRestriction;
-    @NotEmpty
-    @Min(1)@Max(3)
+    @Min(value = 1, message = "Минимальное количество занятий в неделю - 1")
+    @Max(value = 4, message = "Максимальное количество занятий в неделю - 4")
     private int exercisePerWeek;
-    @NotEmpty
-    @Size(min = 40)
+    @Size(min = 40, message = "Минимальная длина описания 40 символов")
     private String description;
     private List <ReviewDto> reviews;
-//    @NotEmpty
-//    @Size(max = 1)
-//    private Set<CategoryOfFitnessProgramDto> category;
 }

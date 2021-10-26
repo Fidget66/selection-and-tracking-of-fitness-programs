@@ -3,9 +3,7 @@ package com.makul.fitness.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Data
@@ -14,10 +12,8 @@ import javax.validation.constraints.Size;
 public class ReviewDto {
     private long id;
     private String authorName;
-    @NotEmpty
-    @Min(1)
+    @Min(value = 1)
     private long authorId;
-    @NotEmpty
-    @Size(min = 3, max = 1000)
+    @Size(min = 3, max = 1000, message = "Длина не менее 5 и не более 1000 символов")
     private String text;
 }

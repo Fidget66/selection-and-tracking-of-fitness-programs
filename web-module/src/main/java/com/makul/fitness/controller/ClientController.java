@@ -13,8 +13,6 @@ import java.util.List;
 public class ClientController {
 
     private final ClientService clientService;
-    private List <String> daysOfWeek = List.of("MONDAY", "TUESDAY", "WEDNESDAY",
-            "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
 
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
@@ -113,7 +111,7 @@ public class ClientController {
                                       Model model, HttpServletRequest request){
         model.addAttribute("activeId", activeId);
         model.addAttribute("count", count);
-        model.addAttribute("daysOfWeek",daysOfWeek);
+        model.addAttribute("daysOfWeek",clientService.getDaysOfWeek());
         model.addAttribute("req",request.getHeader("Referer"));
         return "/client/chooseExerciseDays";
     }

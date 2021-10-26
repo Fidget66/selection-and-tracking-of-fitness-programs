@@ -7,6 +7,7 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
+
 <table width="100%">
     <tr>
         <td width="5%" align="right">Username:</td>
@@ -20,15 +21,19 @@
 </table>
 <p><a href=/fitnessWeb-app>Return to main page</a></p>
 <h1>CREATE CATEGORY</h1>
-<form th:action="@{/admin/category}" th:object="${categoryDto}" method="post">
-
+<form th:action="@{/admin/category}" th:object="${categoryOfFitnessProgramDto}" method="post">
     <div>
         <h3>Короткое название:</h3>
-        <input type="text" th:field="${categoryDto.shortName}" />
+        <input type="text" th:field="*{shortName}"/>
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('shortName')}" class="label label-danger"
+           th:errors="*{shortName}"></p>
+
     </div>
     <div>
         <h3>Описание:</h3>
-        <textarea rows="15" cols="122" th:field="${categoryDto.description}" />
+        <textarea rows="15" cols="122" th:field="*{description}" />
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('description')}" class="label label-danger"
+           th:errors="*{description}"></p>
     </div>
 
     <div class="submit">

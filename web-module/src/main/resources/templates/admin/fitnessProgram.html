@@ -21,35 +21,48 @@
 <p><a href=/fitnessWeb-app>Return to main page</a></p>
 <p><a th:href="@{${req}}">Return to previous page</a></p>
 <h1>CREATE FITNESS PROGRAM</h1>
-<form th:object="${fitnessProgramDto}" method="post">
+<form th:action="@{/admin/category/__${id}__/program}" th:object="${fitnessProgramDto}" method="post">
     <div>
         <h3>Короткое название:</h3>
-        <textarea rows="1" cols="50"  th:field="${fitnessProgramDto.shortName}"/>
+        <textarea rows="1" cols="50"  th:field="*{shortName}"/>
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('shortName')}" class="label label-danger"
+           th:errors="*{shortName}"></p>
     </div>
     <div>
-        <h3>Количество занятий:</h3>
-        <input type="number" min="1" step="1" th:field="${fitnessProgramDto.description}"/>
+        <h3>Общее количество занятий:</h3>
+        <input type="number" step="1" th:field="*{duration}"/>
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('duration')}" class="label label-danger"
+           th:errors="*{duration}"></p>
     </div>
     <div>
         <h3>Ограничение по возрасту:</h3>
-        <input type="number" min="0" step="1" th:field="${fitnessProgramDto.ageRestriction}"/>
+        <input type="number" step="1" th:field="*{ageRestriction}"/>
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('ageRestriction')}" class="label label-danger"
+           th:errors="*{ageRestriction}"></p>
     </div>
     <div>
         <h3>Ограничение по весу:</h3>
-        <input type="number" min="45" step="1" th:field="${fitnessProgramDto.weightRestriction}"/>
+        <input type="number" step="1" th:field="*{weightRestriction}"/>
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('weightRestriction')}" class="label label-danger"
+           th:errors="*{weightRestriction}"></p>
     </div>
     <div>
         <h3>Ограничение по полу:</h3>
-        <input type="text" maxlength="1" th:field="${fitnessProgramDto.sexRestriction}"
-               required pattern="[mf]"/>
+        <input type="text" th:field="*{sexRestriction}"/>
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('sexRestriction')}" class="label label-danger"
+           th:errors="*{sexRestriction}"></p>
     </div>
     <div>
         <h3>Количество занятий в неделю:</h3>
-        <input type="number" min="1" step="1" th:field="${fitnessProgramDto.exercisePerWeek}"/>
+        <input type="number" step="1" th:field="*{exercisePerWeek}"/>
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('exercisePerWeek')}" class="label label-danger"
+           th:errors="*{exercisePerWeek}"></p>
     </div>
     <div>
         <h3>Описание программы:</h3>
-        <textarea rows="10" cols="90"  th:field="${fitnessProgramDto.description}"/>
+        <textarea rows="10" cols="90"  th:field="*{description}"/>
+        <p th:style="'color:red'" th:if="${#fields.hasErrors('description')}" class="label label-danger"
+           th:errors="*{description}"></p>
     </div>
 
     <div class="submit">

@@ -11,5 +11,5 @@ import javax.validation.constraints.NotEmpty;
 public class BookmarkDto {
     private long id;
     @NotEmpty
-    FitnessProgramDto fitnessProgram;
+    private FitnessProgramDto fitnessProgram;
 }

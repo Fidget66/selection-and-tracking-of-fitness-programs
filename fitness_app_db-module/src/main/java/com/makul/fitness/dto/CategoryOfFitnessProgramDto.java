@@ -3,7 +3,6 @@ package com.makul.fitness.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -12,11 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryOfFitnessProgramDto {
     private long id;
-    @NotEmpty
-    @Size(min = 3, max = 255)
+    @Size(min = 3, message = "Минимальный размер 3 символа")
     private String shortName;
-    @NotEmpty
-    @Size(min = 20)
+    @Size(min = 20, message = "Минимальный размер 20 символов")
     private String description;
     private List <FitnessProgramDto> fitnessPrograms;
 }

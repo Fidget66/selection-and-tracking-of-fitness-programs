@@ -41,6 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/").hasAnyAuthority("Admin", "Client", "Blocked")
                 .antMatchers("/registration/**").permitAll()
+                .antMatchers("/client/**").hasAnyAuthority( "Client")
+                .antMatchers("/admin/**").hasAnyAuthority( "Admin")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
@@ -56,7 +58,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .csrf().disable()
-        ;
+                .csrf().disable();
     }
 }

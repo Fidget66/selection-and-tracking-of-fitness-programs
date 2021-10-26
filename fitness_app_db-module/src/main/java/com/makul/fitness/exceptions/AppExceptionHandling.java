@@ -21,6 +21,7 @@ public class AppExceptionHandling extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ActiveProgramIsPresentException.class)
     private ResponseEntity<ApiError> handleActiveProgramIsPresentException(ActiveProgramIsPresentException exception) {
+        System.out.println(exception.toString());
         return new ResponseEntity<>(getApiError(exception,HttpStatus.BAD_REQUEST),
                 HttpStatus.BAD_REQUEST);
     }
@@ -59,6 +60,7 @@ public class AppExceptionHandling extends ResponseEntityExceptionHandler {
     private ApiError getApiError(Exception ex, HttpStatus status){
         ApiError apiError = ApiError
                 .builder()
+                .exceptionClassName(ex.getClass().getSimpleName())
                 .exception(ex)
                 .message(ex.getMessage())
                 .status(status)

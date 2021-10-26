@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dto.*;
-import com.makul.fitness.exceptions.ActiveProgramNotPresentException;
 import com.makul.fitness.exceptions.IncorrectNumberOfDaysException;
 import com.makul.fitness.service.api.ClientService;
 import com.makul.fitness.service.api.UsersSecurityService;
@@ -100,7 +99,6 @@ public class ClientServiceImpl implements ClientService {
     public ActiveProgramDto readUserActiveProgram() {
         ActiveProgramDto activeProgramDto = restTemplate
                 .getForObject(baseURL+"/user/"+ getUserId() + "/program/active", ActiveProgramDto.class);
-        if (Objects.isNull(activeProgramDto)) throw new ActiveProgramNotPresentException();
         return activeProgramDto;
     }
 
@@ -144,6 +142,12 @@ public class ClientServiceImpl implements ClientService {
         return program.getReviews();
     }
 
+    @Override
+    public List <String> getDaysOfWeek(){
+        List <String> daysOfWeek = List.of("MONDAY", "TUESDAY", "WEDNESDAY",
+                "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
+        return daysOfWeek;
+    }
 
     private long getUserId(){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
