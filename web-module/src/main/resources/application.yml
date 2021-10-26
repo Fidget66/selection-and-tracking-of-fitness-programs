@@ -1,7 +1,7 @@
 server:
   port: 8122
   servlet:
-    context-path: /fitnessWeb-app
+    context-path: /fitnessweb-app
 spring:
   jpa:
     show-sql: true

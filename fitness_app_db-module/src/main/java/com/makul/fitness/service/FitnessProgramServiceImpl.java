@@ -17,7 +17,7 @@ public class FitnessProgramServiceImpl implements FitnessProgramService {
     }
 
     @Override
-    @Transactional
+    @Transactional()
     public FitnessProgram create(FitnessProgram program) {
         return fitnessProgramDao.save(program);
     }
