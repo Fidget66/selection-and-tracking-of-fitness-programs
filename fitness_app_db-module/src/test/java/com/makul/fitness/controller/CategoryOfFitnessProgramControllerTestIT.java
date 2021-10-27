@@ -2,7 +2,6 @@ package com.makul.fitness.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makul.fitness.model.CategoryOfFitnessProgram;
-import com.makul.fitness.service.api.CategoryOfFitnessProgramService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,8 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql(scripts = "classpath:clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
 class CategoryOfFitnessProgramControllerTestIT {
-    @Autowired
-    private CategoryOfFitnessProgramService categoryService;
+
     @Autowired
     private MockMvc mockMvc;
     @Autowired

@@ -8,7 +8,6 @@ import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
 import com.makul.fitness.exceptions.BookmarkIsPresentException;
 import com.makul.fitness.exceptions.ReviewIsPresentException;
 import com.makul.fitness.exceptions.ScheduleIsPresentException;
-import com.makul.fitness.service.api.BusinessService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,9 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.ArrayList;
-
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,8 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 class BusinessControllerTestIT {
 
-    @Autowired
-    private BusinessService businessService;
     @Autowired
     private MockMvc mockMvc;
     @Autowired

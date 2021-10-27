@@ -77,20 +77,6 @@ class ExerciseScheduleServiceImplTest {
         Mockito.verify(scheduleDao, Mockito.times(0)).findById(-1L);
     }
 
-    @Test
-    void readExerciseByDate() {
-        List <ExerciseSchedule> scheduleList = Stream
-                .generate(() -> getSchedule())
-                .limit(3)
-                .collect(Collectors.toList());
-        LocalDate currentDate = LocalDate.now();
-        Mockito.when(scheduleDao.findExerciseByDate(currentDate)).thenReturn(scheduleList);
-        List <ExerciseSchedule> actual = scheduleService.readExerciseByDate(currentDate);
-        List <ExerciseSchedule> expected = scheduleList;
-        Assertions.assertEquals(expected, actual);
-        Mockito.verify(scheduleDao, Mockito.times(1)).findExerciseByDate(currentDate);
-    }
-
     private ExerciseSchedule getSchedule(){
         ExerciseSchedule schedule = new ExerciseSchedule();
         schedule.setId(1);

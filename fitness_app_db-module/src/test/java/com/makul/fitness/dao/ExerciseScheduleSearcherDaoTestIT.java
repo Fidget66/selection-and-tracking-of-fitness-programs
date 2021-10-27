@@ -18,15 +18,22 @@ import java.util.List;
         @Sql("classpath:data-test.sql"),
         @Sql(scripts = "classpath:clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
-class ExerciseScheduleDaoTestIT {
+class ExerciseScheduleSearcherDaoTestIT {
 
     @Autowired
-    private ExerciseScheduleDao scheduleDao;
+    private ExerciseScheduleSearcherDao scheduleDao;
 
     @Test
     void findExerciseByDate() {
         List<ExerciseSchedule> scheduleList = scheduleDao.findExerciseByDate(LocalDate.of(2021,01,01));
         Assertions.assertNotNull(scheduleList);
         Assertions.assertEquals(2,scheduleList.size());
+    }
+
+    @Test
+    void findExerciseByProgramId() {
+        List<ExerciseSchedule> scheduleList = scheduleDao.findExerciseByProgramId(1);
+        Assertions.assertNotNull(scheduleList);
+        Assertions.assertEquals(4,scheduleList.size());
     }
 }

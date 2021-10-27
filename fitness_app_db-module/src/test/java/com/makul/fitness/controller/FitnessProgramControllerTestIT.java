@@ -2,7 +2,6 @@ package com.makul.fitness.controller;
 
 import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
-import com.makul.fitness.service.api.FitnessProgramService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,8 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 public class FitnessProgramControllerTestIT {
 
-    @Autowired
-    private FitnessProgramService programService;
     @Autowired
     private MockMvc mockMvc;
 

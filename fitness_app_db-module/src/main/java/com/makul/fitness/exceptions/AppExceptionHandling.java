@@ -61,7 +61,6 @@ public class AppExceptionHandling extends ResponseEntityExceptionHandler {
     private ApiError getApiError(Exception ex, HttpStatus status){
         ApiError apiError = ApiError
                 .builder()
-                .exceptionClassName(ex.getClass().getSimpleName())
                 .exception(ex)
                 .message(ex.getMessage())
                 .status(status)

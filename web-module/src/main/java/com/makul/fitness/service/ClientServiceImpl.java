@@ -117,10 +117,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<ExerciseScheduleDto> getSchedule(long activeProgramId) {
-
-        ActiveProgramDto activeProgramDto = restTemplate
-                .getForObject(baseURL+"program/active/" + activeProgramId, ActiveProgramDto.class);
-        List<ExerciseScheduleDto> scheduleDtoList = activeProgramDto.getScheduleList();
+        List<ExerciseScheduleDto> scheduleDtoList =Arrays.asList( restTemplate.getForObject(baseURL +
+                "program/active/" + activeProgramId + "/exercises", ExerciseScheduleDto[].class));
         return scheduleDtoList;
     }
 

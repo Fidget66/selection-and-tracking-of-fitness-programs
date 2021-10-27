@@ -19,28 +19,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql("classpath:data-test.sql"),
         @Sql(scripts = "classpath:clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
-class FitnessProgramSearcherControllerTestIT {
+class ExerciseScheduleSearcherControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void readFitnessProgramList_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned() throws Exception {
-        mockMvc.perform(get("/category/{id}/program/fitness",1))
+    void getExercisesList_whenGetExistingExercisesList_thenStatus200andExercisesListReturned() throws Exception {
+        mockMvc.perform(get("/program/active/{id}/exercises", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))
-                .andExpect(jsonPath("$.*", hasSize(3)))
-                .andExpect(jsonPath("$[*].shortName", containsInAnyOrder("TestProgram1","TestProgram2",
-                        "TestProgram3")));
-    }
-
-    @Test
-    void readFitnessProgramListWithRestrictions_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned()
-            throws Exception {
-        mockMvc.perform(get("/user/{userId}/program/fitness/{duration}",1,50))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", isA(ArrayList.class)))
-                .andExpect(jsonPath("$.*", hasSize(1)))
-                .andExpect(jsonPath("$[*].shortName", containsInAnyOrder("TestProgram1")));
+                .andExpect(jsonPath("$.*", hasSize(4)))
+                .andExpect(jsonPath("$[*].id", containsInAnyOrder(1,2,3,4)))
+                .andExpect(jsonPath("$[*].exerciseDate").isNotEmpty());
     }
 }

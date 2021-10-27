@@ -1,7 +1,6 @@
 package com.makul.fitness.controller;
 
 import com.makul.fitness.exceptions.NoEntityException;
-import com.makul.fitness.service.api.ActiveProgramSearcherService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,8 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 class ActiveProgramSearcherControllerTestIT {
 
-    @Autowired
-    private ActiveProgramSearcherService searcherService;
     @Autowired
     private MockMvc mockMvc;
 
