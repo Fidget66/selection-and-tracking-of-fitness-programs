@@ -17,7 +17,7 @@ public class FitnessProgramServiceImpl implements FitnessProgramService {
     }
 
     @Override
-    @Transactional()
+    @Transactional(rollbackFor = Exception.class)
     public FitnessProgram create(FitnessProgram program) {
         return fitnessProgramDao.save(program);
     }

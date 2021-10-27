@@ -38,7 +38,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Bookmark addBookmark(long userId, long fitnessProgramId) {
         Users user=usersService.read(userId);
         if (Objects.isNull(user.getBookmarks())) {
@@ -67,7 +67,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ActiveProgram addActiveProgram(long userId,long fitnessProgramId){
         Users user= usersService.read(userId);
         FitnessProgram fitnessProgram= fitnessProgramService.read(fitnessProgramId);
@@ -88,7 +88,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public FitnessProgram addFitnessProgram(long categoryId, FitnessProgram fitnessProgram) {
         CategoryOfFitnessProgram category = categoryService.read(categoryId);
         fitnessProgram.setCategory(category);
@@ -96,7 +96,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ActiveProgram createSchedule(ActiveProgram inputActiveProgram){
         ActiveProgram activeProgram=activeProgramService.read(inputActiveProgram.getId());
         activeProgram.setDays(inputActiveProgram.getDays());
@@ -107,7 +107,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Review addReview(long fitnessProgramId, Review review) {
         if (Objects.nonNull(reviewService.readReviewByUserIdFitnessId(review.getAuthorId(),fitnessProgramId))) throw
             new ReviewIsPresentException();
@@ -117,7 +117,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ExerciseSchedule updateExercise(long exerciseId) {
         ExerciseSchedule exercise = exerciseScheduleService.update(exerciseId);
         isAllExerciseComplited(exerciseScheduleService.read(exerciseId).getActiveProgram().getId());

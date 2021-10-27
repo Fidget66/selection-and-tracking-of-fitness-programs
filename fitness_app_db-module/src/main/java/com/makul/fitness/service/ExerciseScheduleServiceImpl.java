@@ -20,14 +20,14 @@ public class ExerciseScheduleServiceImpl implements ExerciseScheduleService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public List<ExerciseSchedule> createAll(List<ExerciseSchedule> scheduleList) {
         return StreamSupport.stream(exerciseScheduleDao.saveAll(scheduleList).spliterator(),false)
                 .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ExerciseSchedule update(long exerciseId) {
         ExerciseSchedule exercise = read(exerciseId);
         exercise.setComplited(true);

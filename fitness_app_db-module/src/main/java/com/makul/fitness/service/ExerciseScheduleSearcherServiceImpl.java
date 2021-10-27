@@ -4,7 +4,6 @@ import com.makul.fitness.dao.ExerciseScheduleSearcherDao;
 import com.makul.fitness.model.ExerciseSchedule;
 import com.makul.fitness.service.api.ExerciseScheduleSearcherService;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 

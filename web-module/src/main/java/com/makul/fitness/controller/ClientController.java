@@ -26,9 +26,10 @@ public class ClientController {
     }
 
     @GetMapping("/client/category/fitness/{id}/program")
-    public String viewFitnessProgram(@PathVariable ("id") long id, Model model){
+    public String viewFitnessProgram(@PathVariable ("id") long id, Model model,  HttpServletRequest request){
         List<FitnessProgramDto> programs = clientService.getListFitnessProgram(id);
         model.addAttribute("allPrograms", programs);
+        model.addAttribute("req",request.getHeader("Referer"));
         return "client/fitnessPrograms";
     }
 
@@ -47,10 +48,12 @@ public class ClientController {
     }
 
     @GetMapping("/client/fitness/program/restrictions/duration")
-    public String viewFitnessProgramWithRestrictions(@RequestParam("durationLim") int duration, Model model){
+    public String viewFitnessProgramWithRestrictions(@RequestParam("durationLim") int duration, Model model,
+                                                     HttpServletRequest request){
         List<FitnessProgramDto> programList = clientService.getFitnessProgramWithRestrictions(duration);
         model.addAttribute("allPrograms", programList);
         model.addAttribute("bookmarkMarker",true);
+        model.addAttribute("req",request.getHeader("Referer"));
         return "client/fitnessPrograms";
     }
 
@@ -80,9 +83,10 @@ public class ClientController {
     }
 
     @GetMapping("/client/program/complited")
-    public String returnComplitedPrograms (Model model){
+    public String returnComplitedPrograms (Model model, HttpServletRequest request){
         List<ActiveProgramDto> activePrograms = clientService.getComplitedActivePrograms();
         model.addAttribute("allComplActProgr", activePrograms);
+        model.addAttribute("req",request.getHeader("Referer"));
         return "/client/complitedPrograms";
     }
 

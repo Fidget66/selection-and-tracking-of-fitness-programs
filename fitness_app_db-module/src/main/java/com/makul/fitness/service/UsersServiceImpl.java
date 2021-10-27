@@ -18,7 +18,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Users create(Users user) {
         return usersDao.save(user);
     }
