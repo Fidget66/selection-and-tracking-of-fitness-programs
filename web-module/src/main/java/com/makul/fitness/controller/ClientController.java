@@ -73,7 +73,7 @@ public class ClientController {
         List<BookmarkDto> bookmarks = clientService.getBookmarks();
         model.addAttribute("allBookmark", bookmarks);
         model.addAttribute("req",request.getHeader("Referer"));
-        return "/client/clientBookmarks";
+        return "client/clientBookmarks";
     }
 
     @GetMapping("/client/bookmark/{id}")
@@ -87,13 +87,13 @@ public class ClientController {
         List<ActiveProgramDto> activePrograms = clientService.getComplitedActivePrograms();
         model.addAttribute("allComplActProgr", activePrograms);
         model.addAttribute("req",request.getHeader("Referer"));
-        return "/client/complitedPrograms";
+        return "client/complitedPrograms";
     }
 
     @GetMapping("/client/program/{id}/review")
     public String createReview (@PathVariable ("id") long fitnessProgrammId, Model model){
         model.addAttribute("fitnessId", fitnessProgrammId);
-        return "/client/review";
+        return "client/review";
     }
 
     @PostMapping("/client/review/{fitnessId}")
@@ -107,7 +107,7 @@ public class ClientController {
         ActiveProgramDto activeProgramDto = clientService.readUserActiveProgram();
         model.addAttribute("actProgr", activeProgramDto);
         model.addAttribute("req",request.getHeader("Referer"));
-        return "/client/activeProgram";
+        return "client/activeProgram";
     }
 
     @GetMapping("/client/program/active/{id}/schedule/new/{count}")
@@ -117,7 +117,7 @@ public class ClientController {
         model.addAttribute("count", count);
         model.addAttribute("daysOfWeek",clientService.getDaysOfWeek());
         model.addAttribute("req",request.getHeader("Referer"));
-        return "/client/chooseExerciseDays";
+        return "client/chooseExerciseDays";
     }
 
 
@@ -153,7 +153,7 @@ public class ClientController {
         List<ReviewDto> reviewList = clientService.readReviews(fitnessProgramId);
         model.addAttribute("reviewList", reviewList);
         model.addAttribute("req",request.getHeader("Referer"));
-        return "/client/reviews";
+        return "client/reviews";
     }
 
     @ModelAttribute("reviewDto")

@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  web-module:
+    container_name: web-module
+    build: ./web-module
+    image: web-module
+    depends_on:
+      - databaseFitness
+      - databaseSecurity
+    ports:
+      - "8122:8122"
+  fitnessApp:
+    container_name: fitnessApp
+    build: ./fitness_app_db-module
+    image: fitness-app
+    depends_on:
+      - databaseFitness
+      - databaseSecurity
+    ports:
+      - "8124:8124"
+  databaseFitness:
+    container_name: databaseFitness
+    image: postgres:13.4-alpine # официальный образ базы данных
+    env_file:
+      - ./fitness_app-db/database.env # данные для создания пользователя, которым вы будете подключаться приложением
+    volumes:
+      - ./fitness_app-db/data111.sql:/docker-entrypoint-initdb.d/data111.sql # путь к скрипту для создания таблиц
+      - ./fitness_app-db/data:/var/lib/postgresql/data/ # путь к папке для хранения состояния данных
+    ports:
+      - "5402:5432"
+  databaseSecurity:
+    container_name: databaseSecurity
+    image: postgres:13.4-alpine
+    env_file:
+      - web-module-db/database.env
+    volumes:
+      - ./web-module-db/security.sql:/docker-entrypoint-initdb.d/security.sql
+      - ./web-module-db/data:/var/lib/postgresql/data/
+    ports:
+    - "5404:5432"

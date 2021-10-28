@@ -11,10 +11,10 @@ spring:
     database: postgresql
   sql:
     init:
-      data-locations: classpath*:data111.sql
+      data-locations: classpath*:fitness_app-db/data111.sql
       mode: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/MyFitnessApp
+    url: jdbc:postgresql://databaseFitness:5432/MyFitnessApp
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: 3784
