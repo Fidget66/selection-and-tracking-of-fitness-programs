@@ -4,6 +4,5 @@ import com.makul.fitness.model.ActiveProgram;
 
 public interface ActiveProgramService {
     ActiveProgram create(ActiveProgram activeProgram);
-    ActiveProgram update(ActiveProgram activeProgram);
     ActiveProgram read(long id);
 }

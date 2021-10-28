@@ -7,6 +7,7 @@ import com.makul.fitness.exceptions.ScheduleIsPresentException;
 import com.makul.fitness.model.*;
 import com.makul.fitness.service.api.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,16 +42,16 @@ public class BusinessServiceImpl implements BusinessService {
     @Transactional(rollbackFor = Exception.class)
     public Bookmark addBookmark(long userId, long fitnessProgramId) {
         Users user=usersService.read(userId);
-        if (Objects.isNull(user.getBookmarks())) {
+        if (Objects.isNull(user.getBookmarks()) || user.getBookmarks().size()==0) {
             Bookmark bookmark = new Bookmark();
             bookmark.setUser(user);
             bookmark.setFitnessProgram(fitnessProgramService.read(fitnessProgramId));
             return bookmarkService.create(bookmark);
         } else{
             int counter = 0;
-                for (Bookmark bookmark : user.getBookmarks()) {
-                    if (bookmark.getFitnessProgram().getId() == fitnessProgramId) counter++;
-                }
+            for (Bookmark bookmark : user.getBookmarks()) {
+                if (bookmark.getFitnessProgram().getId() == fitnessProgramId) counter++;
+            }
             if (counter==0)   {
                 Bookmark bookmark = new Bookmark();
                 bookmark.setUser(user);
@@ -103,7 +104,7 @@ public class BusinessServiceImpl implements BusinessService {
         String[] days =inputActiveProgram.getDays().split(";");
         createNewScheduleLIst(activeProgram,days);
         exerciseScheduleService.createAll(activeProgram.getScheduleList());
-        return activeProgramService.update(activeProgram);
+        return update(activeProgram);
     }
 
     @Override
@@ -122,6 +123,17 @@ public class BusinessServiceImpl implements BusinessService {
         ExerciseSchedule exercise = exerciseScheduleService.update(exerciseId);
         isAllExerciseComplited(exerciseScheduleService.read(exerciseId).getActiveProgram().getId());
         return exercise;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class,isolation = Isolation.REPEATABLE_READ)
+    public ActiveProgram update(ActiveProgram inputActiveProgram) {
+        ActiveProgram activeProgram = activeProgramService.read(inputActiveProgram.getId());
+        activeProgram.setComplited(inputActiveProgram.isComplited());
+        if (inputActiveProgram.getDays().length()>6) activeProgram.setDays(inputActiveProgram.getDays());
+        if (Objects.nonNull(inputActiveProgram.getScheduleList()) && inputActiveProgram.getScheduleList().size()>0)
+            activeProgram.setScheduleList(inputActiveProgram.getScheduleList());
+        return activeProgramService.create(activeProgram);
     }
 
     private ActiveProgram createNewScheduleLIst(ActiveProgram activeProgram, String[] days) {
@@ -164,6 +176,6 @@ public class BusinessServiceImpl implements BusinessService {
             if (exercise.isComplited()) counter++;
         }
         if (counter==activeProgram.getScheduleList().size()) activeProgram.setComplited(true);
-        activeProgramService.update(activeProgram);
+        update(activeProgram);
     }
 }

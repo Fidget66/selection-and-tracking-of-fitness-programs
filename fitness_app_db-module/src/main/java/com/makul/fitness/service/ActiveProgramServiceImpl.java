@@ -6,7 +6,6 @@ import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.ActiveProgram;
 import com.makul.fitness.service.api.ActiveProgramService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -18,21 +17,8 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
     }
 
     @Override
-    @Transactional
-
+    @Transactional(rollbackFor = Exception.class)
     public ActiveProgram create(ActiveProgram activeProgram) {
-        return activeProgramDao.save(activeProgram);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class,isolation = Isolation.REPEATABLE_READ)
-    // Перенести в BusinessService
-    public ActiveProgram update(ActiveProgram inputActiveProgram) {
-        ActiveProgram activeProgram = read(inputActiveProgram.getId());
-        activeProgram.setComplited(inputActiveProgram.isComplited());
-        if (inputActiveProgram.getDays().length()>6) activeProgram.setDays(inputActiveProgram.getDays());
-        if (inputActiveProgram.getScheduleList().size()>0)
-            activeProgram.setScheduleList(inputActiveProgram.getScheduleList());
         return activeProgramDao.save(activeProgram);
     }
 

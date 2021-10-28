@@ -1,6 +1,7 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
+import com.makul.fitness.exceptions.BookmarkIsPresentException;
 import com.makul.fitness.exceptions.ScheduleIsPresentException;
 import com.makul.fitness.model.*;
 import com.makul.fitness.service.api.*;
@@ -52,19 +53,20 @@ class BusinessServiceImplTest {
     }
 
     @Test
-    void whenAddPresentBookmark_thenDidNotAdd() {
+    void whenAddPresentBookmark_thenThrowException() {
         Users user = getFilledUser();
         FitnessProgram fitnessProgram = getFitnessProgram();
         Bookmark bookmark = getBookmark();
-        fitnessProgram.setId(3);
+        fitnessProgram.setId(2);
         bookmark.setFitnessProgram(fitnessProgram);
         bookmark.setId(1);
         user.setBookmarks(List.of(bookmark));
         Mockito.when(usersService.read(1L)).thenReturn(user);
-        Mockito.when(fitnessProgramService.read(2L)).thenReturn(fitnessProgram);
-        businessService.addBookmark(1, 2);
-        Mockito.verify(usersService, Mockito.times(1)).read(1L);
-        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(2L);
+        BookmarkIsPresentException bookmarkIsPresentException =
+                Assertions.assertThrows(BookmarkIsPresentException.class,
+                        ()->businessService.addBookmark(1,2));
+        Assertions.assertEquals(bookmarkIsPresentException.getMessage(),
+                "Такая закладка уже есть у Вас.");
         Mockito.verify(bookmarkService, Mockito.times(0)).create(bookmark);
     }
 
@@ -122,14 +124,14 @@ class BusinessServiceImplTest {
 
         Mockito.when(activeProgramService.read(1L)).thenReturn(newActiveProgram);
         Mockito.when(exerciseScheduleService.createAll(Mockito.anyList())).thenReturn(scheduleList);
-        Mockito.when(activeProgramService.update(newActiveProgram)).thenReturn(expected);
+        Mockito.when(activeProgramService.create(newActiveProgram)).thenReturn(expected);
 
         ActiveProgram actual = businessService.createSchedule(newActiveProgram);
         Assertions.assertEquals(expected, actual);
 
-        Mockito.verify(activeProgramService, Mockito.times(1)).read(1L);
+        Mockito.verify(activeProgramService, Mockito.times(2)).read(1L);
         Mockito.verify(exerciseScheduleService, Mockito.times(1)).createAll(Mockito.anyList());
-        Mockito.verify(activeProgramService, Mockito.times(1)).update(newActiveProgram);
+        Mockito.verify(activeProgramService, Mockito.times(1)).create(newActiveProgram);
     }
 
     @Test
@@ -143,7 +145,7 @@ class BusinessServiceImplTest {
                 "Расписание для данной программы уже составлено!");
         Mockito.verify(activeProgramService, Mockito.times(1)).read(1L);
         Mockito.verify(exerciseScheduleService, Mockito.times(0)).createAll(Mockito.anyList());
-        Mockito.verify(activeProgramService, Mockito.times(0)).update(Mockito.any());
+        Mockito.verify(activeProgramService, Mockito.times(0)).create(Mockito.any());
     }
 
     @Test
@@ -213,7 +215,7 @@ class BusinessServiceImplTest {
         return activeProgram;
     }
 
-    private ExerciseSchedule getExerciseSchedule(){//ActiveProgram activeProgram){
+    private ExerciseSchedule getExerciseSchedule(){
         ExerciseSchedule schedule = new ExerciseSchedule();
         LocalDate currentDate = LocalDate.now();
         schedule.setExerciseDate(currentDate);

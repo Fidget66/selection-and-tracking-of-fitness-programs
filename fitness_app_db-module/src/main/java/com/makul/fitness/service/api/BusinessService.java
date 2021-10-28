@@ -12,4 +12,5 @@ public interface BusinessService {
     ActiveProgram createSchedule(ActiveProgram activeProgram);
     Review addReview(long fitnessProgramId, Review review);
     ExerciseSchedule updateExercise(long exerciseId);
+    ActiveProgram update(ActiveProgram inputActiveProgram);
 }
