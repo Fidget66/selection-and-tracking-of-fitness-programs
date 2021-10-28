@@ -3,6 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+fitness_app-db/data/
+web-module-db/data/
 
 ### STS ###
 .apt_generated
