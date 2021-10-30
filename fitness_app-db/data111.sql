@@ -202,12 +202,19 @@ INSERT INTO bookmark (fitness_program_id, user_id) values (2,2);
 INSERT INTO bookmark (fitness_program_id, user_id) values (5,2);
 
 INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;FRIDAY;SUNDAY',true,6,1);
+INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SUNDAY',true,3,1);
 INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SATURDAY',false,1,1);
 INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;FRIDAY;SUNDAY',true,4,2);
 INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SATURDAY',false,5,2);
 
-INSERT INTO review (author_id, author_name, text, fitness_program_id) VALUES (1,'Petr' ,'Отличная программа упражнений. Рекомендую!',6);
-INSERT INTO review (author_id, author_name, text, fitness_program_id) VALUES (1,'Petr' ,'Мне понравилось', 4);
-INSERT INTO review (author_id, author_name, text, fitness_program_id) VALUES (2,'Olya','Программа подойдет для всех',4);
+INSERT INTO review (author_id, author_name, text, fitness_program_id)
+VALUES (1,'Petr' ,'Отличная программа упражнений. Рекомендую!',6);
+INSERT INTO review (author_id, author_name, text, fitness_program_id)
+VALUES (1,'Petr' ,'Мне понравилось', 4);
+INSERT INTO review (author_id, author_name, text, fitness_program_id)
+VALUES (2,'Olya','Программа подойдет для всех',4);
 
-INSERT INTO exercise_schedule(exercise_date, is_complited, active_program_id) values ('2021-10-19',false,2);
+INSERT INTO exercise_schedule(program_short_name, exercise_date, is_complited, active_program_id)
+values ('руки и пресс','2021-10-19',false,2);
+INSERT INTO exercise_schedule(program_short_name, exercise_date, is_complited, active_program_id)
+values ('руки и пресс','2021-10-29',false,2);

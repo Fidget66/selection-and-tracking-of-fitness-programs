@@ -6,6 +6,7 @@ import com.makul.fitness.model.Review;
 import com.makul.fitness.service.api.ReviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,7 +30,7 @@ public class ReviewController {
 
     @GetMapping("/review/{id}")
     @ApiOperation(value = "Find review by id")
-    public ReviewDto readReview(@PathVariable("id") long id){
+    public ReviewDto readReview( @ApiParam(defaultValue = "1") @PathVariable("id") long id){
         return objectMapper.convertValue(reviewService.read(id), ReviewDto.class);
     }
 }

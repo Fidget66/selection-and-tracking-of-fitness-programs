@@ -6,6 +6,7 @@ import com.makul.fitness.model.Users;
 import com.makul.fitness.service.api.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,13 +31,14 @@ public class UsersController {
 
     @GetMapping(value = "/user/{id}")
     @ApiOperation(value = "Get user by id")
-    public UsersDto readUserById(@PathVariable long id){
+    public UsersDto readUserById (@ApiParam(defaultValue = "3") @PathVariable long id){
         return objectMapper.convertValue(usersService.read(id),UsersDto.class);
     }
 
     @GetMapping(value = "/user/{firstName}/{lastName}")
     @ApiOperation(value = "Get user by first and last name")
-    public List<UsersDto> readUserByNameLastName(@PathVariable String firstName, @PathVariable String lastName){
+    public List<UsersDto> readUserByNameLastName(@ApiParam(defaultValue = "Petr") @PathVariable String firstName,
+                                                 @ApiParam(defaultValue = "Ivanov") @PathVariable String lastName){
         return usersService.readUserByFirstLastName(firstName,lastName)
                 .stream()
                 .map(users -> objectMapper.convertValue(users,UsersDto.class))

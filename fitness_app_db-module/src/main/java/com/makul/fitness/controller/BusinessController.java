@@ -8,6 +8,7 @@ import com.makul.fitness.model.Review;
 import com.makul.fitness.service.api.BusinessService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,14 +27,14 @@ public class BusinessController {
 
     @GetMapping("/user/{userId}/bookmark/{fitnessId}")
     @ApiOperation(value = "Bookmark the active program for the current user")
-    public BookmarkDto addBookmark(@PathVariable("userId") long userId,
-                                   @PathVariable("fitnessId") long fitnessProgramId){
+    public BookmarkDto addBookmark(@ApiParam(defaultValue = "1") @PathVariable("userId") long userId,
+                                   @ApiParam(defaultValue = "2") @PathVariable("fitnessId") long fitnessProgramId){
      return objectMapper.convertValue(businessService.addBookmark(userId,fitnessProgramId), BookmarkDto.class);
     }
 
     @GetMapping("/user/{userId}/bookmarks")
     @ApiOperation(value = "Viewing the bookmarks of the current user")
-    public List <BookmarkDto> showBookmarks(@PathVariable("userId") long userId){
+    public List <BookmarkDto> showBookmarks(@ApiParam(defaultValue = "1") @PathVariable("userId") long userId){
         return businessService.viewBookmarks(userId)
                 .stream()
                 .map(bookmark -> objectMapper.convertValue(bookmark, BookmarkDto.class))
@@ -42,15 +43,15 @@ public class BusinessController {
 
     @GetMapping ("/user/{userId}/program/active/{programId}")
     @ApiOperation(value = "Add an active program for the current user")
-    public ActiveProgramDto addActiveProgram(@PathVariable("userId") long userId,
-                                             @PathVariable("programId") long fitnessProgramId){
+    public ActiveProgramDto addActiveProgram(@ApiParam(defaultValue = "3") @PathVariable("userId") long userId,
+                                             @ApiParam(defaultValue = "3") @PathVariable("programId") long fitnessProgramId){
         return objectMapper.convertValue(businessService.addActiveProgram(userId,fitnessProgramId),
                 ActiveProgramDto.class);
     }
 
     @PostMapping("/category/{categoryId}/program/fitness")
     @ApiOperation(value = "Add fitness program to user active programs")
-    public FitnessProgramDto addFitnessProgram(@PathVariable long categoryId,
+    public FitnessProgramDto addFitnessProgram(@ApiParam(defaultValue = "4") @PathVariable long categoryId,
                                                @RequestBody FitnessProgramDto fitnessProgramDto){
         FitnessProgram fitnessProgram = objectMapper.convertValue(fitnessProgramDto, FitnessProgram.class);
         return objectMapper.convertValue(businessService.addFitnessProgram(categoryId,fitnessProgram),
@@ -66,7 +67,7 @@ public class BusinessController {
 
     @PostMapping("/user/program/fitness/{fitnessProgramId}/review")
     @ApiOperation(value = "Add a review about fitness program")
-    public ReviewDto addReview (@PathVariable long fitnessProgramId,
+    public ReviewDto addReview (@ApiParam(defaultValue = "6") @PathVariable long fitnessProgramId,
                                @RequestBody ReviewDto reviewDto){
         Review review = objectMapper.convertValue(reviewDto, Review.class);
         return objectMapper.convertValue(businessService.addReview(fitnessProgramId,review), ReviewDto.class);
@@ -74,7 +75,7 @@ public class BusinessController {
 
     @GetMapping("/schedule/exercise/{id}")
     @ApiOperation(value = "Mark exercise complited")
-    public ExerciseScheduleDto updateSchedule(@PathVariable("id") long exerciseId){
+    public ExerciseScheduleDto updateSchedule(@ApiParam(defaultValue = "1") @PathVariable("id") long exerciseId){
        return objectMapper.convertValue(businessService.updateExercise(exerciseId),ExerciseScheduleDto.class);
     }
 }

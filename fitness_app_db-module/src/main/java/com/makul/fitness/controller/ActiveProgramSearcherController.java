@@ -5,6 +5,7 @@ import com.makul.fitness.dto.ActiveProgramDto;
 import com.makul.fitness.service.api.ActiveProgramSearcherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ public class ActiveProgramSearcherController {
 
     @GetMapping("/user/{userId}/programs/active")
     @ApiOperation(value = "Search User's complited active programs")
-    public List<ActiveProgramDto> readAllComplitedPrograms(@PathVariable long userId) {
+    public List<ActiveProgramDto> readAllComplitedPrograms(@ApiParam(defaultValue = "1")@PathVariable long userId) {
         return activeSearcher.readComplitedPrograms(userId)
                 .stream()
                 .map(activeProgram -> objectMapper.convertValue(activeProgram, ActiveProgramDto.class))
@@ -35,7 +36,7 @@ public class ActiveProgramSearcherController {
 
     @GetMapping("/user/{userId}/program/active")
     @ApiOperation(value = "Read User's uncomplited active program")
-    public ActiveProgramDto readUncomplitedProgram(@PathVariable long userId){
+    public ActiveProgramDto readUncomplitedProgram(@ApiParam(defaultValue = "1")@PathVariable long userId){
         return objectMapper.convertValue(activeSearcher.readUncomplitedProgram(userId), ActiveProgramDto.class);
     }
 
