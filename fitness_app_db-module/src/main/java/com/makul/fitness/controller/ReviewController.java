@@ -22,7 +22,7 @@ public class ReviewController {
     }
 
     @PutMapping("/review")
-    @ApiOperation(value = "Create new review")
+    @ApiOperation(value = "Update review")
     public ReviewDto updateReview(@RequestBody ReviewDto reviewDto){
         Review review = objectMapper.convertValue(reviewDto, Review.class);
         return objectMapper.convertValue(reviewService.update(review), ReviewDto.class);
