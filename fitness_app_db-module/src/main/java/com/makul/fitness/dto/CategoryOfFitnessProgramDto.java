@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ApiModel(description = "Category of fitness program entity")
 public class CategoryOfFitnessProgramDto {
+    @Min(value = 0)
     private long id;
     @ApiModelProperty(value = "Category short name",
             name = "shortName",

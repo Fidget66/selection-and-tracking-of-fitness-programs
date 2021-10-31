@@ -8,6 +8,7 @@ import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
 import com.makul.fitness.exceptions.BookmarkIsPresentException;
 import com.makul.fitness.exceptions.ReviewIsPresentException;
 import com.makul.fitness.exceptions.ScheduleIsPresentException;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,7 +40,8 @@ class BusinessControllerTestIT {
     private ObjectMapper objectMapper;
 
     @Test
-    void addBookmark_whenAdd_thenStatus200andBookmarkReturned() throws Exception {
+    @SneakyThrows
+    void addBookmark_whenAdd_thenStatus200andBookmarkReturned(){
         mockMvc.perform(get("/user/{userId}/bookmark/{fitnessId}",2,1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -47,7 +49,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void addBookmark_whenAddExistingBookmark_thenStatus400andExceptionThrown() throws Exception {
+    @SneakyThrows
+    void addBookmark_whenAddExistingBookmark_thenStatus400andExceptionThrown(){
         mockMvc.perform(
                         get("/user/{userId}/bookmark/{fitnessId}", 1,1))
                 .andExpect(status().isBadRequest())
@@ -57,7 +60,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void showBookmarks_whenGetExistingBookmarkList_thenStatus200andBookmarkListReturned() throws Exception {
+    @SneakyThrows
+    void showBookmarks_whenGetExistingBookmarkList_thenStatus200andBookmarkListReturned(){
         mockMvc.perform(get("/user/{userId}/bookmarks", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))
@@ -67,7 +71,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void addActiveProgram_whenAdd_thenStatus200andActiveProgramReturned() throws Exception  {
+    @SneakyThrows
+    void addActiveProgram_whenAdd_thenStatus200andActiveProgramReturned(){
         mockMvc.perform(get("/user/{userId}/program/active/{programId}",2,1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -77,7 +82,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void addActiveProgram_whenUserHaveActiveProgramNotComplited_thenStatus400andExceptionThrown() throws Exception {
+    @SneakyThrows
+    void addActiveProgram_whenUserHaveActiveProgramNotComplited_thenStatus400andExceptionThrown(){
         mockMvc.perform(
                         get("/user/{userId}/program/active/{programId}", 1,5))
                 .andExpect(status().isBadRequest())
@@ -87,7 +93,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void addFitnessProgram_whenAdd_thenStatus200andFitnessProgramReturned() throws Exception  {
+    @SneakyThrows
+    void addFitnessProgram_whenAdd_thenStatus200andFitnessProgramReturned(){
         mockMvc.perform(post("/category/{categoryId}/program/fitness",1)
                         .content(objectMapper.writeValueAsString(getFitnessProgramDto()))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -103,7 +110,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void createScheduleList_whenCreate_thenStatus200andActiveProgramReturned() throws Exception {
+    @SneakyThrows
+    void createScheduleList_whenCreate_thenStatus200andActiveProgramReturned(){
         mockMvc.perform(put("/program/fitness/schedule")
                         .content(objectMapper.writeValueAsString(getActiveProgramDto()))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -114,7 +122,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void createScheduleList_whenUserHaveActiveProgramScheduleList_thenStatus400andExceptionThrown() throws Exception {
+    @SneakyThrows
+    void createScheduleList_whenUserHaveActiveProgramScheduleList_thenStatus400andExceptionThrown(){
         ActiveProgramDto activeProgramDto = getActiveProgramDto();
         activeProgramDto.setId(5);
         mockMvc.perform(put("/program/fitness/schedule")
@@ -127,7 +136,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void addReview_whenAdd_thenStatus200andFitnessProgramReturned() throws Exception  {
+    @SneakyThrows
+    void addReview_whenAdd_thenStatus200andFitnessProgramReturned(){
         mockMvc.perform(post("/user/program/fitness/{fitnessProgramId}/review",1)
                         .content(objectMapper.writeValueAsString(getReviewDto()))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -138,7 +148,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void addReview_whenAddExistingReview_thenStatus400andExceptionThrown() throws Exception {
+    @SneakyThrows
+    void addReview_whenAddExistingReview_thenStatus400andExceptionThrown(){
         ReviewDto reviewDto = getReviewDto();
         reviewDto.setAuthorId(1);
         mockMvc.perform(post("/user/program/fitness/{fitnessProgramId}/review",1)
@@ -151,7 +162,8 @@ class BusinessControllerTestIT {
     }
 
     @Test
-    void updateSchedule_whenUpdate_thenStatus200andUpdatedScheduleReturns() throws Exception {
+    @SneakyThrows
+    void updateSchedule_whenUpdate_thenStatus200andUpdatedScheduleReturns(){
         mockMvc.perform(get("/schedule/exercise/{id}",4))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())

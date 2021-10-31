@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dao.UsersDao;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.Users;
 import com.makul.fitness.service.api.UsersService;
@@ -25,7 +24,6 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Users read(long id) {
-        if (id<1) throw new IncorrectDataException("User id");
         return usersDao.findById(id).orElseThrow(()->new NoEntityException("Users"));
     }
 

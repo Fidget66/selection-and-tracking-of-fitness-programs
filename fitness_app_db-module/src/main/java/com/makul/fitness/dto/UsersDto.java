@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @ApiModel(description = "user's entity")
 public class UsersDto {
+    @Min(value = 0)
     private long id;
     @ApiModelProperty(value = "User first name",
             name = "firstName",

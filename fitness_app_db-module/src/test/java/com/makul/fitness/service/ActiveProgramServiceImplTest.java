@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dao.ActiveProgramDao;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.ActiveProgram;
 import org.junit.jupiter.api.Assertions;
@@ -11,10 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class ActiveProgramServiceImplTest {
@@ -52,12 +48,6 @@ class ActiveProgramServiceImplTest {
         Assertions.assertEquals(noEntityException.getMessage(),
                 "Такой записи для Active Program в базе данных не существует");
         Mockito.verify(activeProgramDao, Mockito.times(1)).findById(4L);
-
-        IncorrectDataException incorrectDataException = Assertions.assertThrows(IncorrectDataException.class,
-                ()->activeProgramService.read(-1L));
-        Assertions.assertEquals(incorrectDataException.getMessage(),
-                "Введены некорректные данные для Active Program id");
-        Mockito.verify(activeProgramDao, Mockito.times(0)).findById(-1L);
     }
 
     private ActiveProgram getActiveProgram(){

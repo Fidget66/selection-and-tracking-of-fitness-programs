@@ -20,7 +20,7 @@ public class BookmarkController {
 
     @DeleteMapping("/bookmark/{id}")
     @ApiOperation(value = "Delete bookmark by id")
-    public void deleteBookmark(@ApiParam(defaultValue = "4")@PathVariable("id") long bookmarkId){
+    public void deleteBookmark (@ApiParam(defaultValue = "4") @PathVariable("id") long bookmarkId){
         bookmarkService.delete(bookmarkId);
     }
 }

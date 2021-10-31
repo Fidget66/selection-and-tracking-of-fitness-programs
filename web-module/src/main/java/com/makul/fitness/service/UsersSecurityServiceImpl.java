@@ -29,7 +29,7 @@ public class UsersSecurityServiceImpl implements UsersSecurityService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void blockUser(long userId) {
         UsersSecurity user = readByUserId(userId);
         Roles role = rolesDao.findByRoleName("Blocked");

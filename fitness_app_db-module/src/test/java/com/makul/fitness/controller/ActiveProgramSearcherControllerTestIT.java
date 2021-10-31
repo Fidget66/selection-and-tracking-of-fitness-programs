@@ -1,6 +1,7 @@
 package com.makul.fitness.controller;
 
 import com.makul.fitness.exceptions.NoEntityException;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,8 +28,8 @@ class ActiveProgramSearcherControllerTestIT {
     private MockMvc mockMvc;
 
     @Test
-    void readAllComplitedPrograms_whenGetExistingActiveProgramList_thenStatus200andProgramListReturned()
-            throws Exception {
+    @SneakyThrows
+    void readAllComplitedPrograms_whenGetExistingActiveProgramList_thenStatus200andProgramListReturned(){
         mockMvc.perform(get("/user/{userId}/programs/active",1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))
@@ -38,14 +39,16 @@ class ActiveProgramSearcherControllerTestIT {
     }
 
     @Test
-    void readUncomplitedProgram_whenGetExistingActiveProgram_thenStatus200andActiveProgramReturned() throws Exception {
+    @SneakyThrows
+    void readUncomplitedProgram_whenGetExistingActiveProgram_thenStatus200andActiveProgramReturned(){
         mockMvc.perform(get("/user/{userId}/program/active",1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.days").value("testDays4"));
     }
 
     @Test
-    void readUncomplitedProgram_whenGetNotExistingActiveProgram_thenStatus400andExceptionThrown() throws Exception {
+    @SneakyThrows
+    void readUncomplitedProgram_whenGetNotExistingActiveProgram_thenStatus400andExceptionThrown(){
         mockMvc.perform(get("/user/{userId}/program/active",2))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))

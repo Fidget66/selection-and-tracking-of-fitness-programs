@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsersDto {
+    @Min(value = 0)
     private long id;
     @Size(min = 6, message = "Минимальная длина логина 6 символов")
     private String login;

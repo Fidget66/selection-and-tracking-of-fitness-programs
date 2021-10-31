@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dao.ExerciseScheduleDao;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.ExerciseSchedule;
 import com.makul.fitness.service.api.ExerciseScheduleService;
@@ -36,7 +35,6 @@ public class ExerciseScheduleServiceImpl implements ExerciseScheduleService {
 
     @Override
     public ExerciseSchedule read(long id) {
-        if (id<1) throw new IncorrectDataException("Exercise Schedule id");
         return exerciseScheduleDao.findById(id).orElseThrow(()->new NoEntityException("Exercise Schedule"));
     }
 }

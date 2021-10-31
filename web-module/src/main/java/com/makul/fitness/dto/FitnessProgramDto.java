@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FitnessProgramDto {
+    @Min(value = 0)
     private long id;
     @Size(min = 5, message = "Минимальная длина 5 символов")
     private String shortName;

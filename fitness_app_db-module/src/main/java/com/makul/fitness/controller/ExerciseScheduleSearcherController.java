@@ -27,7 +27,7 @@ public class ExerciseScheduleSearcherController {
     @GetMapping("/program/active/{id}/exercises")
     @ApiOperation(value = "Get the schedule list of the active program")
     public List<ExerciseScheduleDto> getExercisesList(@ApiParam(defaultValue = "2")
-                                                          @PathVariable("id") long activeProgramId){
+                                                      @PathVariable("id") long activeProgramId){
         return searcherService.readExerciseByActiveProgramId(activeProgramId)
                 .stream()
                 .map(exercise -> objectMapper.convertValue(exercise, ExerciseScheduleDto.class))

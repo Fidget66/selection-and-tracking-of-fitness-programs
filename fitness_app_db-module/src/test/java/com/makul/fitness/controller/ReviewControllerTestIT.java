@@ -1,9 +1,9 @@
 package com.makul.fitness.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.Review;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,7 +31,8 @@ class ReviewControllerTestIT {
     private MockMvc mockMvc;
 
     @Test
-    void updateReview_whenUpdate_thenStatus200andUpdatedReviewReturns() throws Exception  {
+    @SneakyThrows
+    void updateReview_whenUpdate_thenStatus200andUpdatedReviewReturns(){
         mockMvc.perform(put("/review")
                         .content(objectMapper.writeValueAsString(getReview()))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -42,7 +43,8 @@ class ReviewControllerTestIT {
     }
 
     @Test
-    void readReview_whenGetExistingReview_thenStatus200andReviewReturned() throws Exception {
+    @SneakyThrows
+    void readReview_whenGetExistingReview_thenStatus200andReviewReturned(){
         mockMvc.perform(get("/review/{id}", 2))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -51,19 +53,14 @@ class ReviewControllerTestIT {
     }
 
     @Test
-    void readReview_whenGetNotExistingReview_thenStatus400andExceptionThrown() throws Exception {
+    @SneakyThrows
+    void readReview_whenGetNotExistingReview_thenStatus400andExceptionThrown(){
         mockMvc.perform(
                         get("/review/{id}", 90)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))
                 .andExpect(result -> assertEquals("Такой записи для Review в базе данных не существует",
-                        result.getResolvedException().getMessage()));
-
-        mockMvc.perform(get("/review/{id}", -1))
-                .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof IncorrectDataException))
-                .andExpect(result -> assertEquals("Введены некорректные данные для Review id",
                         result.getResolvedException().getMessage()));
     }
 

@@ -16,8 +16,8 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
     private final RestTemplate restTemplate;
     private final UsersSecurityService securityService;
-    private final String baseURL = "http://fitnessApp:8124/fitnessDB-app/";
-  //  private final String baseURL = "http://localhost:8124/fitnessDB-app/";
+   // private final String baseURL = "http://fitnessApp:8124/fitnessDB-app/";
+    private final String baseURL = "http://localhost:8124/fitnessDB-app/";
     public AdminServiceImpl(RestTemplate restTemplate, UsersSecurityService securityService) {
         this.restTemplate = restTemplate;
         this.securityService = securityService;

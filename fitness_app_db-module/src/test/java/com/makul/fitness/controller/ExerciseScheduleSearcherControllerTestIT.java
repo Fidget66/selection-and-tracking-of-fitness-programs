@@ -1,5 +1,6 @@
 package com.makul.fitness.controller;
 
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,7 +26,8 @@ class ExerciseScheduleSearcherControllerTestIT {
     private MockMvc mockMvc;
 
     @Test
-    void getExercisesList_whenGetExistingExercisesList_thenStatus200andExercisesListReturned() throws Exception {
+    @SneakyThrows
+    void getExercisesList_whenGetExistingExercisesList_thenStatus200andExercisesListReturned(){
         mockMvc.perform(get("/program/active/{id}/exercises", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))

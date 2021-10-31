@@ -1,10 +1,8 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dao.UsersDao;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.Users;
-import com.makul.fitness.service.api.UsersService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,13 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class UsersServiceImplTest {
@@ -55,12 +50,6 @@ class UsersServiceImplTest {
         Assertions.assertEquals(noEntityException.getMessage(),
                 "Такой записи для Users в базе данных не существует");
         Mockito.verify(usersDao, Mockito.times(1)).findById(4L);
-
-        IncorrectDataException incorrectDataException = Assertions.assertThrows(IncorrectDataException.class,
-                ()->usersService.read(-1L));
-        Assertions.assertEquals(incorrectDataException.getMessage(),
-                "Введены некорректные данные для User id");
-        Mockito.verify(usersDao, Mockito.times(0)).findById(-1L);
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.makul.fitness.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makul.fitness.model.CategoryOfFitnessProgram;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,7 +32,8 @@ class CategoryOfFitnessProgramControllerTestIT {
     private ObjectMapper objectMapper;
 
     @Test
-    void createCategory_whenAdd_thenStatus200andCategoryReturned() throws Exception {
+    @SneakyThrows
+    void createCategory_whenAdd_thenStatus200andCategoryReturned(){
         mockMvc.perform(post("/fitness/category")
                         .content(objectMapper.writeValueAsString(getCategory()))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -42,8 +44,8 @@ class CategoryOfFitnessProgramControllerTestIT {
     }
 
     @Test
-    void showAllCategory_whenGetExistingCategoryFitnessProgramList_thenStatus200andCategoryProgramListReturned()
-            throws Exception {
+    @SneakyThrows
+    void showAllCategory_whenGetExistingCategoryFitnessProgramList_thenStatus200andCategoryProgramListReturned(){
         mockMvc.perform(get("/fitness/categories"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))

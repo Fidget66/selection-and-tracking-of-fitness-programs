@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dao.ReviewDao;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.Review;
 import org.junit.jupiter.api.Assertions;
@@ -50,12 +49,6 @@ class ReviewServiceImplTest {
         Assertions.assertEquals(noEntityException.getMessage(),
                 "Такой записи для Review в базе данных не существует");
         Mockito.verify(reviewDao, Mockito.times(1)).findById(4L);
-
-        IncorrectDataException incorrectDataException = Assertions.assertThrows(IncorrectDataException.class,
-                ()->reviewService.read(-1L));
-        Assertions.assertEquals(incorrectDataException.getMessage(),
-                "Введены некорректные данные для Review id");
-        Mockito.verify(reviewDao, Mockito.times(0)).findById(-1L);
     }
 
     @Test

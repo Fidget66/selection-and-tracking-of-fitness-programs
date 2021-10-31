@@ -1,7 +1,7 @@
 package com.makul.fitness.controller;
 
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,7 +28,8 @@ class ActiveProgramControllerTestIT {
     private MockMvc mockMvc;
 
     @Test
-    void readProgram_whenGetExistingActiveProgram_thenStatus200andProgramReturned() throws Exception {
+    @SneakyThrows
+    void readProgram_whenGetExistingActiveProgram_thenStatus200andProgramReturned(){
         mockMvc.perform(get("/program/active/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -36,7 +37,8 @@ class ActiveProgramControllerTestIT {
     }
 
     @Test
-    void readProgram_whenGetNotExistingActiveProgram_thenStatus400andExceptionThrown() throws Exception {
+    @SneakyThrows
+    void readProgram_whenGetNotExistingActiveProgram_thenStatus400andExceptionThrown(){
             mockMvc.perform(
                             get("/program/active/{id}", 90)
                                     .contentType(MediaType.APPLICATION_JSON))
@@ -44,11 +46,5 @@ class ActiveProgramControllerTestIT {
                     .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))
                     .andExpect(result -> assertEquals("Такой записи для Active Program в базе данных не существует",
                             result.getResolvedException().getMessage()));
-
-        mockMvc.perform(get("/program/active/{id}", -1))
-                .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof IncorrectDataException))
-                .andExpect(result -> assertEquals("Введены некорректные данные для Active Program id",
-                        result.getResolvedException().getMessage()));
     }
 }

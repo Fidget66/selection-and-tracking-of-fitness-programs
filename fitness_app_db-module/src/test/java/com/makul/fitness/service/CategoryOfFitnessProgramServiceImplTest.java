@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dao.CategoryOfFitnessProgramDao;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.CategoryOfFitnessProgram;
 import org.junit.jupiter.api.Assertions;
@@ -66,12 +65,6 @@ class CategoryOfFitnessProgramServiceImplTest {
         Assertions.assertEquals(noEntityException.getMessage(),
                 "Такой записи для Category Of Fitness Program в базе данных не существует");
         Mockito.verify(categoryDao, Mockito.times(1)).findById(4L);
-
-        IncorrectDataException incorrectDataException = Assertions.assertThrows(IncorrectDataException.class,
-                ()->categoryService.read(-1L));
-        Assertions.assertEquals(incorrectDataException.getMessage(),
-                "Введены некорректные данные для Category Of Fitness Program id");
-        Mockito.verify(categoryDao, Mockito.times(0)).findById(-1L);
     }
 
     private CategoryOfFitnessProgram getCategory(){

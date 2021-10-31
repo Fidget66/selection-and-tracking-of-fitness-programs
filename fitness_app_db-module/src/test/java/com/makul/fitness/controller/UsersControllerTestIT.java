@@ -1,9 +1,9 @@
 package com.makul.fitness.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.Users;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,7 +35,8 @@ class UsersControllerTestIT {
     private ObjectMapper objectMapper;
 
     @Test
-    void createUser_whenAdd_thenStatus200andUserReturned() throws Exception{
+    @SneakyThrows
+    void createUser_whenAdd_thenStatus200andUserReturned(){
         mockMvc.perform(post("/user")
                         .content(objectMapper.writeValueAsString(getUser()))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -48,7 +49,8 @@ class UsersControllerTestIT {
     }
 
     @Test
-    void readUserById_whenGetExistingUser_thenStatus200andUserReturned() throws Exception {
+    @SneakyThrows
+    void readUserById_whenGetExistingUser_thenStatus200andUserReturned(){
         mockMvc.perform(get("/user/{id}", 3))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -59,7 +61,8 @@ class UsersControllerTestIT {
     }
 
     @Test
-    void readUserById_whenGetNotExistingUser_thenStatus400andExceptionThrown() throws Exception {
+    @SneakyThrows
+    void readUserById_whenGetNotExistingUser_thenStatus400andExceptionThrown(){
         mockMvc.perform(
                         get("/user/{id}", 90)
                                 .contentType(MediaType.APPLICATION_JSON))
@@ -67,16 +70,11 @@ class UsersControllerTestIT {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))
                 .andExpect(result -> assertEquals("Такой записи для Users в базе данных не существует",
                         result.getResolvedException().getMessage()));
-
-        mockMvc.perform(get("/user/{id}", -1))
-                .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof IncorrectDataException))
-                .andExpect(result -> assertEquals("Введены некорректные данные для User id",
-                        result.getResolvedException().getMessage()));
     }
 
     @Test
-    void readUserByNameLastName_whenGetExistingUserList_thenStatus200andUserReturned() throws Exception {
+    @SneakyThrows
+    void readUserByNameLastName_whenGetExistingUserList_thenStatus200andUserReturned(){
         mockMvc.perform(get("/user/{firstName}/{lastName}", "Andrey", "Andreev"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))

@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @ApiModel(description = "Review entity")
 public class ReviewDto {
+    @Min(value = 0)
     private long id;
     @ApiModelProperty(value = "Author's name",
             name = "Name",

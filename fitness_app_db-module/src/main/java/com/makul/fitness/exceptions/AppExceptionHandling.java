@@ -27,12 +27,6 @@ public class AppExceptionHandling extends ResponseEntityExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(IncorrectDataException.class)
-    private ResponseEntity<ApiError> handleIncorrectDataException(IncorrectDataException exception) {
-        return new ResponseEntity<>(getApiError(exception,HttpStatus.BAD_REQUEST),
-                HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(ReviewIsPresentException.class)
     private ResponseEntity<ApiError> handleReviewIsPresentException(ReviewIsPresentException exception) {
         return new ResponseEntity<>(getApiError(exception,HttpStatus.BAD_REQUEST),

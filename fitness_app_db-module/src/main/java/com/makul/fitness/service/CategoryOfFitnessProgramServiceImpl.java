@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dao.CategoryOfFitnessProgramDao;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.CategoryOfFitnessProgram;
 import com.makul.fitness.service.api.CategoryOfFitnessProgramService;
@@ -33,7 +32,6 @@ public class CategoryOfFitnessProgramServiceImpl implements CategoryOfFitnessPro
 
     @Override
     public CategoryOfFitnessProgram read(long id) {
-        if (id<1) throw new IncorrectDataException("Category Of Fitness Program id");
         return categoryDao.findById(id).orElseThrow(()->new NoEntityException("Category Of Fitness Program"));
     }
 }

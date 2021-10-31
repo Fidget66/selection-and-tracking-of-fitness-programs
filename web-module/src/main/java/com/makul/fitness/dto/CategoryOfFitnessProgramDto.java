@@ -3,6 +3,8 @@ package com.makul.fitness.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryOfFitnessProgramDto {
+    @Min(value = 0)
     private long id;
     @Size(min = 3, message = "Минимальный размер 3 символа")
     private String shortName;

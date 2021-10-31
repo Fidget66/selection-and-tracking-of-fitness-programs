@@ -1,5 +1,6 @@
 package com.makul.fitness.controller;
 
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,7 +26,8 @@ class FitnessProgramSearcherControllerTestIT {
     private MockMvc mockMvc;
 
     @Test
-    void readFitnessProgramList_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned() throws Exception {
+    @SneakyThrows
+    void readFitnessProgramList_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned(){
         mockMvc.perform(get("/category/{id}/program/fitness",1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))
@@ -35,8 +37,8 @@ class FitnessProgramSearcherControllerTestIT {
     }
 
     @Test
-    void readFitnessProgramListWithRestrictions_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned()
-            throws Exception {
+    @SneakyThrows
+    void readFitnessProgramListWithRestrictions_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned(){
         mockMvc.perform(get("/user/{userId}/program/fitness/{duration}",1,50))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))

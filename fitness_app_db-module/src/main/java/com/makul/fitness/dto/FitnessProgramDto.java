@@ -15,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ApiModel(description = "Fitness program entity")
 public class FitnessProgramDto {
+    @Min(value = 0)
     private long id;
     @ApiModelProperty(value = "Fitness program short name",
             name = "shortName",

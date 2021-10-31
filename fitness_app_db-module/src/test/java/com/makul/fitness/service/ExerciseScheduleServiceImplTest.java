@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dao.ExerciseScheduleDao;
-import com.makul.fitness.exceptions.IncorrectDataException;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.ExerciseSchedule;
 import org.junit.jupiter.api.Assertions;
@@ -69,12 +68,6 @@ class ExerciseScheduleServiceImplTest {
         Assertions.assertEquals(noEntityException.getMessage(),
                 "Такой записи для Exercise Schedule в базе данных не существует");
         Mockito.verify(scheduleDao, Mockito.times(1)).findById(4L);
-
-        IncorrectDataException incorrectDataException = Assertions.assertThrows(IncorrectDataException.class,
-                ()->scheduleService.read(-1L));
-        Assertions.assertEquals(incorrectDataException.getMessage(),
-                "Введены некорректные данные для Exercise Schedule id");
-        Mockito.verify(scheduleDao, Mockito.times(0)).findById(-1L);
     }
 
     private ExerciseSchedule getSchedule(){
