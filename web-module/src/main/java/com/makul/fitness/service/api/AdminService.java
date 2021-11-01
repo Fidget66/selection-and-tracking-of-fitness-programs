@@ -4,7 +4,6 @@ import com.makul.fitness.dto.CategoryOfFitnessProgramDto;
 import com.makul.fitness.dto.FitnessProgramDto;
 import com.makul.fitness.dto.ReviewDto;
 import com.makul.fitness.dto.UsersDto;
-
 import java.util.List;
 
 public interface AdminService {

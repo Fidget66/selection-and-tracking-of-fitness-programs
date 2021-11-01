@@ -390,39 +390,8 @@
 			]
 		},
 		{
-			"name": "Business Controller",
+			"name": "Client Business Controller",
 			"item": [
-				{
-					"name": "Add fitness program to user active programs",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"ageRestriction\": 75,\r\n  \"description\": \"Description of the fitness program, Description of the fitness program\",\r\n  \"duration\": 25,\r\n  \"exercisePerWeek\": 2,\r\n  \"sexRestriction\": \"m\",\r\n  \"shortName\": \"Cycle training\",\r\n  \"weightRestriction\": 95\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8124/fitnessDB-app/category/4/program/fitness",
-							"host": [
-								"localhost"
-							],
-							"port": "8124",
-							"path": [
-								"fitnessDB-app",
-								"category",
-								"4",
-								"program",
-								"fitness"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "Create a schedule for the current user along with his wishes",
 					"request": {
@@ -567,6 +536,42 @@
 								"fitness",
 								"6",
 								"review"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin Business Controller",
+			"item": [
+				{
+					"name": "Add fitness program",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ageRestriction\": 75,\r\n  \"description\": \"Description of the fitness program, Description of the fitness program\",\r\n  \"duration\": 25,\r\n  \"exercisePerWeek\": 2,\r\n  \"sexRestriction\": \"m\",\r\n  \"shortName\": \"Cycle training\",\r\n  \"weightRestriction\": 95\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8124/fitnessDB-app/category/4/program/fitness",
+							"host": [
+								"localhost"
+							],
+							"port": "8124",
+							"path": [
+								"fitnessDB-app",
+								"category",
+								"4",
+								"program",
+								"fitness"
 							]
 						}
 					},
