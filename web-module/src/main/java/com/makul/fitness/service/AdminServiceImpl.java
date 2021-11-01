@@ -54,6 +54,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public void unblockUser(long userId) {
+        securityService.unblockUser(userId);
+    }
+
+    @Override
     public List<FitnessProgramDto> readListFitnessProgram(long categoryId) {
         List <FitnessProgramDto> programs = Arrays.asList(restTemplate.getForObject(baseURL +
                 "category/"+ categoryId+ "/program/fitness", FitnessProgramDto[].class));

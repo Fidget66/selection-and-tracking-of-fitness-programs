@@ -32,8 +32,19 @@ public class UsersSecurityServiceImpl implements UsersSecurityService {
     @Transactional(rollbackFor = Exception.class)
     public void blockUser(long userId) {
         UsersSecurity user = readByUserId(userId);
-        Roles role = rolesDao.findByRoleName("Blocked");
-        user.setRole(List.of(role));
+        if (!user.getRole().contains(rolesDao.findByRoleName("Admin"))){
+            Roles role = rolesDao.findByRoleName("Blocked");
+            user.setRole(List.of(role));
+        }
+    }
+
+    @Override
+    public void unblockUser(long userId) {
+        UsersSecurity user = readByUserId(userId);
+        if (!user.getRole().contains(rolesDao.findByRoleName("Admin"))){
+            Roles role = rolesDao.findByRoleName("Client");
+            user.setRole(List.of(role));
+        }
     }
 
     @Override

@@ -17,4 +17,5 @@ public interface AdminService {
     List <ReviewDto> readListReviews(long fitnessProgramId);
     ReviewDto readReview(long id);
     void updateReview(ReviewDto review);
+    void unblockUser(long userId);
 }

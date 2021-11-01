@@ -28,6 +28,7 @@
             <th>Год рождения</th>
             <th>Email</th>
             <th>Заблокировать</th>
+            <th>Разблокировать</th>
         </tr>
         <tbody>
         <tr th:each="usr:${users}">
@@ -50,6 +51,11 @@
             <td >
                 <a th:href="@{users/{id} (id=${usr.id})}" >
                     Block user
+                </a>
+            </td>
+            <td >
+                <a th:href="@{user/{id} (id=${usr.id})}" >
+                    Unblock user
                 </a>
             </td>
         </tr>

@@ -7,4 +7,5 @@ public interface UsersSecurityService {
     void blockUser(long userId);
     UsersSecurity readByLogin(String login);
     UsersSecurity readByUserId(long userId);
+    void unblockUser(long userId);
 }

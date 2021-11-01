@@ -82,6 +82,11 @@ public class AdminController {
         return "redirect:/";
     }
 
+    @GetMapping("/admin/blocking/user/{id}")
+    public String unblockUser(@PathVariable("id") long userId){
+        adminService.unblockUser(userId);
+        return "redirect:/";
+    }
 
     @GetMapping("/admin/category/program/reviews")
     public String chooseCategoryForReviews(Model model){
