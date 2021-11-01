@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
-class BusinessServiceImplTest {
+class ClientBusinessServiceImplTest {
     @Mock
     private UsersService usersService;
     @Mock
@@ -30,12 +30,9 @@ class BusinessServiceImplTest {
     @Mock
     private ExerciseScheduleService exerciseScheduleService;
     @Mock
-    private CategoryOfFitnessProgramService categoryService;
-    @Mock
     private ReviewService reviewService;
     @InjectMocks
-    private BusinessServiceImpl businessService;
-
+    private ClientBusinessServiceImpl businessService;
 
     @Test
     void whenAddBookmark_thenOk() {
@@ -162,19 +159,6 @@ class BusinessServiceImplTest {
         Mockito.verify(reviewService, Mockito.times(1)).create(review);
     }
 
-    @Test
-    void whenAddFitnessProgram_thenOk() {
-        FitnessProgram fitnessProgram = getFitnessProgram();
-        CategoryOfFitnessProgram category = getCategory();
-        Mockito.when(categoryService.read(3L)).thenReturn(category);
-        Mockito.when(fitnessProgramService.create(fitnessProgram)).thenReturn(fitnessProgram);
-        FitnessProgram actual = businessService.addFitnessProgram(3, fitnessProgram);
-        FitnessProgram expected = fitnessProgram;
-        Assertions.assertEquals(expected, actual);
-        Mockito.verify(categoryService, Mockito.times(1)).read(3L);
-        Mockito.verify(fitnessProgramService, Mockito.times(1)).create(fitnessProgram);
-    }
-
     private Bookmark getBookmark(){
         return new Bookmark();
     }
@@ -227,9 +211,4 @@ class BusinessServiceImplTest {
         review.setAuthorId(1);
         return review;
     }
-
-    private CategoryOfFitnessProgram getCategory(){
-        return new CategoryOfFitnessProgram();
-    }
-
 }

@@ -21,12 +21,12 @@ services:
       - "8124:8124"
   databaseFitness:
     container_name: databaseFitness
-    image: postgres:13.4-alpine # официальный образ базы данных
+    image: postgres:13.4-alpine
     env_file:
-      - ./fitness_app-db/database.env # данные для создания пользователя, которым вы будете подключаться приложением
+      - ./fitness_app-db/database.env
     volumes:
-      - ./fitness_app-db/data111.sql:/docker-entrypoint-initdb.d/data111.sql # путь к скрипту для создания таблиц
-      - ./fitness_app-db/data:/var/lib/postgresql/data/ # путь к папке для хранения состояния данных
+      - ./fitness_app-db/data111.sql:/docker-entrypoint-initdb.d/data111.sql
+      - ./fitness_app-db/data:/var/lib/postgresql/data/
     ports:
       - "5402:5432"
   databaseSecurity:

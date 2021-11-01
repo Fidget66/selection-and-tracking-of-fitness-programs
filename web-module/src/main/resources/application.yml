@@ -11,10 +11,9 @@ spring:
     database: postgresql
   sql:
     init:
-      data-locations: classpath*:/security.sql
       mode: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/SecurityDB
+    url: jdbc:postgresql://databaseSecurity:5432/SecurityDB
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: 3784

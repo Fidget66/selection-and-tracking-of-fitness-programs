@@ -2,7 +2,6 @@ package com.makul.fitness.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makul.fitness.dto.ActiveProgramDto;
-import com.makul.fitness.dto.FitnessProgramDto;
 import com.makul.fitness.dto.ReviewDto;
 import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
 import com.makul.fitness.exceptions.BookmarkIsPresentException;
@@ -32,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql("classpath:data-test.sql"),
         @Sql(scripts = "classpath:clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
-class BusinessControllerTestIT {
+class ClientBusinessControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -94,23 +93,6 @@ class BusinessControllerTestIT {
 
     @Test
     @SneakyThrows
-    void addFitnessProgram_whenAdd_thenStatus200andFitnessProgramReturned(){
-        mockMvc.perform(post("/category/{categoryId}/program/fitness",1)
-                        .content(objectMapper.writeValueAsString(getFitnessProgramDto()))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.shortName").value("TestProgram"))
-                .andExpect(jsonPath("$.description").value("TestDescription"))
-                .andExpect(jsonPath("$.duration").value(16))
-                .andExpect(jsonPath("$.ageRestriction").value(16))
-                .andExpect(jsonPath("$.exercisePerWeek").value(7))
-                .andExpect(jsonPath("$.sexRestriction").value("f"))
-                .andExpect(jsonPath("$.weightRestriction").value(160));
-    }
-
-    @Test
-    @SneakyThrows
     void createScheduleList_whenCreate_thenStatus200andActiveProgramReturned(){
         mockMvc.perform(put("/program/fitness/schedule")
                         .content(objectMapper.writeValueAsString(getActiveProgramDto()))
@@ -168,18 +150,6 @@ class BusinessControllerTestIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.programShortName").value("Test4Name"));
-    }
-
-    private FitnessProgramDto getFitnessProgramDto(){
-        FitnessProgramDto fitnessProgramDto = new FitnessProgramDto();
-        fitnessProgramDto.setShortName("TestProgram");
-        fitnessProgramDto.setDescription("TestDescription");
-        fitnessProgramDto.setDuration(16);
-        fitnessProgramDto.setAgeRestriction(16);
-        fitnessProgramDto.setExercisePerWeek(7);
-        fitnessProgramDto.setSexRestriction("f");
-        fitnessProgramDto.setWeightRestriction(160);
-        return fitnessProgramDto;
     }
 
     private ActiveProgramDto getActiveProgramDto(){

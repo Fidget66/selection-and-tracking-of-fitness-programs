@@ -15,26 +15,23 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class BusinessServiceImpl implements BusinessService {
+public class ClientBusinessServiceImpl implements ClientBusinessService {
 
     private final UsersService usersService;
     private final BookmarkService bookmarkService;
     private final FitnessProgramService fitnessProgramService;
     private final ActiveProgramService activeProgramService;
     private final ExerciseScheduleService exerciseScheduleService;
-    private final CategoryOfFitnessProgramService categoryService;
     private final ReviewService reviewService;
 
-    public BusinessServiceImpl(UsersService usersService, BookmarkService bookmarkService,
-                               FitnessProgramService fitnessProgramService, ActiveProgramService activeProgramService,
-                               ExerciseScheduleService exerciseScheduleService,
-                               CategoryOfFitnessProgramService categoryService, ReviewService reviewService) {
+    public ClientBusinessServiceImpl(UsersService usersService, BookmarkService bookmarkService,
+                                     FitnessProgramService fitnessProgramService, ActiveProgramService activeProgramService,
+                                     ExerciseScheduleService exerciseScheduleService, ReviewService reviewService) {
         this.usersService = usersService;
         this.bookmarkService = bookmarkService;
         this.fitnessProgramService = fitnessProgramService;
         this.activeProgramService = activeProgramService;
         this.exerciseScheduleService = exerciseScheduleService;
-        this.categoryService = categoryService;
         this.reviewService = reviewService;
     }
 
@@ -90,14 +87,6 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public FitnessProgram addFitnessProgram(long categoryId, FitnessProgram fitnessProgram) {
-        CategoryOfFitnessProgram category = categoryService.read(categoryId);
-        fitnessProgram.setCategory(category);
-        return fitnessProgramService.create(fitnessProgram);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
     public ActiveProgram createSchedule(ActiveProgram inputActiveProgram){
         ActiveProgram activeProgram=activeProgramService.read(inputActiveProgram.getId());
         activeProgram.setDays(inputActiveProgram.getDays());
@@ -148,10 +137,10 @@ public class BusinessServiceImpl implements BusinessService {
         LocalDate currentDate= LocalDate.now();
         int exercisesCounter=0;
         while (exercisesCounter < activeProgram.getFitnessProgram().getDuration()){
-            for (int i=0; i<days.length; i++){
-                if (currentDate.getDayOfWeek().toString().equalsIgnoreCase(days[i])) {
-                 scheduleList.add(createNewExerciseSchedule(currentDate,activeProgram));
-                 exercisesCounter++;
+            for (String day : days) {
+                if (currentDate.getDayOfWeek().toString().equalsIgnoreCase(day)) {
+                    scheduleList.add(createNewExerciseSchedule(currentDate, activeProgram));
+                    exercisesCounter++;
                 }
             }
             currentDate=currentDate.plusDays(1);
@@ -160,13 +149,12 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     private ExerciseSchedule createNewExerciseSchedule(LocalDate dateOfExercise, ActiveProgram activeProgram){
-        ExerciseSchedule exerciseSchedule = ExerciseSchedule
+        return ExerciseSchedule
                 .builder()
                 .programShortName(activeProgram.getFitnessProgram().getShortName())
                 .exerciseDate(dateOfExercise)
                 .activeProgram(activeProgram)
                 .build();
-        return exerciseSchedule;
     }
 
     private void isAllExerciseComplited(long activeProgramId){

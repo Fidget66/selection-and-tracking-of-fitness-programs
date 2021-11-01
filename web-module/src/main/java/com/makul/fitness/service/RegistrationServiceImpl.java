@@ -20,8 +20,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UsersSecurityService securityService;
     private final RolesDao rolesDao;
     private final BCryptPasswordEncoder passwordEncoder;
-   // private final String baseURL = "http://fitnessApp:8124/fitnessDB-app/";
-    private final String baseURL = "http://localhost:8124/fitnessDB-app/";
+    private final String baseURL = "http://fitnessApp:8124/fitnessDB-app/";
 
     public RegistrationServiceImpl(RestTemplate restTemplate, UsersSecurityService securityService,
                                    RolesDao rolesDao, BCryptPasswordEncoder passwordEncoder) {
