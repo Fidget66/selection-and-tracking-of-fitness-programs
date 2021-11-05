@@ -90,11 +90,11 @@
                 <version>3.0.0-M4</version>
                 <configuration>
                     <includes>
-                        <include>pkg/**/*Test*.java</include>
+                        <include>pkg/**/*Test.java</include>
                     </includes>
-<!--                    <excludes>-->
-<!--                        <exclude>**/*TestIT.java</exclude>-->
-<!--                    </excludes>-->
+                    <excludes>
+                        <exclude>pkg/**/*TestIT.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
