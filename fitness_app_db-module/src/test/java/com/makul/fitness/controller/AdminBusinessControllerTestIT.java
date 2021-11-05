@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql("classpath:data-test.sql"),
         @Sql(scripts = "classpath:clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
-class AdminBusinessControllerTest {
+class AdminBusinessControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
