@@ -36,4 +36,5 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Fidget66_selection-and-tracking-of-fitness-programs
       - uses: axel-op/googlejavaformat-action@v3
         with:
-          args: "--dry-run --set-exit-if-changed"
+          args: "--dry-run"
+#          "--skip-sorting-imports --replace"
