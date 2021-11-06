@@ -19,7 +19,7 @@ public class LoginController {
         return "403";
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String main(Model model){
         return "Index";
     }
