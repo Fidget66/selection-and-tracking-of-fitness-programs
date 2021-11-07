@@ -11,3 +11,16 @@ scheduling and reminder of classes. It is also possible to view information abou
 
 ### DB scheme
 The structure of model links in our fitness app is shown below
+![img.png](.img/FitnessAppDBSchema.png)
+
+### Getting Started
+    First, run:
+    './mvnw clean install'
+    Next:
+    'docker-compose -f docker-compose.yml up -d --build'
+
+and open link http://localhost:8122/fitnessweb-app
+
+You can also use the Swagger UI at link http://localhost:8124/fitnessDB-app/swagger-ui
+
+
