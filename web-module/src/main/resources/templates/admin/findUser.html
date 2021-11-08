@@ -21,7 +21,7 @@
 <p><a href=/fitnessweb-app>Return to main page</a></p>
 <h2>FIND USER BY NAME</h2>
 
-<form th:action ="@{blocking/users}" method="get">
+<form id="find"  method="get">
     <table border="1">
         <tr>
             <td>Имя пользователя</td>
@@ -31,12 +31,13 @@
             <td>Фамилия пользователя</td>
             <td><input type="text" minlength="1" placeholder="Сергеев"  name="lastName" required/></td>
         </tr>
-        <tr>
-           <td>
-               <button type="submit">Find users</button>
-           </td>
-        </tr>
     </table>
 </form>
+<br>
+<p>
+    <button type="submit" form="find" formaction="/fitnessweb-app/admin/blocking/users">Block users</button>
+    <button type="submit" form="find" formaction="/fitnessweb-app/admin/unlocking/users">Unlock users</button>
+</p>
+</br>
 </body>
 </html>

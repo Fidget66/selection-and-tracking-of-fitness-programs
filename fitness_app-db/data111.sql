@@ -196,21 +196,21 @@ values ('Olya', 'Mak', '1985-04-22','f',55,'olyaMak@mail.ru');
 INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
 values ('Andrey', 'Andreev', '1993-12-24','m',80,'admin@mail.ru');
 
-INSERT INTO bookmark (fitness_program_id, user_id) values (1,1);
-INSERT INTO bookmark (fitness_program_id, user_id) values (3,1);
+INSERT INTO bookmark (fitness_program_id, user_id) values (1,3);
+INSERT INTO bookmark (fitness_program_id, user_id) values (3,3);
 INSERT INTO bookmark (fitness_program_id, user_id) values (2,2);
-INSERT INTO bookmark (fitness_program_id, user_id) values (5,2);
+INSERT INTO bookmark (fitness_program_id, user_id) values (7,2);
 
-INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;FRIDAY;SUNDAY',true,6,1);
-INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SUNDAY',true,3,1);
-INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SATURDAY',false,1,1);
+INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;FRIDAY;SUNDAY',true,6,3);
+INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SUNDAY',true,3,3);
+INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SATURDAY',false,1,3);
 INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;FRIDAY;SUNDAY',true,4,2);
-INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SATURDAY',false,5,2);
+INSERT INTO active_program (days, is_complited, fitness_program_id, user_id) VALUES ('MONDAY;SATURDAY',false,1,2);
 
 INSERT INTO review (author_id, author_name, text, fitness_program_id)
-VALUES (1,'Petr' ,'Отличная программа упражнений. Рекомендую!',6);
+VALUES (3,'Petr' ,'Отличная программа упражнений. Рекомендую!',6);
 INSERT INTO review (author_id, author_name, text, fitness_program_id)
-VALUES (1,'Petr' ,'Мне понравилось', 4);
+VALUES (3,'Petr' ,'Мне понравилось', 4);
 INSERT INTO review (author_id, author_name, text, fitness_program_id)
 VALUES (2,'Olya','Программа подойдет для всех',4);
 

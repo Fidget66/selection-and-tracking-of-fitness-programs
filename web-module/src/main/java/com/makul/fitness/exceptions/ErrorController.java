@@ -26,6 +26,8 @@ public class ErrorController extends ResponseEntityExceptionHandler {
                 .indexOf(",\"exception")-1).strip();;
         if (status>=500) messageException="Сервер не может обработать запрос!";
         model.addAttribute("status",status );
+        if (messageException.equals("Такой записи для Active Program в базе данных не существует"))
+            messageException = "У Вас нет активных программ";
         model.addAttribute("message", messageException);
         return "error";
     }

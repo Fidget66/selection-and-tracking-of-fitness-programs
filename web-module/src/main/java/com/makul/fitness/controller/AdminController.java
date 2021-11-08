@@ -61,16 +61,24 @@ public class AdminController {
     }
 
     @GetMapping("/admin/blocking")
-    public String returnFindUserForm(HttpServletRequest request,
-                                            Model model){
-        model.addAttribute("req", request.getHeader("Referer"));
+    public String returnFindUserForm(){
         return "admin/findUser";
     }
 
     @GetMapping("/admin/blocking/users")
-    public String findUsersByName(@RequestParam String name, @RequestParam String lastName, HttpServletRequest request,
+    public String findUnlockedUsersByName(@RequestParam String name, @RequestParam String lastName, HttpServletRequest request,
                                      Model model){
-        List<UsersDto> usersList = adminService.readUsersByNameLastName(name, lastName);
+        List<UsersDto> usersList = adminService.readUnlockedUsersByNameLastName(name, lastName);
+        model.addAttribute("users",usersList);
+        model.addAttribute("req", request.getHeader("Referer"));
+        model.addAttribute("block",true);
+        return "admin/users";
+    }
+
+    @GetMapping("/admin/unlocking/users")
+    public String findBlockedUsersByName(@RequestParam String name, @RequestParam String lastName, HttpServletRequest request,
+                                  Model model){
+        List<UsersDto> usersList = adminService.readBlockedUsersByNameLastName(name, lastName);
         model.addAttribute("users",usersList);
         model.addAttribute("req", request.getHeader("Referer"));
         return "admin/users";
@@ -82,7 +90,7 @@ public class AdminController {
         return "redirect:/";
     }
 
-    @GetMapping("/admin/blocking/user/{id}")
+    @GetMapping("/admin/unlocking/user/{id}")
     public String unblockUser(@PathVariable("id") long userId){
         adminService.unblockUser(userId);
         return "redirect:/";

@@ -30,6 +30,8 @@ values ('Roman24', '$2a$08$CVOdRl2OIjBNR3jcQJN6fOGuuqatlpWghwcezZXYhujyroyhOfhk2
 INSERT INTO users_security(login, password, user_id)
 values ('Alex35', '$2a$08$Ylu1iJe9znyzahEuadgTweJEpKx8Pn6g4LVYcETEukULHXs2qZ6K6', 2);
 --987654
+INSERT INTO users_security(login, password, user_id)
+values ('Andrey', '$2a$08$Ylu1iJe9znyzahEuadgTweJEpKx8Pn6g4LVYcETEukULHXs2qZ6K6', 3);
 
 INSERT INTO roles (role_name)  values ('Admin');
 INSERT INTO roles (role_name)  values ('Client');
@@ -37,3 +39,4 @@ INSERT INTO roles (role_name)  values ('Blocked');
 
 INSERT INTO users_roles(users_security_id, roles_id) values(1,1);
 INSERT INTO users_roles(users_security_id, roles_id) values(2,2);
+INSERT INTO users_roles(users_security_id, roles_id) values(3,2);

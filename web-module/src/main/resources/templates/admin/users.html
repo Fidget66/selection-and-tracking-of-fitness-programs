@@ -19,6 +19,7 @@
     </tr>
 </table>
 <p><a href=/fitnessweb-app>Return to main page</a></p>
+<p><a th:href="@{${req}}">Return to previous page</a></p>
 <h1>Users found</h1>
 <font size="2.5">
     <table border="3" style="width:500px" width="100%">
@@ -27,8 +28,8 @@
             <th>Фамилия</th>
             <th>Год рождения</th>
             <th>Email</th>
-            <th>Заблокировать</th>
-            <th>Разблокировать</th>
+            <th th:if="${block}">Заблокировать</th>
+            <th th:unless="${block}">Разблокировать</th>
         </tr>
         <tbody>
         <tr th:each="usr:${users}">
@@ -48,14 +49,15 @@
                 <span th:text="${usr.email}" ></span>
             </td>
 
-            <td >
-                <a th:href="@{users/{id} (id=${usr.id})}" >
+            <td th:if="${block}">
+                <a th:href="@{users/{id} (id=${usr.id})}">
                     Block user
                 </a>
             </td>
-            <td >
-                <a th:href="@{user/{id} (id=${usr.id})}" >
-                    Unblock user
+
+            <td th:unless="${block}">
+                <a th:href="@{user/{id} (id=${usr.id})}">
+                    Unlock user
                 </a>
             </td>
         </tr>

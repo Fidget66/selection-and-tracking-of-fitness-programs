@@ -33,8 +33,8 @@
             <th >Количество занятий в неделю</th>
             <th >Описание</th>
             <th >Отзывы</th>
-            <th >Добавить в закладки</th>
-            <th >Выбрать программу</th>
+            <th th:if="${bookmarkMarker}">Добавить в закладки</th>
+            <th th:if="${bookmarkMarker}">Выбрать программу</th>
         </tr>
         <tbody>
         <tr th:each="programFit:${allPrograms}">
@@ -77,13 +77,15 @@
                     View reviews
                 </a>
             </td>
-            <td >
-                <a th:href="@{/client/fitness/program/{id}/bookmark(id=${programFit.id})}"
-                   th:if="${bookmarkMarker}">add to bookmark</a>
+            <td th:if="${bookmarkMarker}">
+                <a th:href="@{/client/fitness/program/{id}/bookmark(id=${programFit.id})}">
+                    add to bookmark
+                </a>
             </td>
-            <td >
-                <a th:href="@{/client/fitness/program/{id}/active/program (id=${programFit.id})}"
-                   th:if="${bookmarkMarker}">add to active</a>
+            <td th:if="${bookmarkMarker}">
+                <a th:href="@{/client/fitness/program/{id}/active/program (id=${programFit.id})}">
+                    add to active
+                </a>
             </td>
         </tr>
         </tbody>

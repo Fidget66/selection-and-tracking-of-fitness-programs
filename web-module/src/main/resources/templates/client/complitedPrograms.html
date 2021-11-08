@@ -42,9 +42,8 @@
                 <span th:text="${usrRev.text}" ></span>
             </td>
 
-            <td >
-                <a th:href="@{/client/program/{id}/review (id=${ComplActProgr.fitnessProgram.id})}"
-                   th:if="${ComplActProgr.fitnessProgram.reviews.size()}==0">
+            <td th:if="${ComplActProgr.fitnessProgram.reviews.size()}==0">
+                <a th:href="@{/client/program/{id}/review (id=${ComplActProgr.fitnessProgram.id})}">
                     Add review
                 </a>
             </td>

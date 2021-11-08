@@ -10,7 +10,8 @@ public interface AdminService {
     void createCategory(CategoryOfFitnessProgramDto category);
     List<CategoryOfFitnessProgramDto> readCategoryOfFitnessProgram();
     void createFitnessProgram(long categoryId, FitnessProgramDto fitnessProgramDto);
-    List <UsersDto> readUsersByNameLastName(String name, String lastName);
+    List <UsersDto> readUnlockedUsersByNameLastName(String name, String lastName);
+    List <UsersDto> readBlockedUsersByNameLastName(String name, String lastName);
     void blockUser (long userId);
     List <FitnessProgramDto> readListFitnessProgram(long categoryId);
     List <ReviewDto> readListReviews(long fitnessProgramId);

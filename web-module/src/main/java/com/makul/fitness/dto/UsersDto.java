@@ -1,6 +1,7 @@
 package com.makul.fitness.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.makul.fitness.model.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,4 +39,5 @@ public class UsersDto {
     private String email;
     private List<ActiveProgramDto> activePrograms;
     private List<BookmarkDto> bookmarksDto;
+    private List<Roles> roles;
 }

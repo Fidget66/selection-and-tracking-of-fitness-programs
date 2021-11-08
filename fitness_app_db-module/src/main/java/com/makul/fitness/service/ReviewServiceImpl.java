@@ -5,6 +5,7 @@ import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.Review;
 import com.makul.fitness.service.api.ReviewService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -32,7 +33,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class)
     public Review update(Review inputReview) {
         Review review = read(inputReview.getId());
         review.setText(inputReview.getText());

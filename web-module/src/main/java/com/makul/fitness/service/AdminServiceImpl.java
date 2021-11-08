@@ -1,9 +1,11 @@
 package com.makul.fitness.service;
 
+import com.makul.fitness.dao.RolesDao;
 import com.makul.fitness.dto.CategoryOfFitnessProgramDto;
 import com.makul.fitness.dto.FitnessProgramDto;
 import com.makul.fitness.dto.ReviewDto;
 import com.makul.fitness.dto.UsersDto;
+import com.makul.fitness.model.Roles;
 import com.makul.fitness.service.api.AdminService;
 import com.makul.fitness.service.api.UsersSecurityService;
 import org.springframework.stereotype.Service;
@@ -11,16 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl implements AdminService {
     private final RestTemplate restTemplate;
     private final UsersSecurityService securityService;
+    private final RolesDao rolesDao;
     private final String baseURL = "http://fitnessApp:8124/fitnessDB-app/";
 
-    public AdminServiceImpl(RestTemplate restTemplate, UsersSecurityService securityService) {
+    public AdminServiceImpl(RestTemplate restTemplate, UsersSecurityService securityService, RolesDao rolesDao) {
         this.restTemplate = restTemplate;
         this.securityService = securityService;
+        this.rolesDao = rolesDao;
     }
 
     @Override
@@ -41,9 +46,32 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<UsersDto> readUsersByNameLastName(String name, String lastName) {
+    public List<UsersDto> readUnlockedUsersByNameLastName(String name, String lastName) {
         List<UsersDto> usersList = Arrays.asList(restTemplate
                 .getForObject(baseURL + "user/" + name + "/" + lastName, UsersDto[].class));
+        for (UsersDto user:usersList) {
+            user.setRoles(securityService.readByUserId(user.getId()).getRole());
+        }
+        Roles role = rolesDao.findByRoleName("Client");
+        usersList = usersList
+                .stream()
+                .filter(usersDto -> usersDto.getRoles().contains(role))
+                .collect(Collectors.toList());
+        return usersList;
+    }
+
+    @Override
+    public List<UsersDto> readBlockedUsersByNameLastName(String name, String lastName) {
+        List<UsersDto> usersList = Arrays.asList(restTemplate
+                .getForObject(baseURL + "user/" + name + "/" + lastName, UsersDto[].class));
+        for (UsersDto user:usersList) {
+            user.setRoles(securityService.readByUserId(user.getId()).getRole());
+        }
+        Roles role = rolesDao.findByRoleName("Blocked");
+        usersList = usersList
+                .stream()
+                .filter(usersDto -> usersDto.getRoles().contains(role))
+                .collect(Collectors.toList());
         return usersList;
     }
 
