@@ -36,7 +36,7 @@ class ClientBusinessServiceImplTestIT {
     void whenAddBookmark_thenReturnBookmark() {
         Bookmark bookmark = clientBusinessService.addBookmark(2,2);
         assertNotNull(bookmark);
-        assertNotNull(bookmark.getId());
+        assertTrue(bookmark.getId()>0);
         assertEquals(2, bookmark.getFitnessProgram().getId());
         assertEquals(2, bookmark.getUser().getId());
     }
@@ -46,8 +46,7 @@ class ClientBusinessServiceImplTestIT {
         BookmarkIsPresentException bookmarkIsPresentException =
                 Assertions.assertThrows(BookmarkIsPresentException.class,
                         ()-> clientBusinessService.addBookmark(1,2));
-        Assertions.assertEquals(bookmarkIsPresentException.getMessage(),
-                "Такая закладка уже есть у Вас.");
+        Assertions.assertEquals("Такая закладка уже есть у Вас.", bookmarkIsPresentException.getMessage());
     }
 
     @Test
@@ -57,7 +56,7 @@ class ClientBusinessServiceImplTestIT {
         assertNotNull(bookmarks);
         assertEquals(2, bookmarks.size());
         for (Bookmark bookmark: bookmarks) {
-            assertNotNull(bookmark.getId());
+            assertTrue(bookmark.getId()>0);
             assertNotNull(bookmark.getFitnessProgram());
         }
     }
@@ -66,7 +65,7 @@ class ClientBusinessServiceImplTestIT {
     void addActiveProgram_thenReturnActiveProgram(){
         ActiveProgram activeProgram = clientBusinessService.addActiveProgram(2,2);
         assertNotNull(activeProgram);
-        assertNotNull(activeProgram.getId());
+        assertTrue(activeProgram.getId()>0);
         assertEquals("TestProgram2", activeProgram.getFitnessProgram().getShortName());
     }
 
@@ -75,8 +74,8 @@ class ClientBusinessServiceImplTestIT {
         ActiveProgramIsPresentException activeProgramIsPresentException =
                 Assertions.assertThrows(ActiveProgramIsPresentException.class,
                         ()-> clientBusinessService.addActiveProgram(1,2));
-        Assertions.assertEquals(activeProgramIsPresentException.getMessage(),
-                "У Вас есть незавершенные активные программы");
+        Assertions.assertEquals("У Вас есть незавершенные активные программы",
+                activeProgramIsPresentException.getMessage());
     }
 
     @Test
@@ -95,8 +94,8 @@ class ClientBusinessServiceImplTestIT {
         ScheduleIsPresentException scheduleIsPresentException =
                 Assertions.assertThrows(ScheduleIsPresentException.class,
                         ()-> clientBusinessService.createSchedule(inputActiveProgram));
-        Assertions.assertEquals(scheduleIsPresentException.getMessage(),
-                "Расписание для данной программы уже составлено!");
+        Assertions.assertEquals("Расписание для данной программы уже составлено!",
+                scheduleIsPresentException.getMessage());
     }
 
     @Test
@@ -114,8 +113,8 @@ class ClientBusinessServiceImplTestIT {
         ReviewIsPresentException reviewIsPresentException =
                 Assertions.assertThrows(ReviewIsPresentException.class,
                         ()-> clientBusinessService.addReview(2, review));
-        Assertions.assertEquals(reviewIsPresentException.getMessage(),
-                "Вы уже оставили отзыв по данной программе");
+        Assertions.assertEquals("Вы уже оставили отзыв по данной программе",
+                reviewIsPresentException.getMessage());
     }
 
     @Test

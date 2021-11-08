@@ -38,9 +38,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public FitnessProgramDto getFitnessProgram(long programId) {
-        FitnessProgramDto program = restTemplate.getForObject(baseURL+"program/fitness/" + programId,
+        return restTemplate.getForObject(baseURL+"program/fitness/" + programId,
                 FitnessProgramDto.class);
-        return program;
     }
 
     @Override

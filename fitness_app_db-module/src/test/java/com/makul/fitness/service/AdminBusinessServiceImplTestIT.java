@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -27,7 +27,7 @@ class AdminBusinessServiceImplTestIT {
     void addFitnessProgram_thenReturnFitnessProgram(){
         FitnessProgram fitnessProgram = adminBusinessService.addFitnessProgram(1,getFitnessProgram());
         assertNotNull(fitnessProgram);
-        assertNotNull(fitnessProgram.getId());
+        assertTrue(fitnessProgram.getId()>0);
         assertEquals("Test", fitnessProgram.getShortName());
         assertEquals("Test description",fitnessProgram.getDescription());
         assertEquals(66, fitnessProgram.getWeightRestriction());
