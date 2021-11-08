@@ -21,7 +21,7 @@ public class ErrorController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(HttpClientErrorException.class)
     private String returnPageException(Model model, HttpClientErrorException e) {
-        int status = Integer.valueOf(e.getRawStatusCode());
+        int status = e.getRawStatusCode();
         String messageException = e.getMessage().substring(e.getMessage().indexOf("message\":\"")+10,e.getMessage()
                 .indexOf(",\"exception")-1).strip();;
         if (status>=500) messageException="Сервер не может обработать запрос!";
@@ -39,7 +39,6 @@ public class ErrorController extends ResponseEntityExceptionHandler {
         if (status>=400 && status<500) {messageException = "Не найдены данные согласно запросу!";
         } else if (status>=500) messageException="Сервер не может обработать запрос!";
         else messageException=e.getMessage();
-        String exceptionType = e.getClass().getSimpleName();
         model.addAttribute("status",status );
         model.addAttribute("message", messageException);
         return "error";

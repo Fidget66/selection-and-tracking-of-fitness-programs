@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
         @Sql("classpath:data-test.sql"),
         @Sql(scripts = "classpath:clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
-public class ClientBusinessServiceImplTestIT {
+class ClientBusinessServiceImplTestIT {
 
     @Autowired
     private ClientBusinessService clientBusinessService;

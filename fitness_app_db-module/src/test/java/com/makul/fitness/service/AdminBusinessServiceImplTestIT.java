@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
         @Sql("classpath:data-test.sql"),
         @Sql(scripts = "classpath:clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
-public class AdminBusinessServiceImplTestIT {
+class AdminBusinessServiceImplTestIT {
 
     @Autowired
     private AdminBusinessService adminBusinessService;

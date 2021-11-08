@@ -26,16 +26,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<CategoryOfFitnessProgramDto> getCategoryOfFitnessProgram() {
-        List <CategoryOfFitnessProgramDto> categories = Arrays.asList(restTemplate.getForObject(baseURL +
-                        "fitness/categories", CategoryOfFitnessProgramDto[].class));
-        return categories;
+        return Arrays.asList(restTemplate.getForObject(baseURL +
+                "fitness/categories", CategoryOfFitnessProgramDto[].class));
     }
 
     @Override
     public List<FitnessProgramDto> getListFitnessProgram(long categoryId) {
-        List <FitnessProgramDto> programs = Arrays.asList(restTemplate.getForObject(baseURL +
-                        "category/"+ categoryId+ "/program/fitness", FitnessProgramDto[].class));
-        return programs;
+        return Arrays.asList(restTemplate.getForObject(baseURL +
+                "category/"+ categoryId+ "/program/fitness", FitnessProgramDto[].class));
     }
 
     @Override
@@ -47,9 +45,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<FitnessProgramDto> getFitnessProgramWithRestrictions(int duration) {
-        List <FitnessProgramDto> programs = Arrays.asList(restTemplate.getForObject(baseURL +
+        return Arrays.asList(restTemplate.getForObject(baseURL +
                 "user/" + getUserId() + "/program/fitness/"+duration, FitnessProgramDto[].class));
-        return programs;
     }
 
     @Override
@@ -60,9 +57,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<BookmarkDto> getBookmarks() {
-        List <BookmarkDto> bookmars = Arrays.asList(restTemplate.getForObject(baseURL +
+        return Arrays.asList(restTemplate.getForObject(baseURL +
                 "user/" + getUserId() + "/bookmarks", BookmarkDto[].class));
-        return bookmars;
     }
 
     @Override
@@ -97,9 +93,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ActiveProgramDto readUserActiveProgram() {
-        ActiveProgramDto activeProgramDto = restTemplate
+        return restTemplate
                 .getForObject(baseURL+"/user/"+ getUserId() + "/program/active", ActiveProgramDto.class);
-        return activeProgramDto;
     }
 
     @Override
@@ -117,9 +112,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<ExerciseScheduleDto> getSchedule(long activeProgramId) {
-        List<ExerciseScheduleDto> scheduleDtoList =Arrays.asList( restTemplate.getForObject(baseURL +
+        return Arrays.asList( restTemplate.getForObject(baseURL +
                 "program/active/" + activeProgramId + "/exercises", ExerciseScheduleDto[].class));
-        return scheduleDtoList;
     }
 
     @Override
@@ -143,9 +137,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List <String> getDaysOfWeek(){
-        List <String> daysOfWeek = List.of("MONDAY", "TUESDAY", "WEDNESDAY",
+        return List.of("MONDAY", "TUESDAY", "WEDNESDAY",
                 "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
-        return daysOfWeek;
     }
 
     private long getUserId(){

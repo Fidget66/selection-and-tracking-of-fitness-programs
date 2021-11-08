@@ -35,9 +35,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<CategoryOfFitnessProgramDto> readCategoryOfFitnessProgram() {
-        List <CategoryOfFitnessProgramDto> categories = Arrays.asList(restTemplate.getForObject(baseURL +
+        return Arrays.asList(restTemplate.getForObject(baseURL +
                 "fitness/categories", CategoryOfFitnessProgramDto[].class));
-        return categories;
     }
 
     @Override
@@ -88,9 +87,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<FitnessProgramDto> readListFitnessProgram(long categoryId) {
-        List <FitnessProgramDto> programs = Arrays.asList(restTemplate.getForObject(baseURL +
+        return Arrays.asList(restTemplate.getForObject(baseURL +
                 "category/"+ categoryId+ "/program/fitness", FitnessProgramDto[].class));
-        return programs;
     }
 
     @Override
@@ -102,9 +100,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public ReviewDto readReview(long reviewId) {
-        ReviewDto reviewDto = restTemplate.getForObject(baseURL+"review/" + reviewId,
+        return restTemplate.getForObject(baseURL+"review/" + reviewId,
                 ReviewDto.class);
-        return reviewDto;
     }
 
     @Override
