@@ -24,7 +24,7 @@ public class FitnessProgramsSearcherDaoImpl implements FitnessProgramsSearcherDa
     }
 
     @Override
-    public List<FitnessProgram> findFitnessProgramWithRestrictions(long userId, int duration) {
+    public List<FitnessProgram> findFitnessProgramWithRestrictions(long userId, int duration, long categoryId) {
         Query query = entityManager.createNamedQuery("findFitnessProgramWithRestrictions",
                 FitnessProgram.class);
         LocalDate birthday = usersService.read(userId).getDateOfBirth();
@@ -32,7 +32,8 @@ public class FitnessProgramsSearcherDaoImpl implements FitnessProgramsSearcherDa
         int currentAge = Period.between(birthday, currentDate).getYears();
         query.setParameter("userId", userId)
                 .setParameter("userAge",currentAge)
-                .setParameter("durationLimit",duration);
+                .setParameter("durationLimit",duration)
+                .setParameter("categoryId",categoryId);
         List<FitnessProgram> result = query.getResultList();
         return result;
     }

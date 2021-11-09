@@ -2,6 +2,7 @@
 <p align="center">
 <img src="https://img.shields.io/badge/made%20by-Makul%20Raman-blue" >
 <img src="https://img.shields.io/github/issues/Fidget66/selection-and-tracking-of-fitness-programs">
+<img src="https://sonarcloud.io/api/project_badges/measure?project=Fidget66_selection-and-tracking-of-fitness-programs&metric=alert_status">
 </p>
 
 ### Description

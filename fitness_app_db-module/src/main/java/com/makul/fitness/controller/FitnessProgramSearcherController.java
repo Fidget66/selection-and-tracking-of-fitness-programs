@@ -35,12 +35,12 @@ public class FitnessProgramSearcherController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/user/{userId}/program/fitness/{duration}")
+    @GetMapping("/user/{userId}/program/{categoryId}/fitness/{duration}")
     @ApiOperation(value = "Get restricted fitness programs")
     public List<FitnessProgramDto> readFitnessProgramListWithRestrictions (@ApiParam(defaultValue = "1")
          @PathVariable("userId") long userId, @ApiParam(defaultValue = "100") @PathVariable("duration")
-            int durationLimit){
-        return fitnessSearcherService.readFitnessProgramWithRestrictions(userId, durationLimit)
+            int durationLimit, @ApiParam(defaultValue = "2") @PathVariable("categoryId") long categoryId){
+        return fitnessSearcherService.readFitnessProgramWithRestrictions(userId, durationLimit, categoryId)
                 .stream()
                 .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram,FitnessProgramDto.class))
                 .collect(Collectors.toList());

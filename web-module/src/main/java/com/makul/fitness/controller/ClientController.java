@@ -44,13 +44,15 @@ public class ClientController {
 
     @GetMapping("/client/fitness/program/restrictions")
     public String returnFormWithRestriction(Model model){
+        model.addAttribute("category",clientService.getCategoryOfFitnessProgram());
         return "client/fitnessProgramAddRestriction";
     }
 
     @GetMapping("/client/fitness/program/restrictions/duration")
-    public String viewFitnessProgramWithRestrictions(@RequestParam("durationLim") int duration, Model model,
-                                                     HttpServletRequest request){
-        List<FitnessProgramDto> programList = clientService.getFitnessProgramWithRestrictions(duration);
+    public String viewFitnessProgramWithRestrictions(@RequestParam("durationLim") int duration,
+                                                     @RequestParam("id") int categoryId,
+                                                     Model model, HttpServletRequest request){
+        List<FitnessProgramDto> programList = clientService.getFitnessProgramWithRestrictions(duration,categoryId);
         model.addAttribute("allPrograms", programList);
         model.addAttribute("bookmarkMarker",true);
         model.addAttribute("req",request.getHeader("Referer"));

@@ -39,7 +39,7 @@ class FitnessProgramSearcherControllerTestIT {
     @Test
     @SneakyThrows
     void readFitnessProgramListWithRestrictions_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned(){
-        mockMvc.perform(get("/user/{userId}/program/fitness/{duration}",1,50))
+        mockMvc.perform(get("/user/{userId}/program/{categoryId}/fitness/{duration}",1,1,50))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))
                 .andExpect(jsonPath("$.*", hasSize(1)))

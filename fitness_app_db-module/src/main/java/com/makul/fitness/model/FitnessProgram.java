@@ -17,7 +17,8 @@ import java.util.List;
                 name = "findFitnessProgramWithRestrictions",
                 query = "SELECT fitProg FROM FitnessProgram fitProg, Users user WHERE (user.id = :userId) " +
                         "and (user.weight <= fitProg.weightRestriction) and (user.sex = fitProg.sexRestriction) and " +
-                        "(:userAge <= fitProg.ageRestriction) and (fitProg.duration <= :durationLimit)"),
+                        "(:userAge <= fitProg.ageRestriction) and (fitProg.duration <= :durationLimit) " +
+                        "and (fitProg.category.id) = :categoryId"),
         @NamedQuery(
                 name = "findFitnessProgramFromCategory",
                 query = "SELECT fitProg FROM FitnessProgram fitProg WHERE fitProg.category.id = :categoryId"

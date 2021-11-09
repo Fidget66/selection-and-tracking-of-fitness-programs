@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface FitnessProgramsSearcherService {
     List<FitnessProgram> readFitnessProgram(long categoryId);
-    List<FitnessProgram> readFitnessProgramWithRestrictions(long userId, int duration);
+    List<FitnessProgram> readFitnessProgramWithRestrictions(long userId, int duration, long categoryId);
 }
