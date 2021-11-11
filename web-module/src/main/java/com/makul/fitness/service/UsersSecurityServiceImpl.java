@@ -38,7 +38,7 @@ public class UsersSecurityServiceImpl implements UsersSecurityService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void unblockUser(long userId) {
         UsersSecurity user = readByUserId(userId);
         if (!user.getRole().contains(rolesDao.findByRoleName("Admin"))){

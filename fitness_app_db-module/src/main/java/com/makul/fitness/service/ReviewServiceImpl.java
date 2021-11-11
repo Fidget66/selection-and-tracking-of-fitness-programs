@@ -33,7 +33,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public Review update(Review inputReview) {
         Review review = read(inputReview.getId());
         review.setText(inputReview.getText());
