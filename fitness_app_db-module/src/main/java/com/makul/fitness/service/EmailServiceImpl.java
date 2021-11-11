@@ -27,7 +27,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    @Scheduled(cron = "0 15 1 * * *")
+    @Scheduled(cron = "0 0 18 * * *")
     public void sendSimpleMessage() {
         String subject = "Напоминание о занятиях";
         LocalDate dateOfExercise = LocalDate.now().plusDays(1);

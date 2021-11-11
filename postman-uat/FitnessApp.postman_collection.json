@@ -216,7 +216,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8124/fitnessDB-app/user/1/program/fitness/30",
+							"raw": "localhost:8124/fitnessDB-app/user/1/program/1/fitness/30",
 							"host": [
 								"localhost"
 							],
@@ -226,6 +226,7 @@
 								"user",
 								"1",
 								"program",
+								"1",
 								"fitness",
 								"30"
 							]
