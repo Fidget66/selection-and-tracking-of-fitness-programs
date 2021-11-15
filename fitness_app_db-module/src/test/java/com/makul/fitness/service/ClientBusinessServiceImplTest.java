@@ -121,14 +121,14 @@ class ClientBusinessServiceImplTest {
 
         Mockito.when(activeProgramService.read(1L)).thenReturn(newActiveProgram);
         Mockito.when(exerciseScheduleService.createAll(Mockito.anyList())).thenReturn(scheduleList);
-        Mockito.when(activeProgramService.create(newActiveProgram)).thenReturn(expected);
+        Mockito.when(activeProgramService.update(newActiveProgram)).thenReturn(expected);
 
         ActiveProgram actual = businessService.createSchedule(newActiveProgram);
         Assertions.assertEquals(expected, actual);
 
-        Mockito.verify(activeProgramService, Mockito.times(2)).read(1L);
+        Mockito.verify(activeProgramService, Mockito.times(1)).read(1L);
         Mockito.verify(exerciseScheduleService, Mockito.times(1)).createAll(Mockito.anyList());
-        Mockito.verify(activeProgramService, Mockito.times(1)).create(newActiveProgram);
+        Mockito.verify(activeProgramService, Mockito.times(1)).update(newActiveProgram);
     }
 
     @Test

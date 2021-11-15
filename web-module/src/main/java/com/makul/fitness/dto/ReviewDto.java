@@ -15,6 +15,5 @@ public class ReviewDto {
     private String authorName;
     @Min(value = 1)
     private long authorId;
-    @Size(min = 3, max = 1000, message = "Длина не менее 5 и не более 1000 символов")
     private String text;
 }

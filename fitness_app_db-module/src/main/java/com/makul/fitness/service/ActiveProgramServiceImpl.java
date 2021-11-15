@@ -25,4 +25,12 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
     public ActiveProgram read(long id){
         return activeProgramDao.findById(id).orElseThrow(()->new NoEntityException("Active Program"));
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ActiveProgram update(ActiveProgram inputActiveProgram) {
+        ActiveProgram activeProgram = read(inputActiveProgram.getId());
+        activeProgram = inputActiveProgram;
+        return activeProgram;
+    }
 }

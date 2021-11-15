@@ -20,13 +20,13 @@
 </table>
 <p><a href=/fitnessweb-app>Return to main page</a></p>
 <h1>Программы будут подобраны с учетом Ваших параметров и желаемого количества занятий</h1>
-<form action="restrictions/duration" method="get">
+<form th:action="@{/client/fitness/program/restrictions/duration}" th:object="${filtredDto}" method="post">
     <td>
-        <input type="number" min="10" step="1" name="durationLim"
+        <input type="number" min="10" step="1" name="durationLim" th:field="*{duration}"
                value="30" placeholder="Введите количество занятий" required/>
     </td>
     <td >
-        <select required="required" name="id">
+        <select th:field="*{categoryId}" required="required" name="id">
             <option th:each="ct : ${category}"
                     th:value="${ct.getId()}"
                     th:text="${ct.getShortName()}">

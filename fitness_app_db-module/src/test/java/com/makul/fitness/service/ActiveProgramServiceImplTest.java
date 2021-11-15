@@ -50,6 +50,16 @@ class ActiveProgramServiceImplTest {
         Mockito.verify(activeProgramDao, Mockito.times(1)).findById(4L);
     }
 
+    @Test
+    void whenUpdate_returnActiveProgram() {
+        ActiveProgram activeProgram = getActiveProgram();
+        Mockito.when(activeProgramDao.findById(1L)).thenReturn(Optional.ofNullable(activeProgram));
+        ActiveProgram actual = activeProgramService.update(activeProgram);
+        ActiveProgram expected = activeProgram;
+        Assertions.assertEquals(expected, actual);
+        Mockito.verify(activeProgramDao, Mockito.times(1)).findById(1L);
+    }
+
     private ActiveProgram getActiveProgram(){
         ActiveProgram activeProgram = new ActiveProgram();
         activeProgram.setId(1);

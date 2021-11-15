@@ -11,8 +11,6 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookmarkDto {
-    @Min(value = 0)
     private long id;
-    @NotEmpty
     private FitnessProgramDto fitnessProgram;
 }

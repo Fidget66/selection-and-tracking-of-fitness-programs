@@ -15,19 +15,16 @@ import java.util.List;
 @AllArgsConstructor
 @ApiModel(description = "Category of fitness program entity")
 public class CategoryOfFitnessProgramDto {
-    @Min(value = 0)
     private long id;
     @ApiModelProperty(value = "Category short name",
             name = "shortName",
             dataType = "String",
             example = "New category of fitness ")
-    @Size(min = 3, message = "Минимальный размер 3 символа")
     private String shortName;
     @ApiModelProperty(value = "Fitness program category description",
             name = "description",
             dataType = "String",
             example = "New category of fitness program description")
-    @Size(min = 20, message = "Минимальный размер 20 символов")
     private String description;
     private List <FitnessProgramDto> fitnessPrograms;
 }

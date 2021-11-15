@@ -7,7 +7,6 @@ import com.makul.fitness.exceptions.ScheduleIsPresentException;
 import com.makul.fitness.model.*;
 import com.makul.fitness.service.api.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -93,7 +92,7 @@ public class ClientBusinessServiceImpl implements ClientBusinessService {
         String[] days =inputActiveProgram.getDays().split(";");
         createNewScheduleLIst(activeProgram,days);
         exerciseScheduleService.createAll(activeProgram.getScheduleList());
-        return update(activeProgram);
+        return activeProgramService.update(activeProgram);
     }
 
     @Override
@@ -110,19 +109,8 @@ public class ClientBusinessServiceImpl implements ClientBusinessService {
     @Transactional(rollbackFor = Exception.class)
     public ExerciseSchedule updateExercise(long exerciseId) {
         ExerciseSchedule exercise = exerciseScheduleService.update(exerciseId);
-        isAllExerciseComplited(exerciseScheduleService.read(exerciseId).getActiveProgram().getId());
+        updActiveProgramIfAllExerciseComplited(exerciseScheduleService.read(exerciseId).getActiveProgram().getId());
         return exercise;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class,isolation = Isolation.REPEATABLE_READ)
-    public ActiveProgram update(ActiveProgram inputActiveProgram) {
-        ActiveProgram activeProgram = activeProgramService.read(inputActiveProgram.getId());
-        activeProgram.setComplited(inputActiveProgram.isComplited());
-        if (inputActiveProgram.getDays().length()>6) activeProgram.setDays(inputActiveProgram.getDays());
-        if (Objects.nonNull(inputActiveProgram.getScheduleList()) && inputActiveProgram.getScheduleList().size()>0)
-            activeProgram.setScheduleList(inputActiveProgram.getScheduleList());
-        return activeProgramService.create(activeProgram);
     }
 
     private ActiveProgram createNewScheduleLIst(ActiveProgram activeProgram, String[] days) {
@@ -157,13 +145,13 @@ public class ClientBusinessServiceImpl implements ClientBusinessService {
                 .build();
     }
 
-    private void isAllExerciseComplited(long activeProgramId){
+    private void updActiveProgramIfAllExerciseComplited(long activeProgramId){
         int counter =0;
         ActiveProgram activeProgram = activeProgramService.read(activeProgramId);
         for (ExerciseSchedule exercise:activeProgram.getScheduleList()) {
             if (exercise.isComplited()) counter++;
         }
         if (counter==activeProgram.getScheduleList().size()) activeProgram.setComplited(true);
-        update(activeProgram);
+        activeProgramService.update(activeProgram);
     }
 }

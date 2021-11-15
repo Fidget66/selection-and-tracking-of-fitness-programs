@@ -43,9 +43,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<FitnessProgramDto> getFitnessProgramWithRestrictions(int duration, long categoryId) {
-        return Arrays.asList(restTemplate.getForObject(baseURL +
-                "user/" + getUserId() + "/program/" + categoryId + "/fitness/"+duration, FitnessProgramDto[].class));
+    public List<FitnessProgramDto> getFitnessProgramWithRestrictions(FiltredDto filtredDto) {
+        filtredDto.setUserId(getUserId());
+        return Arrays.asList(restTemplate.postForObject(baseURL +
+                "user/program/fitness", filtredDto,FitnessProgramDto[].class));
     }
 
     @Override

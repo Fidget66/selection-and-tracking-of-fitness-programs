@@ -8,7 +8,7 @@ public interface ClientService {
     List<CategoryOfFitnessProgramDto> getCategoryOfFitnessProgram();
     List<FitnessProgramDto> getListFitnessProgram(long categoryId);
     FitnessProgramDto getFitnessProgram(long programId);
-    List<FitnessProgramDto> getFitnessProgramWithRestrictions(int duration, long categoryId);
+    List<FitnessProgramDto> getFitnessProgramWithRestrictions(FiltredDto filtredDto);
     void addToBookMarks(long fitnessProgramId);
     List<BookmarkDto> getBookmarks();
     void  deleteBookmark(long bookmarkId);

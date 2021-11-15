@@ -25,7 +25,6 @@ public class UsersDto {
     @Size(min = 2, message = "Длина фамилии не менее 2 символов")
     private String lastName;
     @NotNull(message = "Введите дату рождения")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @DateTimeFormat( pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE_TIME )
     private LocalDate dateOfBirth;
     @Size(max = 1, message = "Длина не более 1го символа")

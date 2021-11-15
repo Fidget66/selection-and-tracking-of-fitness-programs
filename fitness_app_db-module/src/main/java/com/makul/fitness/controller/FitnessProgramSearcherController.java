@@ -1,14 +1,13 @@
 package com.makul.fitness.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.makul.fitness.dto.FiltredDto;
 import com.makul.fitness.dto.FitnessProgramDto;
 import com.makul.fitness.service.api.FitnessProgramsSearcherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,12 +34,11 @@ public class FitnessProgramSearcherController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/user/{userId}/program/{categoryId}/fitness/{duration}")
+    @PostMapping ("/user/program/fitness")
     @ApiOperation(value = "Get restricted fitness programs")
-    public List<FitnessProgramDto> readFitnessProgramListWithRestrictions (@ApiParam(defaultValue = "1")
-         @PathVariable("userId") long userId, @ApiParam(defaultValue = "100") @PathVariable("duration")
-            int durationLimit, @ApiParam(defaultValue = "2") @PathVariable("categoryId") long categoryId){
-        return fitnessSearcherService.readFitnessProgramWithRestrictions(userId, durationLimit, categoryId)
+    public List<FitnessProgramDto> readFitnessProgramListWithRestrictions (@RequestBody FiltredDto filtredDto){
+         return fitnessSearcherService.readFitnessProgramWithRestrictions(filtredDto.getUserId(), filtredDto.getDuration(),
+                        filtredDto.getCategoryId())
                 .stream()
                 .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram,FitnessProgramDto.class))
                 .collect(Collectors.toList());

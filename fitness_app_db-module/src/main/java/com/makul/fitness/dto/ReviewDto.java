@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @ApiModel(description = "Review entity")
 public class ReviewDto {
-    @Min(value = 0)
     private long id;
     @ApiModelProperty(value = "Author's name",
             name = "Name",
@@ -25,12 +24,10 @@ public class ReviewDto {
             name = "id",
             dataType = "long",
             example = "2")
-    @Min(value = 1)
     private long authorId;
     @ApiModelProperty(value = "Message text",
             name = "text",
             dataType = "String",
             example = "This is a swagger API message")
-    @Size(min = 3, max = 1000, message = "Длина не менее 5 и не более 1000 символов")
     private String text;
 }

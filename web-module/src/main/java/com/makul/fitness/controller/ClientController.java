@@ -48,11 +48,10 @@ public class ClientController {
         return "client/fitnessProgramAddRestriction";
     }
 
-    @GetMapping("/client/fitness/program/restrictions/duration")
-    public String viewFitnessProgramWithRestrictions(@RequestParam("durationLim") int duration,
-                                                     @RequestParam("id") int categoryId,
-                                                     Model model, HttpServletRequest request){
-        List<FitnessProgramDto> programList = clientService.getFitnessProgramWithRestrictions(duration,categoryId);
+    @PostMapping("/client/fitness/program/restrictions/duration")
+    public String viewFitnessProgramWithRestrictions(@Valid FiltredDto filtredDto, Model model,
+                                                     HttpServletRequest request){
+        List<FitnessProgramDto> programList = clientService.getFitnessProgramWithRestrictions(filtredDto);
         model.addAttribute("allPrograms", programList);
         model.addAttribute("bookmarkMarker",true);
         model.addAttribute("req",request.getHeader("Referer"));
@@ -99,8 +98,8 @@ public class ClientController {
     }
 
     @PostMapping("/client/review/{fitnessId}")
-    public String saveReview (@PathVariable ("fitnessId") long fitnessProgrammId, @ModelAttribute ReviewDto review){
-        clientService.addReview(fitnessProgrammId,review);
+    public String saveReview (@PathVariable ("fitnessId") long fitnessProgramId, ReviewDto review, Model model){
+        clientService.addReview(fitnessProgramId,review);
         return "redirect:/client/account";
     }
 
@@ -124,7 +123,7 @@ public class ClientController {
 
 
     @PostMapping("/client/program/active/{activeId}/schedule")
-    public String createSchedule (@PathVariable ("activeId") long activeId, @Valid @ModelAttribute DayListDto dayList){
+    public String createSchedule (@PathVariable ("activeId") long activeId, @ModelAttribute DayListDto dayList){
         clientService.createSchedule(activeId,dayList.getDaysOfweek());
         return "redirect:/client/program/active";
     }
@@ -165,5 +164,9 @@ public class ClientController {
     @ModelAttribute("dayList")
     private DayListDto prepareListOfDays() {
         return new DayListDto();
+    }
+    @ModelAttribute("filtredDto")
+    private FiltredDto prepareFiltredDto() {
+        return new FiltredDto();
     }
 }

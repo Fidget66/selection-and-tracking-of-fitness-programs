@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @ApiModel(description = "Active program entity")
 public class ActiveProgramDto {
-    @Min(value = 0)
     private long id;
     @ApiModelProperty(value = "Selected workout days",
             name = "days",
@@ -24,6 +23,5 @@ public class ActiveProgramDto {
             example = "Monday;Friday")
     private String days;
     private List<ExerciseScheduleDto> scheduleList;
-    @NotEmpty
     private FitnessProgramDto fitnessProgram;
 }

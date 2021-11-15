@@ -1,16 +1,23 @@
 package com.makul.fitness.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.makul.fitness.dto.FiltredDto;
+import com.makul.fitness.model.Users;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +31,9 @@ class FitnessProgramSearcherControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @SneakyThrows
@@ -39,10 +49,20 @@ class FitnessProgramSearcherControllerTestIT {
     @Test
     @SneakyThrows
     void readFitnessProgramListWithRestrictions_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned(){
-        mockMvc.perform(get("/user/{userId}/program/{categoryId}/fitness/{duration}",1,1,50))
+        mockMvc.perform(post("/user/program/fitness")
+                .content(objectMapper.writeValueAsString(getFiltredDto()))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", isA(ArrayList.class)))
                 .andExpect(jsonPath("$.*", hasSize(1)))
                 .andExpect(jsonPath("$[*].shortName", containsInAnyOrder("TestProgram1")));
+    }
+
+    private FiltredDto getFiltredDto(){
+        FiltredDto filtredDto = new FiltredDto();
+        filtredDto.setUserId(1);
+        filtredDto.setDuration(50);
+        filtredDto.setCategoryId(1);
+        return filtredDto;
     }
 }

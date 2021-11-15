@@ -15,19 +15,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExerciseScheduleDto {
-    @Min(value = 0)
     private long id;
     @ApiModelProperty(value = "The short name of the program for the schedule",
             name = "programShortName",
             dataType = "String",
             example = "Cycle training")
-    @NotEmpty
     private String programShortName;
     @ApiModelProperty(value = "Training date",
             name = "exerciseDate",
             dataType = "LocalDate",
             example = "2021-10-30")
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate exerciseDate;
     @ApiModelProperty(value = "Select true if this exercise is executed",
