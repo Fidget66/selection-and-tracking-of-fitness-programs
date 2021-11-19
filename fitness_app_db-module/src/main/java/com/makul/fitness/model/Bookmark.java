@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bookmark {
+public class  Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

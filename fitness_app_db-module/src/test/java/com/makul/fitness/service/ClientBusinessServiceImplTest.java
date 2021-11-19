@@ -56,7 +56,6 @@ class ClientBusinessServiceImplTest {
         Bookmark bookmark = getBookmark();
         fitnessProgram.setId(2);
         bookmark.setFitnessProgram(fitnessProgram);
-        bookmark.setId(1);
         user.setBookmarks(List.of(bookmark));
         Mockito.when(usersService.read(1L)).thenReturn(user);
         BookmarkIsPresentException bookmarkIsPresentException =

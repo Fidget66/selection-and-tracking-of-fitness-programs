@@ -10,10 +10,14 @@ import java.util.List;
 @Repository
 public interface ExerciseScheduleSearcherDao extends CrudRepository<ExerciseSchedule, Long> {
 
-    @Query("SELECT schedule FROM ExerciseSchedule schedule WHERE (schedule.exerciseDate = ?1)")
-    List<ExerciseSchedule> findExerciseByDate(LocalDate currentDate);
+//    @Query("SELECT schedule FROM ExerciseSchedule schedule WHERE (schedule.exerciseDate = ?1)")
+//    List<ExerciseSchedule> findExerciseByDate(LocalDate currentDate);
 
-    @Query("SELECT distinct schedule FROM ExerciseSchedule schedule, ActiveProgram progr WHERE (schedule.activeProgram.id = ?1) " +
-            "ORDER BY schedule.exerciseDate ASC")
-    List<ExerciseSchedule> findExerciseByProgramId(long activeProgramId);
+    List<ExerciseSchedule> findByExerciseDate(LocalDate currentDate);
+
+//    @Query("SELECT distinct schedule FROM ExerciseSchedule schedule, ActiveProgram progr WHERE (schedule.activeProgram.id = ?1) " +
+//            "ORDER BY schedule.exerciseDate ASC")
+//    List<ExerciseSchedule> findExerciseByProgramId(long activeProgramId);
+
+    List<ExerciseSchedule> findByActiveProgram_IdOrderByExerciseDateAsc(long activeProgramId);
 }

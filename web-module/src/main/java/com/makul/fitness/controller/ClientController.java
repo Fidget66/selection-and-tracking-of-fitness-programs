@@ -49,7 +49,7 @@ public class ClientController {
     }
 
     @PostMapping("/client/fitness/program/restrictions/duration")
-    public String viewFitnessProgramWithRestrictions(@Valid FiltredDto filtredDto, Model model,
+    public String viewFitnessProgramWithRestrictions(FiltredDto filtredDto, Model model,
                                                      HttpServletRequest request){
         List<FitnessProgramDto> programList = clientService.getFitnessProgramWithRestrictions(filtredDto);
         model.addAttribute("allPrograms", programList);
@@ -59,9 +59,9 @@ public class ClientController {
     }
 
     @GetMapping("/client/fitness/program/{id}/bookmark")
-    public String addBookmark(@PathVariable ("id") long programId, HttpServletRequest request){
+    public String addBookmark(@PathVariable ("id") long programId){
         clientService.addToBookMarks(programId);
-        return "redirect:"+request.getHeader("Referer");
+        return "redirect:/client/bookmarks";
     }
 
     @GetMapping("/client/account")

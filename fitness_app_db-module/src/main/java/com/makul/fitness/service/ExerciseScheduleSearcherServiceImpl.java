@@ -18,11 +18,11 @@ public class ExerciseScheduleSearcherServiceImpl implements ExerciseScheduleSear
 
     @Override
     public List<ExerciseSchedule> readExerciseByDate(LocalDate currentDate) {
-        return searcherDao.findExerciseByDate(currentDate);
+        return searcherDao.findByExerciseDate(currentDate);
     }
 
     @Override
     public List<ExerciseSchedule> readExerciseByActiveProgramId(long activeProgramId) {
-        return searcherDao.findExerciseByProgramId(activeProgramId);
+        return searcherDao.findByActiveProgram_IdOrderByExerciseDateAsc(activeProgramId);
     }
 }

@@ -192,9 +192,9 @@ values('Фитнесс для начинающих', 22, 40, 120, 'f',3,'1. Ск
 INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
 values ('Petr', 'Ivanov', '1980-03-12','m',86,'petrIvanov@mail.ru');
 INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
-values ('Olya', 'Mak', '1985-04-22','f',55,'olyaMak@mail.ru');
+values ('Olya', 'Mak', '1985-04-22','f',55,'Busnab@mail.ru');
 INSERT INTO users (first_name, last_name, date_of_birth, sex, weight, email)
-values ('Andrey', 'Andreev', '1993-12-24','m',80,'admin@mail.ru');
+values ('Andrey', 'Andreev', '1993-12-24','m',80,'Busnab@mail.ru');
 
 INSERT INTO bookmark (fitness_program_id, user_id) values (1,3);
 INSERT INTO bookmark (fitness_program_id, user_id) values (3,3);
@@ -215,6 +215,6 @@ INSERT INTO review (author_id, author_name, text, fitness_program_id)
 VALUES (2,'Olya','Программа подойдет для всех',4);
 
 INSERT INTO exercise_schedule(program_short_name, exercise_date, is_complited, active_program_id)
-values ('руки и пресс','2021-10-19',false,2);
+values ('руки и пресс','2021-11-17',false,1);
 INSERT INTO exercise_schedule(program_short_name, exercise_date, is_complited, active_program_id)
-values ('руки и пресс','2021-10-29',false,2);
+values ('руки и пресс','2021-11-17',false,5);

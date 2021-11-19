@@ -10,6 +10,5 @@ import java.time.LocalDateTime;
 public class ApiError {
     private String message;
     private Exception exception;
-    private HttpStatus status;
     private LocalDateTime timestamp;
 }

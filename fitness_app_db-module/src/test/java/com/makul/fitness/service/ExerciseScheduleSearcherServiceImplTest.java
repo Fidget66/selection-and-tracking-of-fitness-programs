@@ -27,11 +27,11 @@ class ExerciseScheduleSearcherServiceImplTest {
                 .generate(() -> getSchedule())
                 .limit(4)
                 .collect(Collectors.toList());
-        Mockito.when(searcherDao.findExerciseByProgramId(1L)).thenReturn(scheduleList);
+        Mockito.when(searcherDao.findByActiveProgram_IdOrderByExerciseDateAsc(1L)).thenReturn(scheduleList);
         List <ExerciseSchedule> actual = scheduleService.readExerciseByActiveProgramId(1L);
         List <ExerciseSchedule> expected = scheduleList;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(searcherDao, Mockito.times(1)).findExerciseByProgramId(1L);
+        Mockito.verify(searcherDao, Mockito.times(1)).findByActiveProgram_IdOrderByExerciseDateAsc(1L);
     }
     @Test
     void readExerciseByDate() {
@@ -40,11 +40,11 @@ class ExerciseScheduleSearcherServiceImplTest {
                 .limit(3)
                 .collect(Collectors.toList());
         LocalDate currentDate = LocalDate.now();
-        Mockito.when(searcherDao.findExerciseByDate(currentDate)).thenReturn(scheduleList);
+        Mockito.when(searcherDao.findByExerciseDate(currentDate)).thenReturn(scheduleList);
         List <ExerciseSchedule> actual = scheduleService.readExerciseByDate(currentDate);
         List <ExerciseSchedule> expected = scheduleList;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(searcherDao, Mockito.times(1)).findExerciseByDate(currentDate);
+        Mockito.verify(searcherDao, Mockito.times(1)).findByExerciseDate(currentDate);
     }
 
     private ExerciseSchedule getSchedule(){

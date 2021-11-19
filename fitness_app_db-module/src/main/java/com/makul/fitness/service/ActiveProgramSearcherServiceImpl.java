@@ -19,12 +19,12 @@ public class ActiveProgramSearcherServiceImpl implements ActiveProgramSearcherSe
 
     @Override
     public List<ActiveProgram> readComplitedPrograms(long userId) {
-        return activeSearcher.findComplitedActiveProgram(userId);
+        return activeSearcher.findActiveProgramsByUserIdAndIsComplitedTrue(userId);
     }
 
     @Override
     public ActiveProgram readUncomplitedProgram(long userId) {
-        ActiveProgram activeProgram = activeSearcher.findUncomplitedActiveProgram(userId);
+        ActiveProgram activeProgram = activeSearcher.findActiveProgramsByUserIdAndIsComplitedFalse(userId);
         if (Objects.isNull(activeProgram)) throw new NoEntityException("Active Program");
         else return activeProgram ;
     }

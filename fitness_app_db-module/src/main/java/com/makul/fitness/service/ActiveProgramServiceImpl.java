@@ -7,6 +7,8 @@ import com.makul.fitness.service.api.ActiveProgramService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Service
 public class ActiveProgramServiceImpl implements ActiveProgramService {
 
@@ -30,7 +32,10 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
     @Transactional(rollbackFor = Exception.class)
     public ActiveProgram update(ActiveProgram inputActiveProgram) {
         ActiveProgram activeProgram = read(inputActiveProgram.getId());
-        activeProgram = inputActiveProgram;
+        activeProgram.setComplited(inputActiveProgram.isComplited());
+        if (Objects.nonNull(inputActiveProgram.getDays()) && inputActiveProgram.getDays().length()>6) activeProgram.setDays(inputActiveProgram.getDays());
+        if (Objects.nonNull(inputActiveProgram.getScheduleList()) && inputActiveProgram.getScheduleList().size()>0)
+            activeProgram.setScheduleList(inputActiveProgram.getScheduleList());
         return activeProgram;
     }
 }

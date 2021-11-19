@@ -9,11 +9,7 @@ import java.util.List;
 @Repository
 public interface ActiveProgramSearcherDao extends CrudRepository<ActiveProgram, Long> {
 
-    @Query("SELECT activeProgram FROM Users user JOIN user.activePrograms activeProgram WHERE " +
-            "(user.id = ?1) and (activeProgram.isComplited=true)")
-    List<ActiveProgram> findComplitedActiveProgram(long userId);
+    List<ActiveProgram> findActiveProgramsByUserIdAndIsComplitedTrue(long userId);
 
-    @Query("SELECT activeProgram FROM Users user JOIN user.activePrograms activeProgram WHERE " +
-            "(user.id = ?1) and (activeProgram.isComplited=false)")
-    ActiveProgram findUncomplitedActiveProgram(long userId);
+    ActiveProgram findActiveProgramsByUserIdAndIsComplitedFalse(long userId);
 }

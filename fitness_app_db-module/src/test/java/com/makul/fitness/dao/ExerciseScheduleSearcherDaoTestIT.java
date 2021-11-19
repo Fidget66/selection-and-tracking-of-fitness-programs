@@ -25,14 +25,14 @@ class ExerciseScheduleSearcherDaoTestIT {
 
     @Test
     void findExerciseByDate() {
-        List<ExerciseSchedule> scheduleList = scheduleDao.findExerciseByDate(LocalDate.of(2021,01,01));
+        List<ExerciseSchedule> scheduleList = scheduleDao.findByExerciseDate(LocalDate.of(2021,01,01));
         Assertions.assertNotNull(scheduleList);
         Assertions.assertEquals(2,scheduleList.size());
     }
 
     @Test
     void findExerciseByProgramId() {
-        List<ExerciseSchedule> scheduleList = scheduleDao.findExerciseByProgramId(1);
+        List<ExerciseSchedule> scheduleList = scheduleDao.findByActiveProgram_IdOrderByExerciseDateAsc(1);
         Assertions.assertNotNull(scheduleList);
         Assertions.assertEquals(4,scheduleList.size());
     }

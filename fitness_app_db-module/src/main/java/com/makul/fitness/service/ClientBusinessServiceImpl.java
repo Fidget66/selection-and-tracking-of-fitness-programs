@@ -6,6 +6,7 @@ import com.makul.fitness.exceptions.ReviewIsPresentException;
 import com.makul.fitness.exceptions.ScheduleIsPresentException;
 import com.makul.fitness.model.*;
 import com.makul.fitness.service.api.*;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class ClientBusinessServiceImpl implements ClientBusinessService {
 
     private final UsersService usersService;
@@ -23,37 +25,19 @@ public class ClientBusinessServiceImpl implements ClientBusinessService {
     private final ExerciseScheduleService exerciseScheduleService;
     private final ReviewService reviewService;
 
-    public ClientBusinessServiceImpl(UsersService usersService, BookmarkService bookmarkService,
-                                     FitnessProgramService fitnessProgramService, ActiveProgramService activeProgramService,
-                                     ExerciseScheduleService exerciseScheduleService, ReviewService reviewService) {
-        this.usersService = usersService;
-        this.bookmarkService = bookmarkService;
-        this.fitnessProgramService = fitnessProgramService;
-        this.activeProgramService = activeProgramService;
-        this.exerciseScheduleService = exerciseScheduleService;
-        this.reviewService = reviewService;
-    }
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Bookmark addBookmark(long userId, long fitnessProgramId) {
         Users user=usersService.read(userId);
-        if (Objects.isNull(user.getBookmarks()) || user.getBookmarks().size()==0) {
+        if (Objects.nonNull(user.getBookmarks()) && user.getBookmarks()
+                .stream()
+                .anyMatch(bookmark -> bookmark.getFitnessProgram().getId()==fitnessProgramId)){
+            throw new BookmarkIsPresentException();
+        } else {
             Bookmark bookmark = new Bookmark();
             bookmark.setUser(user);
             bookmark.setFitnessProgram(fitnessProgramService.read(fitnessProgramId));
             return bookmarkService.create(bookmark);
-        } else{
-            int counter = 0;
-            for (Bookmark bookmark : user.getBookmarks()) {
-                if (bookmark.getFitnessProgram().getId() == fitnessProgramId) counter++;
-            }
-            if (counter==0)   {
-                Bookmark bookmark = new Bookmark();
-                bookmark.setUser(user);
-                bookmark.setFitnessProgram(fitnessProgramService.read(fitnessProgramId));
-                return bookmarkService.create(bookmark);
-            } else throw new BookmarkIsPresentException();
         }
     }
 
@@ -69,19 +53,13 @@ public class ClientBusinessServiceImpl implements ClientBusinessService {
         Users user= usersService.read(userId);
         FitnessProgram fitnessProgram= fitnessProgramService.read(fitnessProgramId);
         ActiveProgram activeProgram=ActiveProgram.builder().fitnessProgram(fitnessProgram).build();
-        long restriction=0;
-        if (Objects.nonNull(user.getActivePrograms()) && user.getActivePrograms().size()>0){
-            restriction = user.getActivePrograms().stream()
-                    .filter(activePrograms ->activePrograms.isComplited()==false)
-                    .count();
-            if (restriction==0){
-                activeProgram.setUser(user);
-                return activeProgramService.create(activeProgram);
-            } else throw new ActiveProgramIsPresentException();
-        }else{
+        System.out.println(Objects.isNull(user.getActivePrograms()));
+        if (Objects.isNull(user.getActivePrograms()) || user.getActivePrograms().isEmpty() || user.getActivePrograms()
+                .stream()
+                .noneMatch(actProg -> !actProg.isComplited())){
             activeProgram.setUser(user);
             return activeProgramService.create(activeProgram);
-        }
+        } else throw new ActiveProgramIsPresentException();
     }
 
     @Override
@@ -146,12 +124,13 @@ public class ClientBusinessServiceImpl implements ClientBusinessService {
     }
 
     private void updActiveProgramIfAllExerciseComplited(long activeProgramId){
-        int counter =0;
         ActiveProgram activeProgram = activeProgramService.read(activeProgramId);
-        for (ExerciseSchedule exercise:activeProgram.getScheduleList()) {
-            if (exercise.isComplited()) counter++;
+        if (activeProgram.getScheduleList()
+                .stream()
+                .filter(ExerciseSchedule::isComplited)
+                .count() == activeProgram.getScheduleList().size()){
+            activeProgram.setComplited(true);
         }
-        if (counter==activeProgram.getScheduleList().size()) activeProgram.setComplited(true);
         activeProgramService.update(activeProgram);
     }
 }

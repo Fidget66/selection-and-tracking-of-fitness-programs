@@ -27,21 +27,21 @@ class ActiveProgramSearcherServiceImplTest {
                 .generate(() -> getProgram())
                 .limit(3)
                 .collect(Collectors.toList());;
-        Mockito.when(searcherDao.findComplitedActiveProgram(1L)).thenReturn(activeProgramList);
+        Mockito.when(searcherDao.findActiveProgramsByUserIdAndIsComplitedTrue(1L)).thenReturn(activeProgramList);
         List <ActiveProgram> actual = activeProgramService.readComplitedPrograms(1);
         List <ActiveProgram> expected = activeProgramList;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(searcherDao, Mockito.times(1)).findComplitedActiveProgram(1L);
+        Mockito.verify(searcherDao, Mockito.times(1)).findActiveProgramsByUserIdAndIsComplitedTrue(1L);
     }
 
     @Test
     void  whenRead_returnUncomplitedProgram() {
         ActiveProgram activeProgram = getProgram();
-        Mockito.when(searcherDao.findUncomplitedActiveProgram(1L)).thenReturn(activeProgram);
+        Mockito.when(searcherDao.findActiveProgramsByUserIdAndIsComplitedFalse(1L)).thenReturn(activeProgram);
         ActiveProgram actual = activeProgramService.readUncomplitedProgram(1);
         ActiveProgram expected = activeProgram;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(searcherDao, Mockito.times(1)).findUncomplitedActiveProgram(1L);
+        Mockito.verify(searcherDao, Mockito.times(1)).findActiveProgramsByUserIdAndIsComplitedFalse(1L);
     }
 
     private ActiveProgram getProgram(){

@@ -24,14 +24,14 @@ class ActiveProgramSearcherDaoTestIT {
 
     @Test
     void findComplitedActiveProgram() {
-        List<ActiveProgram> programList = searcherDao.findComplitedActiveProgram(1);
+        List<ActiveProgram> programList = searcherDao.findActiveProgramsByUserIdAndIsComplitedTrue(1);
         Assertions.assertNotNull(programList);
         Assertions.assertEquals(3,programList.size());
     }
 
     @Test
     void findUncomplitedActiveProgram() {
-        ActiveProgram activeProgram = searcherDao.findUncomplitedActiveProgram(1);
+        ActiveProgram activeProgram = searcherDao.findActiveProgramsByUserIdAndIsComplitedFalse(1);
         Assertions.assertNotNull(activeProgram);
         Assertions.assertEquals("testDays4",activeProgram.getDays());
     }
