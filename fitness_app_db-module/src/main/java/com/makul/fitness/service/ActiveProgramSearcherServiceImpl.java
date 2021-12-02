@@ -5,6 +5,7 @@ import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.ActiveProgram;
 import com.makul.fitness.service.api.ActiveProgramSearcherService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -24,8 +25,12 @@ public class ActiveProgramSearcherServiceImpl implements ActiveProgramSearcherSe
 
     @Override
     public ActiveProgram readUncomplitedProgram(long userId) {
+        // ToDo возвращаем опшионал в orElseThrow кидаем исключение
         ActiveProgram activeProgram = activeSearcher.findActiveProgramsByUserIdAndIsComplitedFalse(userId);
-        if (Objects.isNull(activeProgram)) throw new NoEntityException("Active Program");
-        else return activeProgram ;
+        // ToDo читаем java code convention
+        if (Objects.isNull(activeProgram)) {
+            throw new NoEntityException("Active Program");
+        }
+        else return activeProgram;
     }
 }

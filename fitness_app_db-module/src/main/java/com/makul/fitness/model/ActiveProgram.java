@@ -16,7 +16,7 @@ import java.util.List;
 public class ActiveProgram {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long id; // ToDo заменить на обертки можно сразу на uuid
     private boolean isComplited;
     private String days;
     @OneToMany(mappedBy = "activeProgram",cascade = CascadeType.ALL,fetch = FetchType.LAZY)

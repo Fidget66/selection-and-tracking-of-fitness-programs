@@ -23,7 +23,7 @@ public class ExerciseScheduleDto {
     private String programShortName;
     @ApiModelProperty(value = "Training date",
             name = "exerciseDate",
-            dataType = "LocalDate",
+            dataType = "LocalDate",// ToDo ну ты понял
             example = "2021-10-30")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate exerciseDate;

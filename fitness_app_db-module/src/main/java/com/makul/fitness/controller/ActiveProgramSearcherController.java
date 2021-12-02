@@ -20,6 +20,7 @@ public class ActiveProgramSearcherController {
     private final ObjectMapper objectMapper;
     private final ActiveProgramSearcherService activeSearcher;
 
+    // ToDo заменить на RequiredArgsConstructor
     public ActiveProgramSearcherController(ObjectMapper objectMapper, ActiveProgramSearcherService activeSearcher) {
         this.objectMapper = objectMapper;
         this.activeSearcher = activeSearcher;
@@ -28,6 +29,9 @@ public class ActiveProgramSearcherController {
     @GetMapping("/user/{userId}/programs/active")
     @ApiOperation(value = "Search User's complited active programs")
     public List<ActiveProgramDto> readAllComplitedPrograms(@ApiParam(defaultValue = "1")@PathVariable long userId) {
+        // ToDo неплохо бы завести утилитный класс и в него добавить мотод которым будешь мапить листы в сущностей в листы ДТО
+        // и заменить во всех местах
+        // прим. customMapper.mapList(activeSearcher.readComplitedPrograms(userId), ActiveProgramDto.class);
         return activeSearcher.readComplitedPrograms(userId)
                 .stream()
                 .map(activeProgram -> objectMapper.convertValue(activeProgram, ActiveProgramDto.class))

@@ -1,6 +1,7 @@
 version: '3.3'
 
 services:
+
   web-module:
     container_name: web-module
     build: ./web-module
@@ -10,6 +11,7 @@ services:
       - databaseSecurity
     ports:
       - "8122:8122"
+
   fitnessApp:
     container_name: fitnessApp
     build: ./fitness_app_db-module
@@ -19,6 +21,7 @@ services:
       - databaseSecurity
     ports:
       - "8124:8124"
+
   databaseFitness:
     container_name: databaseFitness
     image: postgres:13.4-alpine
@@ -29,6 +32,7 @@ services:
       - ./fitness_app-db/data:/var/lib/postgresql/data/
     ports:
       - "5402:5432"
+
   databaseSecurity:
     container_name: databaseSecurity
     image: postgres:13.4-alpine

@@ -6,6 +6,7 @@ import com.makul.fitness.model.ActiveProgram;
 import com.makul.fitness.service.api.ActiveProgramService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 public class ActiveProgramServiceImpl implements ActiveProgramService {
 
     private final ActiveProgramDao activeProgramDao;
+
     public ActiveProgramServiceImpl(ActiveProgramDao activeProgramDao) {
         this.activeProgramDao = activeProgramDao;
     }
@@ -24,8 +26,8 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
     }
 
     @Override
-    public ActiveProgram read(long id){
-        return activeProgramDao.findById(id).orElseThrow(()->new NoEntityException("Active Program"));
+    public ActiveProgram read(long id) {
+        return activeProgramDao.findById(id).orElseThrow(() -> new NoEntityException("Active Program"));
     }
 
     @Override
@@ -33,9 +35,12 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
     public ActiveProgram update(ActiveProgram inputActiveProgram) {
         ActiveProgram activeProgram = read(inputActiveProgram.getId());
         activeProgram.setComplited(inputActiveProgram.isComplited());
-        if (Objects.nonNull(inputActiveProgram.getDays()) && inputActiveProgram.getDays().length()>6) activeProgram.setDays(inputActiveProgram.getDays());
-        if (Objects.nonNull(inputActiveProgram.getScheduleList()) && inputActiveProgram.getScheduleList().size()>0)
+        if (Objects.nonNull(inputActiveProgram.getDays()) && inputActiveProgram.getDays().length() > 6) {
+            activeProgram.setDays(inputActiveProgram.getDays());
+        }
+        if (CollectionUtils.isEmpty(inputActiveProgram.getScheduleList())) {
             activeProgram.setScheduleList(inputActiveProgram.getScheduleList());
+        }
         return activeProgram;
     }
 }

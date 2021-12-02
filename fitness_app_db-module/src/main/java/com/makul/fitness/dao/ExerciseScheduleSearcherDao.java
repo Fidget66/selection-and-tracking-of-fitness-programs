@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ExerciseScheduleSearcherDao extends CrudRepository<ExerciseSchedule, Long> {
-
+// ToDo выпилить если не нужно
 //    @Query("SELECT schedule FROM ExerciseSchedule schedule WHERE (schedule.exerciseDate = ?1)")
 //    List<ExerciseSchedule> findExerciseByDate(LocalDate currentDate);
 

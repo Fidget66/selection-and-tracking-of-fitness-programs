@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ObjectMapperConfig {
     @Bean
-    public ObjectMapper getObjectMapper(){
+    public ObjectMapper getObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .registerModule(new JavaTimeModule());;
+                .registerModule(new JavaTimeModule());
         return objectMapper;
     }
 }

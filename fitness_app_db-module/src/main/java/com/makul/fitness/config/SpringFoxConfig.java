@@ -22,12 +22,15 @@ public class SpringFoxConfig {
                 .paths(PathSelectors.any()).build().pathMapping("/")
                 .apiInfo(apiInfo()).useDefaultResponseMessages(false);
     }
+
     @Bean
     public ApiInfo apiInfo() {
         final ApiInfoBuilder builder = new ApiInfoBuilder();
-        builder.title("My Fitness Application API through Swagger UI").version("0.0.1-SNAPSHOT")
+        return builder.title("My Fitness Application API through Swagger UI")
+                .version("0.0.1-SNAPSHOT")
+                // ToDo версию тоже неплохо бы в конфиги убрать
                 .description("List of all the APIs of My Fitness Application App through Swagger UI")
-                .contact(new Contact("Makul Raman","","busnab@mail.ru"));
-        return builder.build();
+                .contact(new Contact("Makul Raman", "", "busnab@mail.ru"))
+                .build();
     }
 }

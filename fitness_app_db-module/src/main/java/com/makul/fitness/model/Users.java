@@ -26,6 +26,7 @@ public class Users {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     private List<ActiveProgram> activePrograms;
+    // ToDo ну ты понял
     @OneToMany (mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval = true)
     private List<Bookmark> bookmarks;
 }

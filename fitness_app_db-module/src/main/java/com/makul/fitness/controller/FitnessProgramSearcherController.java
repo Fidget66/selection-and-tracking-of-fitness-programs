@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,20 +28,20 @@ public class FitnessProgramSearcherController {
     @GetMapping("/category/{id}/program/fitness")
     @ApiOperation(value = "Get fitness programs of current category ")
     public List<FitnessProgramDto> readFitnessProgramList(@ApiParam(defaultValue = "2")
-                                                              @PathVariable("id") long categoryId){
+                                                          @PathVariable("id") long categoryId) {
         return fitnessSearcherService.readFitnessProgram(categoryId)
                 .stream()
-                .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram,FitnessProgramDto.class))
+                .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram, FitnessProgramDto.class))
                 .collect(Collectors.toList());
     }
 
-    @PostMapping ("/user/program/fitness")
+    @PostMapping("/user/program/fitness")
     @ApiOperation(value = "Get restricted fitness programs")
-    public List<FitnessProgramDto> readFitnessProgramListWithRestrictions (@RequestBody FiltredDto filtredDto){
-         return fitnessSearcherService.readFitnessProgramWithRestrictions(filtredDto.getUserId(), filtredDto.getDuration(),
+    public List<FitnessProgramDto> readFitnessProgramListWithRestrictions(@RequestBody FiltredDto filtredDto) {
+        return fitnessSearcherService.readFitnessProgramWithRestrictions(filtredDto.getUserId(), filtredDto.getDuration(),
                         filtredDto.getCategoryId())
                 .stream()
-                .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram,FitnessProgramDto.class))
+                .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram, FitnessProgramDto.class))
                 .collect(Collectors.toList());
     }
 }
