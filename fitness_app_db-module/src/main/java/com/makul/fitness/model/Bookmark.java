@@ -14,7 +14,7 @@ public class  Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER) // ToDo он и так эгер, убрать
     @JoinColumn(name = "fitness_program_id")
     private FitnessProgram fitnessProgram;
     @ManyToOne

@@ -26,6 +26,7 @@ public class CategoryOfFitnessProgramServiceImpl implements CategoryOfFitnessPro
 
     @Override
     public List<CategoryOfFitnessProgram> readAll() {
+        // ToDo переделать categoryDao.findAll() чтобы возвращал лист
         return StreamSupport.stream(categoryDao.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }

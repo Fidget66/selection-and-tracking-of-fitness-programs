@@ -17,6 +17,7 @@ public class JavaMailSenderConfig {
         mailSender.setPort(587);
         mailSender.setUsername("myfitnessappmail@gmail.com");
         mailSender.setPassword("MyFitnessApp1");
+        // ToDo вынести всё в конфиги, создать класс для этого, проинжектать его сюда и брать параметры оттуда
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");

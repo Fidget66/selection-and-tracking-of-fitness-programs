@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,13 +28,15 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    // ToDo в проперти
     @Scheduled(cron = "0 20 16-18 * * *")
     public void sendSimpleMessage() {
         String subject = "Напоминание о занятиях";
         LocalDate dateOfExercise = LocalDate.now().plusDays(1);
-        List<ExerciseSchedule> exerciseList= service.readExerciseByDate(dateOfExercise);
-        for (ExerciseSchedule exercise:exerciseList) {
-            String text = "Здравствуйте, "+ exercise.getActiveProgram().getUser().getFirstName()+", напоминаем, что " +
+        List<ExerciseSchedule> exerciseList = service.readExerciseByDate(dateOfExercise);
+        for (ExerciseSchedule exercise : exerciseList) {
+            // ToDo String.format() если уж так делаешь
+            String text = "Здравствуйте, " + exercise.getActiveProgram().getUser().getFirstName() + ", напоминаем, что " +
                     "завтра " + dateOfExercise + " у вас занятие";
             String toEmail = exercise.getActiveProgram().getUser().getEmail();
             message.setFrom("myfitnessappmail@gmail.com");

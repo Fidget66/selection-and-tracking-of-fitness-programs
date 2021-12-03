@@ -1,3 +1,4 @@
+-- ToDo Отпилить удаление таблиц и переделать на нормальную инициализацию бд
 DROP TABLE IF EXISTS review cascade;
 DROP TABLE IF EXISTS category_of_fitness_program cascade;
 DROP TABLE IF EXISTS fitness_program cascade;

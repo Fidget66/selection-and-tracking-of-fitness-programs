@@ -22,6 +22,7 @@ public class FitnessProgramController {
         this.fitnessProgramService = fitnessProgramService;
     }
 
+    // ToDo новые программы не добавляем? старые не удаляем?
     @GetMapping("/program/fitness/{id}")
     @ApiOperation(value = "Get a fitness program by id")
     public FitnessProgramDto readFitnessProgram(@ApiParam(defaultValue = "6")@PathVariable("id")long id){

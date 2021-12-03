@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// ToDo что кверя забыла в сущности? убрать
 @NamedQueries({
         @NamedQuery(
                 name = "findFitnessProgramWithRestrictions",

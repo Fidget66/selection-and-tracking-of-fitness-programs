@@ -21,16 +21,18 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
+    // ToDo обновляем но не добавляем ноговое ревью?
+
     @PutMapping("/review")
     @ApiOperation(value = "Update review")
-    public ReviewDto updateReview(@RequestBody ReviewDto reviewDto){
+    public ReviewDto updateReview(@RequestBody ReviewDto reviewDto) {
         Review review = objectMapper.convertValue(reviewDto, Review.class);
         return objectMapper.convertValue(reviewService.update(review), ReviewDto.class);
     }
 
     @GetMapping("/review/{id}")
     @ApiOperation(value = "Find review by id")
-    public ReviewDto readReview( @ApiParam(defaultValue = "1") @PathVariable("id") long id){
+    public ReviewDto readReview(@ApiParam(defaultValue = "1") @PathVariable("id") long id) {
         return objectMapper.convertValue(reviewService.read(id), ReviewDto.class);
     }
 }

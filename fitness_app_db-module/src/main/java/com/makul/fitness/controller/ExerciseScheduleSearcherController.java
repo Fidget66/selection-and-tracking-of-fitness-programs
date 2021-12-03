@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class ExerciseScheduleSearcherController {
     @GetMapping("/program/active/{id}/exercises")
     @ApiOperation(value = "Get the schedule list of the active program")
     public List<ExerciseScheduleDto> getExercisesList(@ApiParam(defaultValue = "2")
-                                                      @PathVariable("id") long activeProgramId){
+                                                      @PathVariable("id") long activeProgramId) {
         return searcherService.readExerciseByActiveProgramId(activeProgramId)
                 .stream()
                 .map(exercise -> objectMapper.convertValue(exercise, ExerciseScheduleDto.class))

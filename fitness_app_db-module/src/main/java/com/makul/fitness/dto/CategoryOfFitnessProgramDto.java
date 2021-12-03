@@ -18,12 +18,12 @@ public class CategoryOfFitnessProgramDto {
     private long id;
     @ApiModelProperty(value = "Category short name",
             name = "shortName",
-            dataType = "String",
+            dataType = "String", // ToDo убрать сваггер умный, разберётся какого типа поле
             example = "New category of fitness ")
     private String shortName;
     @ApiModelProperty(value = "Fitness program category description",
             name = "description",
-            dataType = "String",
+            dataType = "String", // ToDo убрать сваггер умный, разберётся какого типа поле
             example = "New category of fitness program description")
     private String description;
     private List <FitnessProgramDto> fitnessPrograms;

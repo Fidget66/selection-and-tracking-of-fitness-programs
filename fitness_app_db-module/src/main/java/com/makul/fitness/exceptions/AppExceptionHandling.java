@@ -9,13 +9,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class AppExceptionHandling extends ResponseEntityExceptionHandler {
-
-    @ExceptionHandler({NoEntityException.class, ActiveProgramIsPresentException.class,
-            ReviewIsPresentException.class, ScheduleIsPresentException.class,
+    // ToDo не нужно на кадый чих создавать эксепш, в большенстве случаем можно создать более общий и в него прокидывать текст бизнес исключения
+    @ExceptionHandler(
+            {NoEntityException.class,
+            ActiveProgramIsPresentException.class,
+            ReviewIsPresentException.class,
+            ScheduleIsPresentException.class,
             BookmarkIsPresentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     private ResponseEntity<ApiError> handleCustomException(RuntimeException exception) {
@@ -34,7 +38,7 @@ public class AppExceptionHandling extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(getApiError(ex), status);
     }
 
-    private ApiError getApiError(Exception ex){
+    private ApiError getApiError(Exception ex) {
         ApiError apiError = ApiError
                 .builder()
                 .exception(ex)

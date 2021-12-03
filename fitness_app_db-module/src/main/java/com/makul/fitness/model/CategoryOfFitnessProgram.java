@@ -16,6 +16,7 @@ public class CategoryOfFitnessProgram {
     private long id;
     private String shortName;
     private String description;
+    // ToDo по дефолту лэйзи, убрать + почиать дефотные типы фетчей для разных видов связей
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List <FitnessProgram> fitnessPrograms;
 }
