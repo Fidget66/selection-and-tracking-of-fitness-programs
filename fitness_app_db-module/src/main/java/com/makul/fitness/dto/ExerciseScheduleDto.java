@@ -6,30 +6,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExerciseScheduleDto {
-    private long id;
+    private UUID id;
     @ApiModelProperty(value = "The short name of the program for the schedule",
             name = "programShortName",
-            dataType = "String",
             example = "Cycle training")
     private String programShortName;
     @ApiModelProperty(value = "Training date",
             name = "exerciseDate",
-            dataType = "LocalDate",// ToDo ну ты понял
             example = "2021-10-30")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate exerciseDate;
     @ApiModelProperty(value = "Select true if this exercise is executed",
             name = "isComplited",
-            dataType = "boolean",
             example = "true")
     private boolean isComplited;
 }

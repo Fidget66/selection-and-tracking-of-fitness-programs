@@ -10,6 +10,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -25,9 +27,10 @@ class AdminBusinessServiceImplTestIT {
 
     @Test
     void addFitnessProgram_thenReturnFitnessProgram(){
-        FitnessProgram fitnessProgram = adminBusinessService.addFitnessProgram(1,getFitnessProgram());
+        FitnessProgram fitnessProgram = adminBusinessService.addFitnessProgram(UUID.fromString("00000000-000-0000-0000-000000000005"),
+                getFitnessProgram());
         assertNotNull(fitnessProgram);
-        assertTrue(fitnessProgram.getId()>0);
+        assertTrue(fitnessProgram.getId().toString()!="");
         assertEquals("Test", fitnessProgram.getShortName());
         assertEquals("Test description",fitnessProgram.getDescription());
         assertEquals(66, fitnessProgram.getWeightRestriction());

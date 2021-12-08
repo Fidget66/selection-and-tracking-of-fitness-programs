@@ -10,9 +10,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,41 +42,48 @@ class ExerciseScheduleServiceImplTest {
     @Test
     void whenUpdate_returnExerciseSchedule() {
         ExerciseSchedule exerciseSchedule = getSchedule();
-        Mockito.when(scheduleDao.findById(1L)).thenReturn(Optional.ofNullable(exerciseSchedule));
+        UUID uuid = getUUID();
+        Mockito.when(scheduleDao.findById(uuid)).thenReturn(Optional.ofNullable(exerciseSchedule));
         Mockito.when(scheduleDao.save(exerciseSchedule)).thenReturn(exerciseSchedule);
-        ExerciseSchedule actual = scheduleService.update(1L);
+        ExerciseSchedule actual = scheduleService.update(uuid);
         ExerciseSchedule expected = exerciseSchedule;
         Assertions.assertEquals(expected,actual);
-        Mockito.verify(scheduleDao, Mockito.times(1)).findById(1L);
+        Mockito.verify(scheduleDao, Mockito.times(1)).findById(uuid);
         Mockito.verify(scheduleDao,Mockito.times(1)).save(exerciseSchedule);
     }
 
     @Test
     void whenRead_returnExerciseSchedule() {
         ExerciseSchedule exerciseSchedule = getSchedule();
-        Mockito.when(scheduleDao.findById(1L)).thenReturn(Optional.ofNullable(exerciseSchedule));
-        ExerciseSchedule actual = scheduleService.read(1L);
+        UUID uuid = getUUID();
+        Mockito.when(scheduleDao.findById(uuid)).thenReturn(Optional.ofNullable(exerciseSchedule));
+        ExerciseSchedule actual = scheduleService.read(uuid);
         ExerciseSchedule expected = exerciseSchedule;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(scheduleDao, Mockito.times(1)).findById(1L);
+        Mockito.verify(scheduleDao, Mockito.times(1)).findById(uuid);
     }
 
     @Test
     void whenRead_throwException() {
         ExerciseSchedule exerciseSchedule = getSchedule();
-        Mockito.when(scheduleDao.findById(4L)).thenReturn(Optional.empty());
+        UUID uuid = getUUID();
+        Mockito.when(scheduleDao.findById(uuid)).thenReturn(Optional.empty());
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
-                ()->scheduleService.read(4L));
+                ()->scheduleService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
                 "Такой записи для Exercise Schedule в базе данных не существует");
-        Mockito.verify(scheduleDao, Mockito.times(1)).findById(4L);
+        Mockito.verify(scheduleDao, Mockito.times(1)).findById(uuid);
     }
 
     private ExerciseSchedule getSchedule(){
         ExerciseSchedule schedule = new ExerciseSchedule();
-        schedule.setId(1);
+        schedule.setId(getUUID());
         schedule.setExerciseDate(LocalDate.of(2021, 10,18));
         schedule.setComplited(true);
         return schedule;
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }

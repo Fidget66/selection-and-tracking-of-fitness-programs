@@ -12,10 +12,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -41,7 +44,7 @@ class UsersControllerTestIT {
                         .content(objectMapper.writeValueAsString(getUser()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.firstName").value("TestName"))
                 .andExpect(jsonPath("$.lastName").value("TestSurname"))
                 .andExpect(jsonPath("$.email").value("test@email"))
@@ -51,9 +54,9 @@ class UsersControllerTestIT {
     @Test
     @SneakyThrows
     void readUserById_whenGetExistingUser_thenStatus200andUserReturned(){
-        mockMvc.perform(get("/user/{id}", 3))
+        mockMvc.perform(get("/user/{id}", "00000000-0000-0000-0000-000000000003"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.firstName").value("Andrey"))
                 .andExpect(jsonPath("$.lastName").value("Andreev"))
                 .andExpect(jsonPath("$.email").value("admin@mail.ru"))
@@ -64,7 +67,7 @@ class UsersControllerTestIT {
     @SneakyThrows
     void readUserById_whenGetNotExistingUser_thenStatus400andExceptionThrown(){
         mockMvc.perform(
-                        get("/user/{id}", 90)
+                        get("/user/{id}", "00000000-000-0000-0000-000000000068")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))
@@ -75,14 +78,16 @@ class UsersControllerTestIT {
     @Test
     @SneakyThrows
     void readUserByNameLastName_whenGetExistingUserList_thenStatus200andUserReturned(){
-        mockMvc.perform(get("/user/{firstName}/{lastName}", "Andrey", "Andreev"))
+        mockMvc.perform(get("/user/{firstName}/{lastName}", "Andrey", "Andreev")
+                        .param("page","0")
+                        .param("size","20"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", isA(ArrayList.class)))
-                .andExpect(jsonPath("$.*", hasSize(1)))
-                .andExpect(jsonPath("$[*].firstName", containsInAnyOrder("Andrey")))
-                .andExpect(jsonPath("$[*].lastName", containsInAnyOrder("Andreev")))
-                .andExpect(jsonPath("$[*].email", containsInAnyOrder("admin@mail.ru")))
-                .andExpect(jsonPath("$[*].weight", containsInAnyOrder(80)));
+                .andExpect(jsonPath("$.content", isA(ArrayList.class)))
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content[*].firstName", containsInAnyOrder("Andrey")))
+                .andExpect(jsonPath("$.content[*].lastName", containsInAnyOrder("Andreev")))
+                .andExpect(jsonPath("$.content[*].email", containsInAnyOrder("admin@mail.ru")))
+                .andExpect(jsonPath("$.content[*].weight", containsInAnyOrder(80)));
     }
 
     private Users getUser(){

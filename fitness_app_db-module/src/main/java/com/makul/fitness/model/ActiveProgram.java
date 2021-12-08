@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -15,11 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 public class ActiveProgram {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id; // ToDo заменить на обертки можно сразу на uuid
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private boolean isComplited;
     private String days;
-    @OneToMany(mappedBy = "activeProgram",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "activeProgram",cascade = CascadeType.ALL)
     private List<ExerciseSchedule> scheduleList;
     @OneToOne
     @JoinColumn(name = "fitness_program_id")

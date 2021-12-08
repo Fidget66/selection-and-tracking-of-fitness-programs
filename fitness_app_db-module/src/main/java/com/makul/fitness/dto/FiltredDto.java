@@ -5,23 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class FiltredDto {
     @ApiModelProperty(value = "User id",
             name = "userId",
-            dataType = "long",
             example = "1")
-    private long userId;
+    private UUID userId;
     @ApiModelProperty(value = "Category of fitness program id",
             name = "categoryId",
-            dataType = "long",
             example = "2")
-    private long categoryId;
+    private UUID categoryId;
     @ApiModelProperty(value = "Fitness program duration",
             name = "duration",
-            dataType = "int",
             example = "100")
     private int duration;
 }

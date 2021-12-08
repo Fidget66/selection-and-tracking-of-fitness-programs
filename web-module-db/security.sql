@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users_security (
   id bigserial  NOT NULL,
   login varchar(255) UNIQUE,
   password varchar(255),
-  user_id bigint,
+  user_id UUID,
   PRIMARY KEY (id)
 );
 
@@ -25,13 +25,13 @@ CREATE TABLE IF NOT EXISTS users_roles(
 );
 
 INSERT INTO users_security(login, password, user_id)
-values ('Roman24', '$2a$08$CVOdRl2OIjBNR3jcQJN6fOGuuqatlpWghwcezZXYhujyroyhOfhk2', 1);
+values ('Roman24','$2a$08$CVOdRl2OIjBNR3jcQJN6fOGuuqatlpWghwcezZXYhujyroyhOfhk2','00000000-0000-0000-0002-000000000001');
 --123456
 INSERT INTO users_security(login, password, user_id)
-values ('Alex35', '$2a$08$Ylu1iJe9znyzahEuadgTweJEpKx8Pn6g4LVYcETEukULHXs2qZ6K6', 2);
+values ('Alex35','$2a$08$Ylu1iJe9znyzahEuadgTweJEpKx8Pn6g4LVYcETEukULHXs2qZ6K6','00000000-0000-0000-0002-000000000002');
 --987654
 INSERT INTO users_security(login, password, user_id)
-values ('Andrey', '$2a$08$Ylu1iJe9znyzahEuadgTweJEpKx8Pn6g4LVYcETEukULHXs2qZ6K6', 3);
+values ('Andrey','$2a$08$Ylu1iJe9znyzahEuadgTweJEpKx8Pn6g4LVYcETEukULHXs2qZ6K6','00000000-0000-0000-0002-000000000003');
 
 INSERT INTO roles (role_name)  values ('Admin');
 INSERT INTO roles (role_name)  values ('Client');

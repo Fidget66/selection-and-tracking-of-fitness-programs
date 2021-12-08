@@ -1,11 +1,12 @@
 package com.makul.fitness.service.api;
 
 import com.makul.fitness.model.Users;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
+import java.util.UUID;
 
 public interface UsersService {
     Users create(Users user);
-    Users read(long id);
-    List<Users> readUserByFirstLastName(String firstName, String lastName);
+    Users read(UUID id);
+    Page <Users> readUserByFirstLastName(String firstName, String lastName,  int pageNumber, int size);
 }

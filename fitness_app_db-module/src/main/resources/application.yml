@@ -2,18 +2,37 @@ server:
   port: 8124
   servlet:
     context-path: /fitnessDB-app
+
 spring:
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     database: postgresql
+  datasource:
+#    url: jdbc:postgresql://databaseFitness:5432/MyFitnessApp
+    url: jdbc:postgresql://localhost:5432/MyFitnessApp
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: PostgreSQL
+#    username: postgres
+#    password: 3784
   sql:
     init:
       mode: always
-  datasource:
-    url: jdbc:postgresql://databaseFitness:5432/MyFitnessApp
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: 3784
+
+java-mail-sender:
+  host: smtp.gmail.com
+  port: 587
+  username: myfitnessappmail@gmail.com
+  password: MyFitnessApp1
+  props.mail.transport.protocol: smtp
+  props.mail.smtp.auth: true
+  props.mail.smtp.starttls.enable: true
+  props.mail.debug: true
+email:
+  time: 0 20 16-18 * * *
+  from: myfitnessappmail@gmail.com
+myapp:
+  version: 0.0.1-SNAPSHOT

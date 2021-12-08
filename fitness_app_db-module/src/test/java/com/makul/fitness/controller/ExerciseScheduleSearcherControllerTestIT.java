@@ -8,8 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
-import java.util.ArrayList;
-import static org.hamcrest.Matchers.*;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,11 +29,13 @@ class ExerciseScheduleSearcherControllerTestIT {
     @Test
     @SneakyThrows
     void getExercisesList_whenGetExistingExercisesList_thenStatus200andExercisesListReturned(){
-        mockMvc.perform(get("/program/active/{id}/exercises", 1))
+        mockMvc.perform(get("/program/active/{id}/exercises", "00000000-000-0000-0000-000000000013")
+                        .param("page","0")
+                        .param("size","20"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", isA(ArrayList.class)))
-                .andExpect(jsonPath("$.*", hasSize(4)))
-                .andExpect(jsonPath("$[*].id", containsInAnyOrder(1,2,3,4)))
-                .andExpect(jsonPath("$[*].exerciseDate").isNotEmpty());
+                .andExpect(jsonPath("$.*").isNotEmpty())
+                .andExpect(jsonPath("$.content", hasSize(4)))
+                .andExpect(jsonPath("$.content[*].id", notNullValue()))
+                .andExpect(jsonPath("$.content[*].exerciseDate").isNotEmpty());
     }
 }

@@ -27,7 +27,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<CategoryOfFitnessProgramDto> getCategoryOfFitnessProgram() {
         return Arrays.asList(restTemplate.getForObject(baseURL +
-                "fitness/categories", CategoryOfFitnessProgramDto[].class));
+                "fitness/category", CategoryOfFitnessProgramDto[].class));
     }
 
     @Override

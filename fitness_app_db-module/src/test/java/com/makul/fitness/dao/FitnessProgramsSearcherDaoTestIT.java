@@ -6,10 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import java.util.List;
+import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -24,14 +28,18 @@ class FitnessProgramsSearcherDaoTestIT {
 
     @Test
     void findFitnessProgramWithRestrictions() {
-        List <FitnessProgram> programList = searcherDao.findFitnessProgramWithRestrictions(1,30,1,35);
+        Pageable pageable = PageRequest.of(0,30);
+        List <FitnessProgram> programList = searcherDao.findFitnessProgramWithRestrictions(UUID.fromString("00000000-0000-0000-0000-000000000001"),
+                30,UUID.fromString("00000000-000-0000-0000-000000000005"),35,pageable).getContent();
         Assertions.assertNotNull(programList);
         Assertions.assertEquals(1, programList.size());
     }
 
     @Test
     void findFitnessProgram() {
-        List <FitnessProgram> programList = searcherDao.findFitnessProgram(1);
+        Pageable pageable = PageRequest.of(0,30);
+        List <FitnessProgram> programList = searcherDao.findFitnessProgram(UUID.fromString("00000000-0000-0000-0000-000000000005"),
+                pageable).getContent();
         Assertions.assertNotNull(programList);
         Assertions.assertEquals(3, programList.size());
     }

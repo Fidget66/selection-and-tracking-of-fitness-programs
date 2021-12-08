@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 @ExtendWith(MockitoExtension.class)
 class BookmarkServiceImplTest {
 
@@ -30,13 +32,17 @@ class BookmarkServiceImplTest {
 
     @Test
     void whenDelete_thenOk() {
-        bookmarkService.delete(2L);
-        Mockito.verify(bookmarkDao, Mockito.times(1)).deleteById(2L);
+        UUID uuid = getUUID();
+        bookmarkService.delete(uuid);
+        Mockito.verify(bookmarkDao, Mockito.times(1)).deleteById(uuid);
     }
 
     private Bookmark getBookmark(){
         Bookmark bookmark = new Bookmark();
-        bookmark.setId(1);
+        bookmark.setId(getUUID());
         return bookmark;
+    }
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }

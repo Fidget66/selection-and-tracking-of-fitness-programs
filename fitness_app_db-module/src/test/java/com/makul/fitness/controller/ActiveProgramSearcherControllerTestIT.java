@@ -9,12 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
-import java.util.ArrayList;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,18 +31,21 @@ class ActiveProgramSearcherControllerTestIT {
     @Test
     @SneakyThrows
     void readAllComplitedPrograms_whenGetExistingActiveProgramList_thenStatus200andProgramListReturned(){
-        mockMvc.perform(get("/user/{userId}/programs/active",1))
+        mockMvc.perform(get("/user/{userId}/programs/active","00000000-0000-0000-0000-000000000001")
+                .param("page","0")
+                .param("size","20"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", isA(ArrayList.class)))
-                .andExpect(jsonPath("$.*", hasSize(3)))
-                .andExpect(jsonPath("$[*].days", containsInAnyOrder("testDays1","testDays2",
+                .andExpect(jsonPath("$.*").isNotEmpty())
+                .andExpect(jsonPath("$.content", hasSize(3)))
+                .andExpect(jsonPath("$.content[*].id", notNullValue()))
+                .andExpect(jsonPath("$.content[*].days", containsInAnyOrder("testDays1","testDays2",
                         "testDays3")));
     }
 
     @Test
     @SneakyThrows
     void readUncomplitedProgram_whenGetExistingActiveProgram_thenStatus200andActiveProgramReturned(){
-        mockMvc.perform(get("/user/{userId}/program/active",1))
+        mockMvc.perform(get("/user/{userId}/program/active","00000000-000-0000-0000-000000000001"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.days").value("testDays4"));
     }
@@ -49,7 +53,7 @@ class ActiveProgramSearcherControllerTestIT {
     @Test
     @SneakyThrows
     void readUncomplitedProgram_whenGetNotExistingActiveProgram_thenStatus400andExceptionThrown(){
-        mockMvc.perform(get("/user/{userId}/program/active",2))
+        mockMvc.perform(get("/user/{userId}/program/active","00000000-000-0000-0000-000000000002"))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))
                 .andExpect(result -> assertEquals("Такой записи для Active Program в базе данных не существует",

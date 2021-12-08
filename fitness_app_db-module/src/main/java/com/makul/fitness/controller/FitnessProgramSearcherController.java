@@ -1,47 +1,40 @@
 package com.makul.fitness.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makul.fitness.dto.FiltredDto;
 import com.makul.fitness.dto.FitnessProgramDto;
 import com.makul.fitness.service.api.FitnessProgramsSearcherService;
+import com.makul.fitness.util.CustomMapperUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @Api(tags = "Controller for search fitness programs")
 public class FitnessProgramSearcherController {
 
-    private final ObjectMapper objectMapper;
     private final FitnessProgramsSearcherService fitnessSearcherService;
-
-    public FitnessProgramSearcherController(ObjectMapper objectMapper,
-                                            FitnessProgramsSearcherService fitnessSearcherService) {
-        this.objectMapper = objectMapper;
-        this.fitnessSearcherService = fitnessSearcherService;
-    }
 
     @GetMapping("/category/{id}/program/fitness")
     @ApiOperation(value = "Get fitness programs of current category ")
-    public List<FitnessProgramDto> readFitnessProgramList(@ApiParam(defaultValue = "2")
-                                                          @PathVariable("id") long categoryId) {
-        return fitnessSearcherService.readFitnessProgram(categoryId)
-                .stream()
-                .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram, FitnessProgramDto.class))
-                .collect(Collectors.toList());
+    public Page <FitnessProgramDto> readFitnessProgramList(@ApiParam(defaultValue = "2") @PathVariable("id") UUID categoryId,
+                                                          @ApiParam(defaultValue = "0") @RequestParam int page,
+                                                          @ApiParam(defaultValue = "10") @RequestParam int size) {
+        return CustomMapperUtil.convertToDto(fitnessSearcherService.readFitnessProgram(categoryId, page, size),
+                FitnessProgramDto.class);
     }
 
     @PostMapping("/user/program/fitness")
     @ApiOperation(value = "Get restricted fitness programs")
-    public List<FitnessProgramDto> readFitnessProgramListWithRestrictions(@RequestBody FiltredDto filtredDto) {
-        return fitnessSearcherService.readFitnessProgramWithRestrictions(filtredDto.getUserId(), filtredDto.getDuration(),
-                        filtredDto.getCategoryId())
-                .stream()
-                .map(fitnessProgram -> objectMapper.convertValue(fitnessProgram, FitnessProgramDto.class))
-                .collect(Collectors.toList());
+    public Page <FitnessProgramDto> readFitnessProgramListWithRestrictions(@RequestBody FiltredDto filtredDto,
+                                                                          @ApiParam(defaultValue = "0") @RequestParam int page,
+                                                                          @ApiParam(defaultValue = "10") @RequestParam int size) {
+        return CustomMapperUtil.convertToDto(fitnessSearcherService.readFitnessProgramWithRestrictions(filtredDto.getUserId(),
+                        filtredDto.getDuration(), filtredDto.getCategoryId(), page, size), FitnessProgramDto.class);
     }
 }

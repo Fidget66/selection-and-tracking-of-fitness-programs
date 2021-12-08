@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -13,8 +14,8 @@ import java.time.LocalDate;
 @Builder
 public class ExerciseSchedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String programShortName;
     private LocalDate exerciseDate;
     private boolean isComplited;

@@ -1,10 +1,14 @@
 package com.makul.fitness.dao;
 
 import com.makul.fitness.model.FitnessProgram;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.UUID;
 
 public interface FitnessProgramsSearcherDao {
-    List<FitnessProgram> findFitnessProgramWithRestrictions(long userId, int duration,
-                                                            long categoryId, int userAge);
-    List<FitnessProgram> findFitnessProgram(long categoryId);
+    Page<FitnessProgram> findFitnessProgramWithRestrictions(UUID userId, int duration, UUID categoryId, int userAge,
+                                                            Pageable pageable);
+
+    Page<FitnessProgram> findFitnessProgram(UUID categoryId, Pageable pageable);
 }

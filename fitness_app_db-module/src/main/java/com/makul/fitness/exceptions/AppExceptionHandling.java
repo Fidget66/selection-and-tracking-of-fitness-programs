@@ -14,13 +14,9 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class AppExceptionHandling extends ResponseEntityExceptionHandler {
-    // ToDo не нужно на кадый чих создавать эксепш, в большенстве случаем можно создать более общий и в него прокидывать текст бизнес исключения
     @ExceptionHandler(
             {NoEntityException.class,
-            ActiveProgramIsPresentException.class,
-            ReviewIsPresentException.class,
-            ScheduleIsPresentException.class,
-            BookmarkIsPresentException.class})
+            BusinessException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     private ResponseEntity<ApiError> handleCustomException(RuntimeException exception) {
         return new ResponseEntity<>(getApiError(exception), HttpStatus.BAD_REQUEST);

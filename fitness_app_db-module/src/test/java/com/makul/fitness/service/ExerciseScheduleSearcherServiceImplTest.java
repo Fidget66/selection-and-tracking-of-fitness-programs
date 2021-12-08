@@ -9,8 +9,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,11 +33,14 @@ class ExerciseScheduleSearcherServiceImplTest {
                 .generate(() -> getSchedule())
                 .limit(4)
                 .collect(Collectors.toList());
-        Mockito.when(searcherDao.findByActiveProgram_IdOrderByExerciseDateAsc(1L)).thenReturn(scheduleList);
-        List <ExerciseSchedule> actual = scheduleService.readExerciseByActiveProgramId(1L);
+        UUID uuid = getUUID();
+        Pageable pageable = PageRequest.of(0,30);
+        Page<ExerciseSchedule> page = new PageImpl<>(scheduleList,pageable,3);
+        Mockito.when(searcherDao.findByActiveProgram_IdOrderByExerciseDateAsc(uuid, pageable)).thenReturn(page);
+        List <ExerciseSchedule> actual = scheduleService.readExerciseByActiveProgramId(uuid,0,30).getContent();
         List <ExerciseSchedule> expected = scheduleList;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(searcherDao, Mockito.times(1)).findByActiveProgram_IdOrderByExerciseDateAsc(1L);
+        Mockito.verify(searcherDao, Mockito.times(1)).findByActiveProgram_IdOrderByExerciseDateAsc(uuid,pageable);
     }
     @Test
     void readExerciseByDate() {
@@ -49,9 +58,13 @@ class ExerciseScheduleSearcherServiceImplTest {
 
     private ExerciseSchedule getSchedule(){
         ExerciseSchedule schedule = new ExerciseSchedule();
-        schedule.setId(1);
+        schedule.setId(getUUID());
         schedule.setExerciseDate(LocalDate.of(2021, 10,18));
         schedule.setComplited(true);
         return schedule;
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }

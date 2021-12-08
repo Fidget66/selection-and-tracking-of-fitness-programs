@@ -6,11 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -32,7 +36,9 @@ class ExerciseScheduleSearcherDaoTestIT {
 
     @Test
     void findExerciseByProgramId() {
-        List<ExerciseSchedule> scheduleList = scheduleDao.findByActiveProgram_IdOrderByExerciseDateAsc(1);
+        Pageable pageable = PageRequest.of(0,30);
+        List<ExerciseSchedule> scheduleList = scheduleDao.findByActiveProgram_IdOrderByExerciseDateAsc
+                (UUID.fromString("00000000-000-0000-0000-000000000013"),pageable).getContent();
         Assertions.assertNotNull(scheduleList);
         Assertions.assertEquals(4,scheduleList.size());
     }

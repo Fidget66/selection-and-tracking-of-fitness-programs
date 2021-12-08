@@ -1,9 +1,11 @@
 package com.makul.fitness.service.api;
 
 import com.makul.fitness.model.ActiveProgram;
-import java.util.List;
+import org.springframework.data.domain.Page;
+
+import java.util.UUID;
 
 public interface ActiveProgramSearcherService {
-    List<ActiveProgram>  readComplitedPrograms(long userId);
-    ActiveProgram readUncomplitedProgram(long userId);
+    Page<ActiveProgram> readComplitedPrograms(UUID userId, int page, int size);
+    ActiveProgram readUncomplitedProgram(UUID userId);
 }

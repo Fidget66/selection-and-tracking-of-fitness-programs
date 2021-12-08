@@ -5,10 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -25,7 +29,8 @@ class UsersDaoTestIT {
 
     @Test
     void findByFirstLastName() {
-        List<Users> users = usersDao.findByFirstLastName("TestName","TestSurname");
+        Pageable pageable = PageRequest.of(0,20);
+        List<Users> users = usersDao.findByFirstLastName("TestName","TestSurname", pageable).getContent();
         assertNotNull(users);
         assertEquals(2, users.size());
     }

@@ -10,8 +10,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,39 +45,47 @@ class CategoryOfFitnessProgramServiceImplTest {
                 .generate(() -> getCategory())
                 .limit(3)
                 .collect(Collectors.toList());
-        Mockito.when(categoryDao.findAll()).thenReturn(categoryList);
-        List <CategoryOfFitnessProgram> actual = categoryService.readAll();
+        Pageable pageable = PageRequest.of(0,20);
+        Page <CategoryOfFitnessProgram> page = new PageImpl<>(categoryList,pageable,3);
+        Mockito.when(categoryDao.findAll(pageable)).thenReturn(page);
+        List <CategoryOfFitnessProgram> actual = categoryService.readAll(0,20).getContent();
         List <CategoryOfFitnessProgram> expected = categoryList;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(categoryDao, Mockito.times(1)).findAll();
+        Mockito.verify(categoryDao, Mockito.times(1)).findAll(pageable);
     }
 
     @Test
     void whenRead_returnCategory() {
         CategoryOfFitnessProgram category = getCategory();
-        Mockito.when(categoryDao.findById(2L)).thenReturn(Optional.ofNullable(category));
-        CategoryOfFitnessProgram actual = categoryService.read(2);
+        UUID uuid = getUUID();
+        Mockito.when(categoryDao.findById(uuid)).thenReturn(Optional.ofNullable(category));
+        CategoryOfFitnessProgram actual = categoryService.read(uuid);
         CategoryOfFitnessProgram expected = category;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(categoryDao, Mockito.times(1)).findById(2L);
+        Mockito.verify(categoryDao, Mockito.times(1)).findById(uuid);
     }
 
     @Test
     void whenRead_throwException() {
         CategoryOfFitnessProgram category = getCategory();
-        Mockito.when(categoryDao.findById(4L)).thenReturn(Optional.empty());
+        UUID uuid = getUUID();
+        Mockito.when(categoryDao.findById(uuid)).thenReturn(Optional.empty());
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
-                ()->categoryService.read(4L));
+                ()->categoryService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
                 "Такой записи для Category Of Fitness Program в базе данных не существует");
-        Mockito.verify(categoryDao, Mockito.times(1)).findById(4L);
+        Mockito.verify(categoryDao, Mockito.times(1)).findById(uuid);
     }
 
     private CategoryOfFitnessProgram getCategory(){
         CategoryOfFitnessProgram category = new CategoryOfFitnessProgram();
         category.setShortName("Test Category");
         category.setDescription("Category for test service");
-        category.setId(2);
+        category.setId(getUUID());
         return category;
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }
