@@ -71,7 +71,8 @@ class UsersControllerTestIT {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))
-                .andExpect(result -> assertEquals("Такой записи для Users в базе данных не существует",
+                .andExpect(result -> assertEquals(String.format("Такой записи для UserID=" +
+                                "00000000-0000-0000-0000-000000000068 в базе данных не существует"),
                         result.getResolvedException().getMessage()));
     }
 

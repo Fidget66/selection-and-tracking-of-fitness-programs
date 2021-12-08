@@ -51,7 +51,7 @@ class FitnessProgramServiceImplTest {
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
                 ()->programService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
-                "Такой записи для Fitness Program в базе данных не существует");
+                String.format("Такой записи для Fitness Program Id=%s в базе данных не существует", uuid));
         Mockito.verify(fitnessProgramDao, Mockito.times(1)).findById(uuid);
     }
 

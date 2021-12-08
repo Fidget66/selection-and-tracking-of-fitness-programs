@@ -51,7 +51,7 @@ class ReviewServiceImplTest {
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
                 ()->reviewService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
-                "Такой записи для Review в базе данных не существует");
+                String.format("Такой записи для Review Id=%s в базе данных не существует", uuid));
         Mockito.verify(reviewDao, Mockito.times(1)).findById(uuid);
     }
 

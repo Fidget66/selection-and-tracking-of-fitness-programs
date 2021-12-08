@@ -66,7 +66,8 @@ class ReviewControllerTestIT {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))
-                .andExpect(result -> assertEquals("Такой записи для Review в базе данных не существует",
+                .andExpect(result -> assertEquals("Такой записи для Review Id=" +
+                                "00000000-0000-0000-0000-000000000077 в базе данных не существует",
                         result.getResolvedException().getMessage()));
     }
 

@@ -56,7 +56,7 @@ class UsersServiceImplTest {
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
                 ()->usersService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
-                "Такой записи для Users в базе данных не существует");
+                String.format("Такой записи для UserID=%s в базе данных не существует", uuid));
         Mockito.verify(usersDao, Mockito.times(1)).findById(uuid);
     }
 

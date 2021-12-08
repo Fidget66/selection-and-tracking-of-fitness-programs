@@ -71,7 +71,7 @@ class ExerciseScheduleServiceImplTest {
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
                 ()->scheduleService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
-                "Такой записи для Exercise Schedule в базе данных не существует");
+                String.format("Такой записи для Exercise Schedule Id=%s в базе данных не существует", uuid));
         Mockito.verify(scheduleDao, Mockito.times(1)).findById(uuid);
     }
 

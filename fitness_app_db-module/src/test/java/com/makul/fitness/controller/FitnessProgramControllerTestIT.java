@@ -53,7 +53,8 @@ public class FitnessProgramControllerTestIT {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))
-                .andExpect(result -> assertEquals("Такой записи для Fitness Program в базе данных не существует",
+                .andExpect(result -> assertEquals("Такой записи для Fitness Program Id=" +
+                                "00000000-0000-0000-0000-000000000098 в базе данных не существует",
                         result.getResolvedException().getMessage()));
     }
 

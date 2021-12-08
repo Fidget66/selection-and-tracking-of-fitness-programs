@@ -56,7 +56,8 @@ class ActiveProgramSearcherControllerTestIT {
         mockMvc.perform(get("/user/{userId}/program/active","00000000-000-0000-0000-000000000002"))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NoEntityException))
-                .andExpect(result -> assertEquals("Такой записи для Active Program в базе данных не существует",
+                .andExpect(result -> assertEquals("Такой записи для Active Program for userId=" +
+                                "00000000-0000-0000-0000-000000000002 в базе данных не существует",
                         result.getResolvedException().getMessage()));
     }
 }
