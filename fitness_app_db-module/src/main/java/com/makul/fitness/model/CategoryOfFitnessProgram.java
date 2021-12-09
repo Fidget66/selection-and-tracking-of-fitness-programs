@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -12,11 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryOfFitnessProgram {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String shortName;
     private String description;
-    // ToDo по дефолту лэйзи, убрать + почиать дефотные типы фетчей для разных видов связей
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
     private List <FitnessProgram> fitnessPrograms;
 }

@@ -1,7 +1,6 @@
 package com.makul.fitness.service;
 
 import com.makul.fitness.dao.FitnessProgramsSearcherDao;
-import com.makul.fitness.dao.UsersDao;
 import com.makul.fitness.model.FitnessProgram;
 import com.makul.fitness.model.Users;
 import org.junit.jupiter.api.Assertions;
@@ -11,10 +10,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,11 +38,14 @@ class FitnessProgramsSearcherServiceImplTest {
                 .generate(() -> getProgram())
                 .limit(3)
                 .collect(Collectors.toList());
-        Mockito.when(fitnessProgramsSearcherDao.findFitnessProgram(1L)).thenReturn(fitnessProgramList);
-        List <FitnessProgram> actual = fitnessProgramsSearcherService.readFitnessProgram(1);
+        UUID uuid = getUUID();
+        Pageable pageable = PageRequest.of(0,30);
+        Page <FitnessProgram> page = new PageImpl<>(fitnessProgramList,pageable,30);
+        Mockito.when(fitnessProgramsSearcherDao.findFitnessProgram(uuid,pageable)).thenReturn(page);
+        List <FitnessProgram> actual = fitnessProgramsSearcherService.readFitnessProgram(uuid,0,30).getContent();
         List <FitnessProgram> expected = fitnessProgramList;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(fitnessProgramsSearcherDao,Mockito.times(1)).findFitnessProgram(1L);
+        Mockito.verify(fitnessProgramsSearcherDao,Mockito.times(1)).findFitnessProgram(uuid,pageable);
     }
 
     @Test
@@ -48,15 +54,18 @@ class FitnessProgramsSearcherServiceImplTest {
                 .generate(() -> getProgram())
                 .limit(3)
                 .collect(Collectors.toList());
-        Mockito.when(usersService.read(1L))
+        UUID uuid = getUUID();
+        Pageable pageable = PageRequest.of(0,30);
+        Page <FitnessProgram> page = new PageImpl<>(fitnessProgramList,pageable,30);
+        Mockito.when(usersService.read(uuid))
                 .thenReturn(getUser());
-        Mockito.when(fitnessProgramsSearcherDao.findFitnessProgramWithRestrictions(1L, 30, 1L,3))
-                .thenReturn(fitnessProgramList);
-        List <FitnessProgram> actual = fitnessProgramsSearcherService.readFitnessProgramWithRestrictions(1,30, 1L);
+        Mockito.when(fitnessProgramsSearcherDao.findFitnessProgramWithRestrictions(uuid, 30, uuid,3,pageable))
+                .thenReturn(page);
+        List <FitnessProgram> actual = fitnessProgramsSearcherService.readFitnessProgramWithRestrictions(uuid,30, uuid,0,30).getContent();
         List <FitnessProgram> expected = fitnessProgramList;
         Assertions.assertEquals(expected, actual);
         Mockito.verify(fitnessProgramsSearcherDao,Mockito.times(1))
-                .findFitnessProgramWithRestrictions(1L,  30, 1L,3);
+                .findFitnessProgramWithRestrictions(uuid,  30, uuid,3,pageable);
     }
 
     private FitnessProgram getProgram(){
@@ -71,5 +80,9 @@ class FitnessProgramsSearcherServiceImplTest {
         Users users = new Users();
         users.setDateOfBirth(LocalDate.now().minusYears(3));
         return users;
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }

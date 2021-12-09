@@ -1,47 +1,38 @@
 package com.makul.fitness.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makul.fitness.dto.ActiveProgramDto;
 import com.makul.fitness.service.api.ActiveProgramSearcherService;
+import com.makul.fitness.util.CustomMapperUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @Api(tags = "Controller for search User's active programs")
 public class ActiveProgramSearcherController {
 
-    private final ObjectMapper objectMapper;
     private final ActiveProgramSearcherService activeSearcher;
-
-    // ToDo заменить на RequiredArgsConstructor
-    public ActiveProgramSearcherController(ObjectMapper objectMapper, ActiveProgramSearcherService activeSearcher) {
-        this.objectMapper = objectMapper;
-        this.activeSearcher = activeSearcher;
-    }
 
     @GetMapping("/user/{userId}/programs/active")
     @ApiOperation(value = "Search User's complited active programs")
-    public List<ActiveProgramDto> readAllComplitedPrograms(@ApiParam(defaultValue = "1")@PathVariable long userId) {
-        // ToDo неплохо бы завести утилитный класс и в него добавить мотод которым будешь мапить листы в сущностей в листы ДТО
-        // и заменить во всех местах
-        // прим. customMapper.mapList(activeSearcher.readComplitedPrograms(userId), ActiveProgramDto.class);
-        return activeSearcher.readComplitedPrograms(userId)
-                .stream()
-                .map(activeProgram -> objectMapper.convertValue(activeProgram, ActiveProgramDto.class))
-                .collect(Collectors.toList());
+    public Page<ActiveProgramDto> readAllComplitedPrograms(@ApiParam(defaultValue = "1") @PathVariable UUID userId,
+                                                           @ApiParam(defaultValue = "0") @RequestParam int page,
+                                                           @ApiParam(defaultValue = "10") @RequestParam int size) {
+        return CustomMapperUtil.convertToDto(activeSearcher.readComplitedPrograms(userId, page, size), ActiveProgramDto.class);
     }
 
     @GetMapping("/user/{userId}/program/active")
     @ApiOperation(value = "Read User's uncomplited active program")
-    public ActiveProgramDto readUncomplitedProgram(@ApiParam(defaultValue = "1")@PathVariable long userId){
-        return objectMapper.convertValue(activeSearcher.readUncomplitedProgram(userId), ActiveProgramDto.class);
+    public ActiveProgramDto readUncomplitedProgram(@ApiParam(defaultValue = "1") @PathVariable UUID userId) {
+        return CustomMapperUtil.convertToDto(activeSearcher.readUncomplitedProgram(userId), ActiveProgramDto.class);
     }
-
 }

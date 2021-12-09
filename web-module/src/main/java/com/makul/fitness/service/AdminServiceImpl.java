@@ -36,7 +36,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<CategoryOfFitnessProgramDto> readCategoryOfFitnessProgram() {
         return Arrays.asList(restTemplate.getForObject(baseURL +
-                "fitness/categories", CategoryOfFitnessProgramDto[].class));
+                "fitness/category", CategoryOfFitnessProgramDto[].class));
     }
 
     @Override

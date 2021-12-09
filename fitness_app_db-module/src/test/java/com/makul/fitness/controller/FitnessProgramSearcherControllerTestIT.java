@@ -2,7 +2,6 @@ package com.makul.fitness.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makul.fitness.dto.FiltredDto;
-import com.makul.fitness.model.Users;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.UUID;
+
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,11 +38,13 @@ class FitnessProgramSearcherControllerTestIT {
     @Test
     @SneakyThrows
     void readFitnessProgramList_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned(){
-        mockMvc.perform(get("/category/{id}/program/fitness",1))
+        mockMvc.perform(get("/category/{id}/program/fitness","00000000-000-0000-0000-000000000005")
+                .param("page","0")
+                .param("size","20"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", isA(ArrayList.class)))
-                .andExpect(jsonPath("$.*", hasSize(3)))
-                .andExpect(jsonPath("$[*].shortName", containsInAnyOrder("TestProgram1","TestProgram2",
+                .andExpect(jsonPath("$.content", isA(ArrayList.class)))
+                .andExpect(jsonPath("$.content", hasSize(3)))
+                .andExpect(jsonPath("$.content[*].shortName", containsInAnyOrder("TestProgram1","TestProgram2",
                         "TestProgram3")));
     }
 
@@ -50,19 +52,21 @@ class FitnessProgramSearcherControllerTestIT {
     @SneakyThrows
     void readFitnessProgramListWithRestrictions_whenGetExistingFitnessProgramList_thenStatus200andProgramListReturned(){
         mockMvc.perform(post("/user/program/fitness")
+                        .param("page","0")
+                        .param("size","20")
                 .content(objectMapper.writeValueAsString(getFiltredDto()))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", isA(ArrayList.class)))
-                .andExpect(jsonPath("$.*", hasSize(1)))
-                .andExpect(jsonPath("$[*].shortName", containsInAnyOrder("TestProgram1")));
+                .andExpect(jsonPath("$.content", isA(ArrayList.class)))
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content[*].shortName", containsInAnyOrder("TestProgram1")));
     }
 
     private FiltredDto getFiltredDto(){
         FiltredDto filtredDto = new FiltredDto();
-        filtredDto.setUserId(1);
+        filtredDto.setUserId(UUID.fromString("00000000-000-0000-0000-000000000001"));
         filtredDto.setDuration(50);
-        filtredDto.setCategoryId(1);
+        filtredDto.setCategoryId(UUID.fromString("00000000-000-0000-0000-000000000005"));
         return filtredDto;
     }
 }

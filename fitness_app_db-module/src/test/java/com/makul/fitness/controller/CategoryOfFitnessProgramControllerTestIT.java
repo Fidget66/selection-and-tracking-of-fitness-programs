@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
-import java.util.ArrayList;
+
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,7 +38,7 @@ class CategoryOfFitnessProgramControllerTestIT {
                         .content(objectMapper.writeValueAsString(getCategory()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.shortName").value("TestCategory3"))
                 .andExpect(jsonPath("$.description").value("TestDescription"));
     }
@@ -46,11 +46,14 @@ class CategoryOfFitnessProgramControllerTestIT {
     @Test
     @SneakyThrows
     void showAllCategory_whenGetExistingCategoryFitnessProgramList_thenStatus200andCategoryProgramListReturned(){
-        mockMvc.perform(get("/fitness/categories"))
+        mockMvc.perform(get("/fitness/category")
+                        .param("page","0")
+                        .param("size","20"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", isA(ArrayList.class)))
-                .andExpect(jsonPath("$.*", hasSize(2)))
-                .andExpect(jsonPath("$[*].shortName", containsInAnyOrder("TestCategory1",
+                .andExpect(jsonPath("$.*").isNotEmpty())
+                .andExpect(jsonPath("$.content", hasSize(2)))
+                .andExpect(jsonPath("$.content[*].id", notNullValue()))
+                .andExpect(jsonPath("$.content[*].shortName", containsInAnyOrder("TestCategory1",
                         "TestCategory2")));
     }
 

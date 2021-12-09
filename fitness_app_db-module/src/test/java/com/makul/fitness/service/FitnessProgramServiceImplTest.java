@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Optional;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 class FitnessProgramServiceImplTest {
@@ -33,22 +35,24 @@ class FitnessProgramServiceImplTest {
     @Test
     void whenRead_returnFitnessProgram() {
         FitnessProgram fitnessProgram = getProgram();
-        Mockito.when(fitnessProgramDao.findById(1L)).thenReturn(Optional.ofNullable(fitnessProgram));
-        FitnessProgram actual = programService.read(1);
+        UUID uuid = getUUID();
+        Mockito.when(fitnessProgramDao.findById(uuid)).thenReturn(Optional.ofNullable(fitnessProgram));
+        FitnessProgram actual = programService.read(uuid);
         FitnessProgram expected = fitnessProgram;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(fitnessProgramDao, Mockito.times(1)).findById(1L);
+        Mockito.verify(fitnessProgramDao, Mockito.times(1)).findById(uuid);
     }
 
     @Test
         void whenRead_throwException() {
         FitnessProgram fitnessProgram = getProgram();
-        Mockito.when(fitnessProgramDao.findById(4L)).thenReturn(Optional.empty());
+        UUID uuid = getUUID();
+        Mockito.when(fitnessProgramDao.findById(uuid)).thenReturn(Optional.empty());
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
-                ()->programService.read(4L));
+                ()->programService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
-                "Такой записи для Fitness Program в базе данных не существует");
-        Mockito.verify(fitnessProgramDao, Mockito.times(1)).findById(4L);
+                String.format("Такой записи для Fitness Program Id=%s в базе данных не существует", uuid));
+        Mockito.verify(fitnessProgramDao, Mockito.times(1)).findById(uuid);
     }
 
     private FitnessProgram getProgram(){
@@ -57,5 +61,9 @@ class FitnessProgramServiceImplTest {
         fitnessProgram.setAgeRestriction((byte) 50);
         fitnessProgram.setShortName("Test Fitness Program");
         return fitnessProgram;
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }

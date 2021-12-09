@@ -4,20 +4,19 @@ import com.makul.fitness.dao.ActiveProgramDao;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.ActiveProgram;
 import com.makul.fitness.service.api.ActiveProgramService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ActiveProgramServiceImpl implements ActiveProgramService {
 
     private final ActiveProgramDao activeProgramDao;
-
-    public ActiveProgramServiceImpl(ActiveProgramDao activeProgramDao) {
-        this.activeProgramDao = activeProgramDao;
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -26,7 +25,7 @@ public class ActiveProgramServiceImpl implements ActiveProgramService {
     }
 
     @Override
-    public ActiveProgram read(long id) {
+    public ActiveProgram read(UUID id) {
         return activeProgramDao.findById(id).orElseThrow(() -> new NoEntityException("Active Program"));
     }
 

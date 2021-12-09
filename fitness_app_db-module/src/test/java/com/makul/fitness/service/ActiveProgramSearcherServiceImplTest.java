@@ -9,7 +9,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,27 +33,31 @@ class ActiveProgramSearcherServiceImplTest {
         List <ActiveProgram> activeProgramList = Stream
                 .generate(() -> getProgram())
                 .limit(3)
-                .collect(Collectors.toList());;
-        Mockito.when(searcherDao.findActiveProgramsByUserIdAndIsComplitedTrue(1L)).thenReturn(activeProgramList);
-        List <ActiveProgram> actual = activeProgramService.readComplitedPrograms(1);
+                .collect(Collectors.toList());
+        UUID uuid = UUID.randomUUID();
+        Pageable pageable = PageRequest.of(0,30);
+        Page<ActiveProgram> page = new PageImpl<>(activeProgramList,pageable,3);
+        Mockito.when(searcherDao.findActiveProgramsByUserIdAndIsComplitedTrue(uuid,pageable)).thenReturn(page);
+        List <ActiveProgram> actual = activeProgramService.readComplitedPrograms(uuid,0,30).getContent();
         List <ActiveProgram> expected = activeProgramList;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(searcherDao, Mockito.times(1)).findActiveProgramsByUserIdAndIsComplitedTrue(1L);
+        Mockito.verify(searcherDao, Mockito.times(1)).findActiveProgramsByUserIdAndIsComplitedTrue(uuid,pageable);
     }
 
     @Test
     void  whenRead_returnUncomplitedProgram() {
         ActiveProgram activeProgram = getProgram();
-        Mockito.when(searcherDao.findActiveProgramsByUserIdAndIsComplitedFalse(1L)).thenReturn(activeProgram);
-        ActiveProgram actual = activeProgramService.readUncomplitedProgram(1);
+        UUID uuid = UUID.randomUUID();
+        activeProgram.setId(uuid);
+        Mockito.when(searcherDao.findActiveProgramsByUserIdAndIsComplitedFalse(uuid)).thenReturn(Optional.of(activeProgram));
+        ActiveProgram actual = activeProgramService.readUncomplitedProgram(uuid);
         ActiveProgram expected = activeProgram;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(searcherDao, Mockito.times(1)).findActiveProgramsByUserIdAndIsComplitedFalse(1L);
+        Mockito.verify(searcherDao, Mockito.times(1)).findActiveProgramsByUserIdAndIsComplitedFalse(uuid);
     }
 
     private ActiveProgram getProgram(){
         ActiveProgram activeProgram = new ActiveProgram();
-        activeProgram.setId(1);
         activeProgram.setComplited(true);
         return activeProgram;
     }

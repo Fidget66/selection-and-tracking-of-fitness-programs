@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Optional;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 class ReviewServiceImplTest {
@@ -33,41 +35,48 @@ class ReviewServiceImplTest {
     @Test
     void whenRead_returnReview() {
         Review review = getReview();
-        Mockito.when(reviewDao.findById(1L)).thenReturn(Optional.of(review));
-        Review actual = reviewService.read(1L);
+        UUID uuid = getUUID();
+        Mockito.when(reviewDao.findById(uuid)).thenReturn(Optional.of(review));
+        Review actual = reviewService.read(uuid);
         Review expected = review;
         Assertions.assertEquals(expected,actual);
-        Mockito.verify(reviewDao, Mockito.times(1)).findById(1L);
+        Mockito.verify(reviewDao, Mockito.times(1)).findById(uuid);
     }
 
     @Test
     void whenRead_throwException() {
         Review review = getReview();
-        Mockito.when(reviewDao.findById(4L)).thenReturn(Optional.empty());
+        UUID uuid = getUUID();
+        Mockito.when(reviewDao.findById(uuid)).thenReturn(Optional.empty());
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
-                ()->reviewService.read(4L));
+                ()->reviewService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
-                "Такой записи для Review в базе данных не существует");
-        Mockito.verify(reviewDao, Mockito.times(1)).findById(4L);
+                String.format("Такой записи для Review Id=%s в базе данных не существует", uuid));
+        Mockito.verify(reviewDao, Mockito.times(1)).findById(uuid);
     }
 
     @Test
     void whenUpdate_returnReview() {
         Review review = getReview();
-        Mockito.when(reviewDao.findById(1L)).thenReturn(Optional.ofNullable(review));
+        UUID uuid = getUUID();
+        review.setId(uuid);
+        Mockito.when(reviewDao.findById(uuid)).thenReturn(Optional.ofNullable(review));
         Mockito.when(reviewDao.save(review)).thenReturn(review);
         Review actual = reviewService.update(review);
         Review expected = review;
         Assertions.assertEquals(expected,actual);
-        Mockito.verify(reviewDao, Mockito.times(1)).findById(1L);
+        Mockito.verify(reviewDao, Mockito.times(1)).findById(uuid);
         Mockito.verify(reviewDao,Mockito.times(1)).save(review);
     }
 
     private Review getReview(){
         Review review = new Review();
-        review.setId(1);
         review.setText("Test review");
-        review.setAuthorId(1);
+        review.setAuthorId(getUUID());
         return review;
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }

@@ -10,10 +10,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 class UsersServiceImplTest {
@@ -35,21 +41,23 @@ class UsersServiceImplTest {
     @Test
     void whenRead_returnUser() {
         Users user = getFilledUser();
-        Mockito.when(usersDao.findById(1L)).thenReturn(Optional.ofNullable(user));
-        Users expected = usersService.read(1L);
+        UUID uuid = getUUID();
+        Mockito.when(usersDao.findById(uuid)).thenReturn(Optional.ofNullable(user));
+        Users expected = usersService.read(uuid);
         Users actual = user;
         Assertions.assertEquals(expected,actual);
-        Mockito.verify(usersDao, Mockito.times(1)).findById(1L);
+        Mockito.verify(usersDao, Mockito.times(1)).findById(uuid);
     }
 
     @Test
     void whenRead_throwException() {
-        Mockito.when(usersDao.findById(4L)).thenReturn(Optional.empty());
+        UUID uuid = getUUID();
+        Mockito.when(usersDao.findById(uuid)).thenReturn(Optional.empty());
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
-                ()->usersService.read(4L));
+                ()->usersService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
-                "Такой записи для Users в базе данных не существует");
-        Mockito.verify(usersDao, Mockito.times(1)).findById(4L);
+                String.format("Такой записи для UserID=%s в базе данных не существует", uuid));
+        Mockito.verify(usersDao, Mockito.times(1)).findById(uuid);
     }
 
     @Test
@@ -57,13 +65,17 @@ class UsersServiceImplTest {
         List<Users> returnList = new ArrayList<>();
         returnList.add(getFilledUser());
         returnList.add(getFilledUser());
-        Mockito.when(usersDao.findByFirstLastName("Test", "Test")).thenReturn(returnList);
-        List <Users> actual = usersService.readUserByFirstLastName("Test", "Test");
+        Pageable pageable = PageRequest.of(0,20);
+        Page <Users> page = new PageImpl<>(returnList,pageable,20);
+        Mockito.when(usersDao.findByFirstLastName("Test", "Test", pageable)).thenReturn(page);
+        List <Users> actual = usersService.readUserByFirstLastName("Test", "Test", 0, 20)
+                .getContent();
         List <Users> expected = new ArrayList<>();
         expected.add(getFilledUser());
         expected.add(getFilledUser());
         Assertions.assertEquals(expected,actual);
-        Mockito.verify(usersDao,Mockito.times(1)).findByFirstLastName("Test", "Test");
+        Mockito.verify(usersDao,Mockito.times(1)).findByFirstLastName("Test",
+                "Test", pageable);
     }
 
     private Users getFilledUser(){
@@ -75,5 +87,9 @@ class UsersServiceImplTest {
         user.setWeight((short) 82);
         user.setDateOfBirth(LocalDate.of(1980,05,25));
         return user;
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }

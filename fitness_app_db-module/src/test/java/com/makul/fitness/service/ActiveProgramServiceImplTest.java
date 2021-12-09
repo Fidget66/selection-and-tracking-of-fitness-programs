@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Optional;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 class ActiveProgramServiceImplTest {
@@ -33,36 +35,43 @@ class ActiveProgramServiceImplTest {
     @Test
     void whenRead_returnActiveProgram() {
         ActiveProgram activeProgram = getActiveProgram();
-        Mockito.when(activeProgramDao.findById(1L)).thenReturn(Optional.ofNullable(activeProgram));
-        ActiveProgram actual = activeProgramService.read(1);
+        UUID uuid = getUUID();
+        Mockito.when(activeProgramDao.findById(uuid)).thenReturn(Optional.ofNullable(activeProgram));
+        ActiveProgram actual = activeProgramService.read(uuid);
         ActiveProgram expected = activeProgram;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(activeProgramDao, Mockito.times(1)).findById(1L);
+        Mockito.verify(activeProgramDao, Mockito.times(1)).findById(uuid);
     }
 
     @Test
     void whenRead_throwException() {
-        Mockito.when(activeProgramDao.findById(4L)).thenReturn(Optional.empty());
+        UUID uuid = getUUID();
+        Mockito.when(activeProgramDao.findById(uuid)).thenReturn(Optional.empty());
         NoEntityException noEntityException = Assertions.assertThrows(NoEntityException.class,
-                ()->activeProgramService.read(4));
+                ()->activeProgramService.read(uuid));
         Assertions.assertEquals(noEntityException.getMessage(),
                 "Такой записи для Active Program в базе данных не существует");
-        Mockito.verify(activeProgramDao, Mockito.times(1)).findById(4L);
+        Mockito.verify(activeProgramDao, Mockito.times(1)).findById(uuid);
     }
 
     @Test
     void whenUpdate_returnActiveProgram() {
         ActiveProgram activeProgram = getActiveProgram();
-        Mockito.when(activeProgramDao.findById(1L)).thenReturn(Optional.ofNullable(activeProgram));
+        UUID uuid = activeProgram.getId();
+        Mockito.when(activeProgramDao.findById(uuid)).thenReturn(Optional.ofNullable(activeProgram));
         ActiveProgram actual = activeProgramService.update(activeProgram);
         ActiveProgram expected = activeProgram;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(activeProgramDao, Mockito.times(1)).findById(1L);
+        Mockito.verify(activeProgramDao, Mockito.times(1)).findById(uuid);
     }
 
     private ActiveProgram getActiveProgram(){
         ActiveProgram activeProgram = new ActiveProgram();
-        activeProgram.setId(1);
+        activeProgram.setId(getUUID());
         return activeProgram;
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }

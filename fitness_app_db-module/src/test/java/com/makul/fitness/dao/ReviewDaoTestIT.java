@@ -9,7 +9,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -24,7 +27,8 @@ class ReviewDaoTestIT {
 
     @Test
     void findReviewByUserIdFitnessId() {
-        Review review = reviewDao.findReviewByUserIdFitnessId(1,2);
+        Review review = reviewDao.findReviewByUserIdFitnessId(UUID.fromString("00000000-000-0000-0000-000000000001"),
+                UUID.fromString("00000000-000-0000-0000-000000000008"));
         assertNotNull(review);
         assertEquals("Test review 2", review.getText());
     }

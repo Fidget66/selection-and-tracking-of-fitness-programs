@@ -1,22 +1,24 @@
 package com.makul.fitness.service;
 
-import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
-import com.makul.fitness.exceptions.BookmarkIsPresentException;
-import com.makul.fitness.exceptions.ReviewIsPresentException;
-import com.makul.fitness.exceptions.ScheduleIsPresentException;
-import com.makul.fitness.model.*;
+import com.makul.fitness.exceptions.*;
+import com.makul.fitness.model.ActiveProgram;
+import com.makul.fitness.model.Bookmark;
+import com.makul.fitness.model.ExerciseSchedule;
+import com.makul.fitness.model.Review;
 import com.makul.fitness.service.api.ClientBusinessService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,48 +36,52 @@ class ClientBusinessServiceImplTestIT {
     @Test
     @Transactional
     void whenAddBookmark_thenReturnBookmark() {
-        Bookmark bookmark = clientBusinessService.addBookmark(2,2);
+        Bookmark bookmark = clientBusinessService.addBookmark(UUID.fromString("00000000-0000-0000-0000-000000000002"),
+                UUID.fromString("00000000-0000-0000-0000-000000000008"));
         assertNotNull(bookmark);
-        assertTrue(bookmark.getId()>0);
-        assertEquals(2, bookmark.getFitnessProgram().getId());
-        assertEquals(2, bookmark.getUser().getId());
+        assertEquals("00000000-0000-0000-0000-000000000008", bookmark.getFitnessProgram().getId().toString());
+        assertEquals("00000000-0000-0000-0000-000000000002", bookmark.getUser().getId().toString());
     }
 
     @Test
     void whenAddPresentBookmark_thenThrowException() {
-        BookmarkIsPresentException bookmarkIsPresentException =
-                Assertions.assertThrows(BookmarkIsPresentException.class,
-                        ()-> clientBusinessService.addBookmark(1,2));
-        Assertions.assertEquals("Такая закладка уже есть у Вас.", bookmarkIsPresentException.getMessage());
+        BusinessException businessException =
+                Assertions.assertThrows(BusinessException.class,
+                        ()-> clientBusinessService.addBookmark(UUID.fromString("00000000-0000-0000-0000-000000000001"),
+                                UUID.fromString("00000000-0000-0000-0000-000000000008")));
+        Assertions.assertEquals("Такая закладка уже есть у Вас.", businessException.getMessage());
     }
 
     @Test
     @Transactional
     void viewBookmarks_thenReturnBookmarkList() {
-        List<Bookmark> bookmarks = clientBusinessService.viewBookmarks(1);
+        Page <Bookmark> page = clientBusinessService.viewBookmarks(UUID.fromString("00000000-0000-0000-0000-000000000001"),0,20);
+        List<Bookmark> bookmarks = page.getContent();
         assertNotNull(bookmarks);
         assertEquals(2, bookmarks.size());
         for (Bookmark bookmark: bookmarks) {
-            assertTrue(bookmark.getId()>0);
+            assertNotNull(bookmark.getId());
             assertNotNull(bookmark.getFitnessProgram());
         }
     }
 
     @Test
     void addActiveProgram_thenReturnActiveProgram(){
-        ActiveProgram activeProgram = clientBusinessService.addActiveProgram(2,2);
+        ActiveProgram activeProgram = clientBusinessService.addActiveProgram(UUID.fromString("00000000-0000-0000-0000-000000000002"),
+                UUID.fromString("00000000-0000-0000-0000-000000000008"));
         assertNotNull(activeProgram);
-        assertTrue(activeProgram.getId()>0);
+        assertNotNull(activeProgram.getId());
         assertEquals("TestProgram2", activeProgram.getFitnessProgram().getShortName());
     }
 
     @Test
     void addActiveProgram_thenThrowException(){
-        ActiveProgramIsPresentException activeProgramIsPresentException =
-                Assertions.assertThrows(ActiveProgramIsPresentException.class,
-                        ()-> clientBusinessService.addActiveProgram(1,2));
+        BusinessException businessException =
+                Assertions.assertThrows(BusinessException.class,
+                        ()-> clientBusinessService.addActiveProgram(UUID.fromString("00000000-0000-0000-0000-000000000001"),
+                                UUID.fromString("00000000-0000-0000-0000-000000000008")));
         Assertions.assertEquals("У Вас есть незавершенные активные программы",
-                activeProgramIsPresentException.getMessage());
+                businessException.getMessage());
     }
 
     @Test
@@ -90,18 +96,18 @@ class ClientBusinessServiceImplTestIT {
     @Test
     void createSchedule_thenThrowException(){
         ActiveProgram inputActiveProgram = getFilledActiveProgram();
-        inputActiveProgram.setId(1);
-        ScheduleIsPresentException scheduleIsPresentException =
-                Assertions.assertThrows(ScheduleIsPresentException.class,
+        inputActiveProgram.setId(UUID.fromString("00000000-0000-0000-0000-000000000013"));
+        BusinessException businessException =
+                Assertions.assertThrows(BusinessException.class,
                         ()-> clientBusinessService.createSchedule(inputActiveProgram));
         Assertions.assertEquals("Расписание для данной программы уже составлено!",
-                scheduleIsPresentException.getMessage());
+                businessException.getMessage());
     }
 
     @Test
     void addReview_thenReturnReview(){
         Review review = getReview();
-        Review expected = clientBusinessService.addReview(4,review);
+        Review expected = clientBusinessService.addReview(UUID.fromString("00000000-0000-0000-0000-000000000010"),review);
         assertNotNull(expected);
         assertEquals("TestName",review.getAuthorName());
         assertEquals("TestProgram4", expected.getFitnessProgram().getShortName());
@@ -110,16 +116,16 @@ class ClientBusinessServiceImplTestIT {
     @Test
     void addReview_thenThrowException(){
         Review review = getReview();
-        ReviewIsPresentException reviewIsPresentException =
-                Assertions.assertThrows(ReviewIsPresentException.class,
-                        ()-> clientBusinessService.addReview(2, review));
+        BusinessException businessException =
+                Assertions.assertThrows(BusinessException.class,
+                        ()-> clientBusinessService.addReview(UUID.fromString("00000000-0000-0000-0000-000000000008"), review));
         Assertions.assertEquals("Вы уже оставили отзыв по данной программе",
-                reviewIsPresentException.getMessage());
+                businessException.getMessage());
     }
 
     @Test
     void updateExercise_thenReturnExercise(){
-       ExerciseSchedule exerciseSchedule = clientBusinessService.updateExercise(1);
+       ExerciseSchedule exerciseSchedule = clientBusinessService.updateExercise(UUID.fromString("00000000-0000-0000-0000-000000000019"));
        assertNotNull(exerciseSchedule);
        assertTrue(exerciseSchedule.isComplited());
     }
@@ -128,13 +134,13 @@ class ClientBusinessServiceImplTestIT {
         ActiveProgram activeProgram = new ActiveProgram();
         activeProgram.setComplited(false);
         activeProgram.setDays("MONDAY;SUNDAY");
-        activeProgram.setId(4L);
+        activeProgram.setId(UUID.fromString("00000000-0000-0000-0000-000000000016"));
         return activeProgram;
     }
 
     private Review getReview(){
         Review review = new Review();
-        review.setAuthorId(1);
+        review.setAuthorId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         return review;
     }
 }

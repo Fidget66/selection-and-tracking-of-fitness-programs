@@ -1,14 +1,18 @@
 package com.makul.fitness.service.api;
 
-import com.makul.fitness.model.*;
+import com.makul.fitness.model.ActiveProgram;
+import com.makul.fitness.model.Bookmark;
+import com.makul.fitness.model.ExerciseSchedule;
+import com.makul.fitness.model.Review;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
+import java.util.UUID;
 
 public interface ClientBusinessService {
-    Bookmark addBookmark(long userId, long fitnessProgramId);
-    List <Bookmark> viewBookmarks(long userId);
-    ActiveProgram addActiveProgram(long userId, long fitnessProgramId);
+    Bookmark addBookmark(UUID userId, UUID fitnessProgramId);
+    Page <Bookmark> viewBookmarks(UUID userId, int pageNumber, int size);
+    ActiveProgram addActiveProgram(UUID userId, UUID fitnessProgramId);
     ActiveProgram createSchedule(ActiveProgram activeProgram);
-    Review addReview(long fitnessProgramId, Review review);
-    ExerciseSchedule updateExercise(long exerciseId);
+    Review addReview(UUID fitnessProgramId, Review review);
+    ExerciseSchedule updateExercise(UUID exerciseId);
 }

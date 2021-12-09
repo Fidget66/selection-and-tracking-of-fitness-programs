@@ -1,8 +1,6 @@
 package com.makul.fitness.service;
 
-import com.makul.fitness.exceptions.ActiveProgramIsPresentException;
-import com.makul.fitness.exceptions.BookmarkIsPresentException;
-import com.makul.fitness.exceptions.ScheduleIsPresentException;
+import com.makul.fitness.exceptions.BusinessException;
 import com.makul.fitness.model.*;
 import com.makul.fitness.service.api.*;
 import org.junit.jupiter.api.Assertions;
@@ -12,8 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,11 +41,13 @@ class ClientBusinessServiceImplTest {
         Bookmark bookmark = getBookmark();
         bookmark.setUser(user);
         bookmark.setFitnessProgram(fitnessProgram);
-        Mockito.when(usersService.read(1L)).thenReturn(user);
-        Mockito.when(fitnessProgramService.read(2L)).thenReturn(fitnessProgram);
-        businessService.addBookmark(1, 2);
-        Mockito.verify(usersService, Mockito.times(1)).read(1L);
-        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(2L);
+        UUID uuid = getUUID();
+        UUID uuid2 = getUUID();
+        Mockito.when(usersService.read(uuid)).thenReturn(user);
+        Mockito.when(fitnessProgramService.read(uuid2)).thenReturn(fitnessProgram);
+        businessService.addBookmark(uuid, uuid2);
+        Mockito.verify(usersService, Mockito.times(1)).read(uuid);
+        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(uuid2);
         Mockito.verify(bookmarkService, Mockito.times(1)).create(bookmark);
     }
 
@@ -54,14 +56,16 @@ class ClientBusinessServiceImplTest {
         Users user = getFilledUser();
         FitnessProgram fitnessProgram = getFitnessProgram();
         Bookmark bookmark = getBookmark();
-        fitnessProgram.setId(2);
+        UUID uuid = getUUID();
+        UUID uuid2 = getUUID();
+        fitnessProgram.setId(uuid2);
         bookmark.setFitnessProgram(fitnessProgram);
         user.setBookmarks(List.of(bookmark));
-        Mockito.when(usersService.read(1L)).thenReturn(user);
-        BookmarkIsPresentException bookmarkIsPresentException =
-                Assertions.assertThrows(BookmarkIsPresentException.class,
-                        ()->businessService.addBookmark(1,2));
-        Assertions.assertEquals(bookmarkIsPresentException.getMessage(),
+        Mockito.when(usersService.read(uuid)).thenReturn(user);
+        BusinessException businessException =
+                Assertions.assertThrows(BusinessException.class,
+                        ()->businessService.addBookmark(uuid,uuid2));
+        Assertions.assertEquals(businessException.getMessage(),
                 "Такая закладка уже есть у Вас.");
         Mockito.verify(bookmarkService, Mockito.times(0)).create(bookmark);
     }
@@ -72,15 +76,17 @@ class ClientBusinessServiceImplTest {
         FitnessProgram fitnessProgram = getFitnessProgram();
         ActiveProgram activeProgram = getActiveProgram();
         activeProgram.setUser(user);
+        UUID uuid = getUUID();
+        UUID uuid2 = getUUID();
         activeProgram.setFitnessProgram(fitnessProgram);
-        Mockito.when(usersService.read(1L)).thenReturn(user);
-        Mockito.when(fitnessProgramService.read(2L)).thenReturn(fitnessProgram);
+        Mockito.when(usersService.read(uuid)).thenReturn(user);
+        Mockito.when(fitnessProgramService.read(uuid2)).thenReturn(fitnessProgram);
         Mockito.when(activeProgramService.create(activeProgram)).thenReturn(activeProgram);
-        ActiveProgram actual = businessService.addActiveProgram(1, 2);
+        ActiveProgram actual = businessService.addActiveProgram(uuid, uuid2);
         ActiveProgram expected = activeProgram;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(usersService, Mockito.times(1)).read(1L);
-        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(2L);
+        Mockito.verify(usersService, Mockito.times(1)).read(uuid);
+        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(uuid2);
         Mockito.verify(activeProgramService, Mockito.times(1)).create(activeProgram);
     }
 
@@ -91,16 +97,18 @@ class ClientBusinessServiceImplTest {
         ActiveProgram activeProgram = getActiveProgram();
         user.setActivePrograms(List.of(activeProgram));
         activeProgram.setUser(user);
+        UUID uuid = getUUID();
+        UUID uuid2 = getUUID();
         activeProgram.setFitnessProgram(fitnessProgram);
-        Mockito.when(usersService.read(2L)).thenReturn(user);
-        Mockito.when(fitnessProgramService.read(3L)).thenReturn(fitnessProgram);
-        ActiveProgramIsPresentException programIsPresentException =
-                Assertions.assertThrows(ActiveProgramIsPresentException.class,
-                        ()->businessService.addActiveProgram(2,3));
-        Assertions.assertEquals(programIsPresentException.getMessage(),
+        Mockito.when(usersService.read(uuid)).thenReturn(user);
+        Mockito.when(fitnessProgramService.read(uuid2)).thenReturn(fitnessProgram);
+        BusinessException businessException =
+                Assertions.assertThrows(BusinessException.class,
+                        ()->businessService.addActiveProgram(uuid,uuid2));
+        Assertions.assertEquals(businessException.getMessage(),
                 "У Вас есть незавершенные активные программы");
-        Mockito.verify(usersService, Mockito.times(1)).read(2L);
-        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(3L);
+        Mockito.verify(usersService, Mockito.times(1)).read(uuid);
+        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(uuid2);
         Mockito.verify(activeProgramService, Mockito.times(0)).create(activeProgram);
     }
 
@@ -117,15 +125,15 @@ class ClientBusinessServiceImplTest {
                 .limit(3)
                 .collect(Collectors.toList());
         expected.setScheduleList(scheduleList);
-
-        Mockito.when(activeProgramService.read(1L)).thenReturn(newActiveProgram);
+        UUID uuid = expected.getId();
+        Mockito.when(activeProgramService.read(uuid)).thenReturn(newActiveProgram);
         Mockito.when(exerciseScheduleService.createAll(Mockito.anyList())).thenReturn(scheduleList);
         Mockito.when(activeProgramService.update(newActiveProgram)).thenReturn(expected);
 
         ActiveProgram actual = businessService.createSchedule(newActiveProgram);
         Assertions.assertEquals(expected, actual);
 
-        Mockito.verify(activeProgramService, Mockito.times(1)).read(1L);
+        Mockito.verify(activeProgramService, Mockito.times(1)).read(uuid);
         Mockito.verify(exerciseScheduleService, Mockito.times(1)).createAll(Mockito.anyList());
         Mockito.verify(activeProgramService, Mockito.times(1)).update(newActiveProgram);
     }
@@ -134,12 +142,13 @@ class ClientBusinessServiceImplTest {
     void whenCreateScheduleList_throwException() {
         ActiveProgram activeProgram = getFilledActiveProgram();
         activeProgram.setScheduleList(List.of(getExerciseSchedule()));
-        Mockito.when(activeProgramService.read(1L)).thenReturn(activeProgram);
-        ScheduleIsPresentException scheduleIsPresentException = Assertions.assertThrows(ScheduleIsPresentException.class,
+        UUID uuid = activeProgram.getId();
+        Mockito.when(activeProgramService.read(uuid)).thenReturn(activeProgram);
+        BusinessException businessException = Assertions.assertThrows(BusinessException.class,
                 ()->businessService.createSchedule(activeProgram));
-        Assertions.assertEquals(scheduleIsPresentException.getMessage(),
+        Assertions.assertEquals(businessException.getMessage(),
                 "Расписание для данной программы уже составлено!");
-        Mockito.verify(activeProgramService, Mockito.times(1)).read(1L);
+        Mockito.verify(activeProgramService, Mockito.times(1)).read(uuid);
         Mockito.verify(exerciseScheduleService, Mockito.times(0)).createAll(Mockito.anyList());
         Mockito.verify(activeProgramService, Mockito.times(0)).create(Mockito.any());
     }
@@ -148,13 +157,14 @@ class ClientBusinessServiceImplTest {
     void whenAddReview_thenOk() {
         FitnessProgram fitnessProgram = getFitnessProgram();
         Review review = getReview();
-        Mockito.when(fitnessProgramService.read(1L)).thenReturn(fitnessProgram);
-        Mockito.when(usersService.read(1L)).thenReturn(getFilledUser());
+        UUID uuid = UUID.fromString("00000000-0000-0000-0000-000000000001");
+        Mockito.when(fitnessProgramService.read(uuid)).thenReturn(fitnessProgram);
+        Mockito.when(usersService.read(uuid)).thenReturn(getFilledUser());
         Mockito.when(reviewService.create(review)).thenReturn(review);
-        Review actual = businessService.addReview(1,review);
+        Review actual = businessService.addReview(uuid,review);
         Review expected = review;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(1L);
+        Mockito.verify(fitnessProgramService, Mockito.times(1)).read(uuid);
         Mockito.verify(reviewService, Mockito.times(1)).create(review);
     }
 
@@ -188,7 +198,7 @@ class ClientBusinessServiceImplTest {
         ActiveProgram activeProgram = new ActiveProgram();
         activeProgram.setComplited(false);
         activeProgram.setDays("MONDAY;SUNDAY");
-        activeProgram.setId(1L);
+        activeProgram.setId(UUID.fromString("00000000-000-0000-0000-000000000013"));
         return activeProgram;
     }
 
@@ -207,7 +217,11 @@ class ClientBusinessServiceImplTest {
 
     private Review getReview(){
         Review review = new Review();
-        review.setAuthorId(1);
+        review.setAuthorId(UUID.fromString("00000000-000-0000-0000-000000000001"));
         return review;
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }

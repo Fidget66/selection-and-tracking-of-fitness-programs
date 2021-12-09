@@ -7,28 +7,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-// ToDo что кверя забыла в сущности? убрать
-@NamedQueries({
-        @NamedQuery(
-                name = "findFitnessProgramWithRestrictions",
-                query = "SELECT fitProg FROM FitnessProgram fitProg, Users user WHERE (user.id = :userId) " +
-                        "and (user.weight <= fitProg.weightRestriction) and (user.sex = fitProg.sexRestriction) and " +
-                        "(:userAge <= fitProg.ageRestriction) and (fitProg.duration <= :durationLimit) " +
-                        "and (fitProg.category.id) = :categoryId"),
-        @NamedQuery(
-                name = "findFitnessProgramFromCategory",
-                query = "SELECT fitProg FROM FitnessProgram fitProg WHERE fitProg.category.id = :categoryId"
-        ),
-})
 public class FitnessProgram{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String shortName;
     private int duration;
     private int ageRestriction;
@@ -36,7 +24,7 @@ public class FitnessProgram{
     private String sexRestriction;
     private int exercisePerWeek;
     private String description;
-    @OneToMany(mappedBy = "fitnessProgram",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "fitnessProgram",cascade = CascadeType.ALL)
     private List <Review> reviews;
     @ManyToOne
     @JsonIgnore

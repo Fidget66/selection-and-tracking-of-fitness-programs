@@ -4,17 +4,20 @@ import com.makul.fitness.dao.UsersDao;
 import com.makul.fitness.exceptions.NoEntityException;
 import com.makul.fitness.model.Users;
 import com.makul.fitness.service.api.UsersService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
+
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
 
     private final UsersDao usersDao;
-    public UsersServiceImpl(UsersDao usersDao) {
-        this.usersDao = usersDao;
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -23,12 +26,13 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public Users read(long id) {
-        return usersDao.findById(id).orElseThrow(()->new NoEntityException("Users"));
+    public Users read(UUID id) {
+        return usersDao.findById(id).orElseThrow(()->new NoEntityException("UserID=" + id));
     }
 
     @Override
-    public List<Users> readUserByFirstLastName(String firstName, String lastName) {
-        return usersDao.findByFirstLastName(firstName,lastName);
+    public Page <Users> readUserByFirstLastName(String firstName, String lastName, int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber, size);
+        return usersDao.findByFirstLastName(firstName,lastName, pageable);
     }
 }

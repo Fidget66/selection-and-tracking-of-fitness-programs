@@ -1,0 +1,74 @@
+2021-12-08 17:26:30.556 [restartedMain]  INFO com.makul.fitness.M1App : Starting M1App using Java 11.0.12 on DESKTOP-KS74IOG with PID 17080 (D:\Roman\selection-and-tracking-of-fitness-programs\fitness_app_db-module\target\classes started by Roman in D:\Roman\selection-and-tracking-of-fitness-programs)
+2021-12-08 17:26:30.558 [restartedMain]  INFO com.makul.fitness.M1App : No active profile set, falling back to default profiles: default
+2021-12-08 17:26:30.582 [restartedMain]  INFO org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-12-08 17:26:30.583 [restartedMain]  INFO org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-12-08 17:26:31.171 [restartedMain]  INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-12-08 17:26:31.229 [restartedMain]  INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 9 JPA repository interfaces.
+2021-12-08 17:26:31.569 [restartedMain]  INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8124 (http)
+2021-12-08 17:26:31.575 [restartedMain]  INFO org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2021-12-08 17:26:31.575 [restartedMain]  INFO org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-12-08 17:26:31.647 [restartedMain]  INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/fitnessDB-app] : Initializing Spring embedded WebApplicationContext
+2021-12-08 17:26:31.647 [restartedMain]  INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1054 ms
+2021-12-08 17:26:31.666 [restartedMain]  INFO com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
+2021-12-08 17:26:31.770 [restartedMain]  INFO com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
+2021-12-08 17:26:31.775 [restartedMain]  INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/MyFitnessApp'
+2021-12-08 17:26:31.840 [restartedMain]  INFO org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-12-08 17:26:31.866 [restartedMain]  INFO org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-12-08 17:26:31.937 [restartedMain]  INFO org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-12-08 17:26:31.997 [restartedMain]  INFO org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2021-12-08 17:26:32.442 [restartedMain]  INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-12-08 17:26:32.448 [restartedMain]  INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-12-08 17:26:32.995 [restartedMain]  WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-12-08 17:26:33.079 [restartedMain]  INFO springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-08 17:26:33.140 [restartedMain]  INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer : LiveReload server is running on port 35729
+2021-12-08 17:26:33.262 [restartedMain]  INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8124 (http) with context path '/fitnessDB-app'
+2021-12-08 17:26:33.263 [restartedMain]  INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper : Context refreshed
+2021-12-08 17:26:33.271 [restartedMain]  INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-12-08 17:26:33.287 [restartedMain]  INFO springfox.documentation.spring.web.scanners.ApiListingReferenceScanner : Scanning for api listing references
+2021-12-08 17:26:33.424 [restartedMain]  INFO com.makul.fitness.M1App : Started M1App in 3.196 seconds (JVM running for 3.81)
+2021-12-08 17:26:36.578 [http-nio-8124-exec-1]  INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/fitnessDB-app] : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-08 17:26:36.578 [http-nio-8124-exec-1]  INFO org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
+2021-12-08 17:26:36.579 [http-nio-8124-exec-1]  INFO org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
+2021-12-08 17:26:36.621 [http-nio-8124-exec-1] ERROR com.makul.fitness.exceptions.NoEntityException : Такой записи для Users в базе данных не существует
+2021-12-08 17:26:36.651 [http-nio-8124-exec-1]  WARN org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver : Resolved [com.makul.fitness.exceptions.NoEntityException: Такой записи для Users в базе данных не существует]
+2021-12-08 17:26:55.795 [SpringApplicationShutdownHook]  INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-12-08 17:26:55.798 [SpringApplicationShutdownHook]  INFO com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
+2021-12-08 17:26:55.802 [SpringApplicationShutdownHook]  INFO com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
+2021-12-08 17:35:15.573 [restartedMain]  INFO com.makul.fitness.M1App : Starting M1App using Java 11.0.12 on DESKTOP-KS74IOG with PID 13220 (D:\Roman\selection-and-tracking-of-fitness-programs\fitness_app_db-module\target\classes started by Roman in D:\Roman\selection-and-tracking-of-fitness-programs)
+2021-12-08 17:35:15.575 [restartedMain]  INFO com.makul.fitness.M1App : No active profile set, falling back to default profiles: default
+2021-12-08 17:35:15.598 [restartedMain]  INFO org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-12-08 17:35:15.598 [restartedMain]  INFO org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-12-08 17:35:16.116 [restartedMain]  INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-12-08 17:35:16.171 [restartedMain]  INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 50 ms. Found 9 JPA repository interfaces.
+2021-12-08 17:35:16.574 [restartedMain]  INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8124 (http)
+2021-12-08 17:35:16.580 [restartedMain]  INFO org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2021-12-08 17:35:16.580 [restartedMain]  INFO org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-12-08 17:35:16.651 [restartedMain]  INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/fitnessDB-app] : Initializing Spring embedded WebApplicationContext
+2021-12-08 17:35:16.652 [restartedMain]  INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1053 ms
+2021-12-08 17:35:16.670 [restartedMain]  INFO com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
+2021-12-08 17:35:16.769 [restartedMain]  INFO com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
+2021-12-08 17:35:16.773 [restartedMain]  INFO org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/MyFitnessApp'
+2021-12-08 17:35:16.839 [restartedMain]  INFO org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-12-08 17:35:16.863 [restartedMain]  INFO org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-12-08 17:35:16.927 [restartedMain]  INFO org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-12-08 17:35:16.982 [restartedMain]  INFO org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2021-12-08 17:35:17.433 [restartedMain]  INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-12-08 17:35:17.439 [restartedMain]  INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-12-08 17:35:17.985 [restartedMain]  WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-12-08 17:35:18.061 [restartedMain]  INFO springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-08 17:35:18.111 [restartedMain]  INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer : LiveReload server is running on port 35729
+2021-12-08 17:35:18.210 [restartedMain]  INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8124 (http) with context path '/fitnessDB-app'
+2021-12-08 17:35:18.211 [restartedMain]  INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper : Context refreshed
+2021-12-08 17:35:18.219 [restartedMain]  INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-12-08 17:35:18.235 [restartedMain]  INFO springfox.documentation.spring.web.scanners.ApiListingReferenceScanner : Scanning for api listing references
+2021-12-08 17:35:18.368 [restartedMain]  INFO com.makul.fitness.M1App : Started M1App in 3.106 seconds (JVM running for 3.733)
+2021-12-08 17:35:38.394 [http-nio-8124-exec-2]  INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/fitnessDB-app] : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-08 17:35:38.394 [http-nio-8124-exec-2]  INFO org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
+2021-12-08 17:35:38.395 [http-nio-8124-exec-2]  INFO org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
+2021-12-08 17:35:38.470 [http-nio-8124-exec-2]  INFO com.makul.fitness.service.FitnessProgramsSearcherServiceImpl : Reading fitn progr with categoryId=00000000-0000-0000-0000-000000000001 and userID=00000000-0000-0000-0002-000000000001
+2021-12-08 17:35:49.039 [http-nio-8124-exec-3]  INFO com.makul.fitness.service.FitnessProgramsSearcherServiceImpl : Reading fitn progr with categoryId=00000000-0000-0000-0000-000000000009 and userID=00000000-0000-0000-0002-000000000001
+2021-12-08 17:36:12.787 [http-nio-8124-exec-4] ERROR com.makul.fitness.exceptions.NoEntityException : Такой записи для Users в базе данных не существует
+2021-12-08 17:36:12.797 [http-nio-8124-exec-4]  WARN org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver : Resolved [com.makul.fitness.exceptions.NoEntityException: Такой записи для Users в базе данных не существует]
+2021-12-08 17:36:18.262 [SpringApplicationShutdownHook]  INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-12-08 17:36:18.265 [SpringApplicationShutdownHook]  INFO com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
+2021-12-08 17:36:18.270 [SpringApplicationShutdownHook]  INFO com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.

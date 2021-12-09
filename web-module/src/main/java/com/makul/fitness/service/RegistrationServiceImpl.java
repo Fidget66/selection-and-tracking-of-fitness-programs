@@ -7,6 +7,7 @@ import com.makul.fitness.model.Roles;
 import com.makul.fitness.model.UsersSecurity;
 import com.makul.fitness.service.api.RegistrationService;
 import com.makul.fitness.service.api.UsersSecurityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final RestTemplate restTemplate;
@@ -21,14 +23,6 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final RolesDao rolesDao;
     private final BCryptPasswordEncoder passwordEncoder;
     private final String baseURL = "http://fitnessApp:8124/fitnessDB-app/";
-
-    public RegistrationServiceImpl(RestTemplate restTemplate, UsersSecurityService securityService,
-                                   RolesDao rolesDao, BCryptPasswordEncoder passwordEncoder) {
-        this.restTemplate = restTemplate;
-        this.securityService = securityService;
-        this.rolesDao = rolesDao;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     @Transactional

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -14,8 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String firstName;
     private String lastName;
     private LocalDate dateOfBirth;
@@ -26,7 +27,6 @@ public class Users {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     private List<ActiveProgram> activePrograms;
-    // ToDo ну ты понял
-    @OneToMany (mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany (mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bookmark> bookmarks;
 }

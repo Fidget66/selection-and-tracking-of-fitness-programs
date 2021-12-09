@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 @ExtendWith(MockitoExtension.class)
 class AdminBusinessServiceImplTest {
 
@@ -26,12 +28,13 @@ class AdminBusinessServiceImplTest {
     void whenAddFitnessProgram_thenOk() {
         FitnessProgram fitnessProgram = getFitnessProgram();
         CategoryOfFitnessProgram category = getCategory();
-        Mockito.when(categoryService.read(3L)).thenReturn(category);
+        UUID uuid = getUUID();
+        Mockito.when(categoryService.read(uuid)).thenReturn(category);
         Mockito.when(fitnessProgramService.create(fitnessProgram)).thenReturn(fitnessProgram);
-        FitnessProgram actual = adminBusinessService.addFitnessProgram(3, fitnessProgram);
+        FitnessProgram actual = adminBusinessService.addFitnessProgram(uuid, fitnessProgram);
         FitnessProgram expected = fitnessProgram;
         Assertions.assertEquals(expected, actual);
-        Mockito.verify(categoryService, Mockito.times(1)).read(3L);
+        Mockito.verify(categoryService, Mockito.times(1)).read(uuid);
         Mockito.verify(fitnessProgramService, Mockito.times(1)).create(fitnessProgram);
     }
 
@@ -48,5 +51,9 @@ class AdminBusinessServiceImplTest {
 
     private CategoryOfFitnessProgram getCategory(){
         return new CategoryOfFitnessProgram();
+    }
+
+    private UUID getUUID(){
+        return UUID.randomUUID();
     }
 }
